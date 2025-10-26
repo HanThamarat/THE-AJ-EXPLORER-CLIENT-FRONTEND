@@ -1,17 +1,11 @@
-import { getTranslations } from 'next-intl/server';
+'use client';
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
+import { useTranslations } from 'next-intl';
 
-export default async function HomePage({ params }: Props) {
-  const { locale } = await params;
-  const t = await getTranslations('home');
-
+export default function ClientComponent() {
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">{t('title')}</h1>
-      <p>Current locale: {locale}</p>
+    <div>
+
     </div>
   );
 }
