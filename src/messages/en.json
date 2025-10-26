@@ -1,0 +1,11 @@
+{
+  "home": {
+    "signin-button": "Sign In / Register"
+  },
+  "nav": {
+    "home": "Home",
+    "activities": "Activities",
+    "blog": "Blog",
+    "contactus": "Contact us"
+  }
+}

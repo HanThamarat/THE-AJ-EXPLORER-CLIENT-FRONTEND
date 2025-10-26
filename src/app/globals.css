@@ -1,4 +1,65 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
+body {
+  font-family: "Inter", sans-serif;
+  font-weight: var(--font-primary, 400);
+  @apply bg-gray-100;
+}
+
+@theme {
+  --font-primary: 'regular',
+  --font-medium: 'medium',
+  --font-semibold: 'semibold',
+  --font-bold: 'bold',
+}
+
+@theme {
+  --color-primary: #2C0735;
+  --color-secondary: #613DC1;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter-Regular"),
+       url("./assets/fonts/Inter-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter-Medium"),
+       url("./assets/fonts/Inter-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter-SemiBold"),
+       url("./assets/fonts/Inter-SemiBold.ttf") format("truetype");
+  font-weight: 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: local("Inter-Bold"),
+       url("./assets/fonts/Inter-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
+}
