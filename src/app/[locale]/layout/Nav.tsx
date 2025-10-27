@@ -16,6 +16,7 @@ import { GrHomeRounded } from "react-icons/gr";
 import { IoTicketOutline } from "react-icons/io5";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuContact } from "react-icons/lu";
+import { usePathname } from "@/i18n/navigation";
 
 interface navType {
     label: string
@@ -26,6 +27,7 @@ interface navType {
 export default function Nav() {
     const locale = useLocale();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);    
+    const currentPath = usePathname();    
 
     const t = useTranslations("nav");
     const homeT = useTranslations("home");
@@ -57,7 +59,7 @@ export default function Nav() {
         {
             key: '1',
             label: (
-                <Link href="/en" className="flex items-center gap-[10px]">
+                <Link href={`/en${currentPath}`} className="flex items-center gap-[10px]">
                     <Image src={usFlag} width={25} alt="" />
                     <span>English</span>
                 </Link>
@@ -66,7 +68,7 @@ export default function Nav() {
         {
             key: '2',
             label: (
-                <Link href="/th" className="flex items-center gap-[10px]">
+                <Link href={`/th${currentPath}`} className="flex items-center gap-[10px]">
                     <Image src={thaiFlag} width={25} alt="" />
                     <span>ภาษาไทย</span>
                 </Link>
