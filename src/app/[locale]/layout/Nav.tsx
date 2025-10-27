@@ -17,6 +17,7 @@ import { IoTicketOutline } from "react-icons/io5";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuContact } from "react-icons/lu";
 import { usePathname } from "@/i18n/navigation";
+// import { useSession } from 'next-auth/react';
 
 interface navType {
     label: string
@@ -28,9 +29,15 @@ export default function Nav() {
     const locale = useLocale();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);    
     const currentPath = usePathname();    
+    // const { data: session, status } = useSession();
 
     const t = useTranslations("nav");
     const homeT = useTranslations("home");
+
+//     // 'status' can be 'loading', 'authenticated', or 'unauthenticated'
+//   if (status === 'loading') {
+//     return <nav>Loading...</nav>;
+//   }
 
     const navConfig: navType[] = [
         {

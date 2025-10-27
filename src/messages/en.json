@@ -1,6 +1,8 @@
 {
   "home": {
-    "signin-button": "Sign In / Register"
+    "signin-button": "Sign In / Register",
+    "hero-title-1": "Find Trip",
+    "hero-title-2": "In Your Dream"
   },
   "nav": {
     "home": "Home",
