@@ -8,6 +8,7 @@ import ClientSocketHandler from "../hooks/ClientTracker";
 import Nav from "./layout/Nav";
 import '@ant-design/v5-patch-for-react-19';
 import { ConfigProvider } from "antd";
+import ReduxProvider from "../hooks/reduxProvider";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -45,8 +46,12 @@ export default async function LocaleLayout({ children, params }: Props) {
       >
         <ConfigProvider>
           <NextIntlClientProvider messages={messages}>
-            <Nav />
-            {children}
+            <ReduxProvider>
+              <Nav />
+              <div className="md:mt-[40px] w-full">
+                {children}
+              </div>
+            </ReduxProvider>
           </NextIntlClientProvider>
         </ConfigProvider>
         <ClientSocketHandler />
