@@ -3,18 +3,25 @@
 import { signIn, useSession } from 'next-auth/react';
 import { useGoogleOneTapLogin } from '@react-oauth/google';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function GoogleOneTap() {
 
-    const { status } = useSession();
+    const { data, status } = useSession();
     const searchParams = useSearchParams();
     const callbackUrl = searchParams.get('callbackUrl') || '/';
     const [error, setError] = useState<string | null>(null);
+    const [initOneTap, setInitOnetap] = useState<boolean>(true);
+    
+    useEffect(() => {
+        if (data === null && status !== 'loading') {
+            setInitOnetap(false);
+        }
+    }, [status, data]);
 
-    return  useGoogleOneTapLogin({
+    return useGoogleOneTapLogin({
         use_fedcm_for_prompt: true,
-        disabled: status === 'authenticated',
+        disabled: initOneTap,
         onSuccess: (credentialResponse) => {
             signIn('google-one-tap', {
             idToken: credentialResponse.credential,

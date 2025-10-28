@@ -17,7 +17,9 @@ import { IoTicketOutline } from "react-icons/io5";
 import { IoNewspaperOutline } from "react-icons/io5";
 import { LuContact } from "react-icons/lu";
 import { usePathname } from "@/i18n/navigation";
-// import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
+import { UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
+import { signOut } from "next-auth/react";
 
 interface navType {
     label: string
@@ -29,15 +31,10 @@ export default function Nav() {
     const locale = useLocale();
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);    
     const currentPath = usePathname();    
-    // const { data: session, status } = useSession();
+    const { data: session, status } = useSession();
 
     const t = useTranslations("nav");
     const homeT = useTranslations("home");
-
-//     // 'status' can be 'loading', 'authenticated', or 'unauthenticated'
-//   if (status === 'loading') {
-//     return <nav>Loading...</nav>;
-//   }
 
     const navConfig: navType[] = [
         {
@@ -82,6 +79,61 @@ export default function Nav() {
             ),
         },
     ];
+
+    const settingItems: MenuProps['items'] = [
+        {
+            key: 'profile',
+            icon: <UserOutlined />,
+            label: (
+                <Link href="/profile">
+                    Profile
+                </Link>
+            ),
+        },
+        {
+            key: 'settings',
+            icon: <SettingOutlined />,
+            label: (
+                <Link href="/account-settings">
+                    Account Settings
+                </Link>
+            ),
+        },
+        {
+            type: 'divider', // A visual separator
+        },
+        {
+            key: 'Mytrip',
+            icon: <UserOutlined />,
+            label: (
+                <Link href="/profile">
+                    My Trip
+                </Link>
+            ),
+        },
+        {
+            key: 'Review',
+            icon: <SettingOutlined />,
+            label: (
+                <Link href="/account-settings">
+                    Review
+                </Link>
+            ),
+        },
+        {
+            type: 'divider', // A visual separator
+        },
+        {
+            key: 'logout',
+            icon: <LogoutOutlined />,
+            label: (
+                <button onClick={() => signOut()}>Sign out</button>
+            ),
+            danger: true, // This makes the text red
+            // Note: You'd usually add an onClick handler to the <Menu> component
+            // to catch this 'logout' key and call your signOut() function.
+        },
+    ];
     
     return(
         <>
@@ -91,7 +143,25 @@ export default function Nav() {
                 onClose={() => setOpenDrawer(false)}
                 width={300}
             >
-                <CvButton label={homeT("signin-button")} />
+                {
+                    status === 'loading' ?
+                    <div>
+                        <div className='animate-pulse bg-gray-200 rounded-[5px]'><span className='invisible'>Thamarat Laosen</span></div>
+                        <div className='animate-pulse bg-gray-200 mt-[2px] rounded-[5px]'><span className='invisible'>Thamarat Laosen</span></div>
+                    </div>
+                    :
+                    status === 'authenticated' ?
+                    <Dropdown menu={{ items: settingItems }} placement="bottom" arrow>
+                        <button className="flex gap-[10px] items-center">
+                            <Image src={session.user?.image as string} alt="" width={35} height={35} className="object-cover rounded-full outline-[#2C0735]/80 outline-[4px]" />
+                            <span>{session.user?.name}</span>
+                        </button>
+                    </Dropdown>
+                    :
+                    <div className="w-[160px]">
+                        <CvButton label={homeT("signin-button")} />
+                    </div>
+                }
                 <div className="mt-[20px]">
                     <span className="text-[16px] font-semibold">More menu</span>
                     <div className="grid grid-cols-1 mt-[10px] gap-[10px]">
@@ -135,9 +205,25 @@ export default function Nav() {
                                 }
                             </button>
                         </Dropdown>
-                        <div className="w-[160px]">
-                            <CvButton label={homeT("signin-button")} />
-                        </div>
+                        {
+                            status === 'loading' ?
+                            <div>
+                                <div className='animate-pulse bg-gray-200 rounded-[5px]'><span className='invisible'>Thamarat Laosen</span></div>
+                                <div className='animate-pulse bg-gray-200 mt-[2px] rounded-[5px]'><span className='invisible'>Thamarat Laosen</span></div>
+                            </div>
+                            :
+                            status === 'authenticated' ?
+                            <Dropdown menu={{ items: settingItems }} placement="bottom" arrow>
+                                <button className="flex gap-[10px] items-center">
+                                    <Image src={session.user?.image as string} alt="" width={35} height={35} className="object-cover rounded-full outline-[#2C0735]/80 outline-[4px]" />
+                                    <span>{session.user?.name}</span>
+                                </button>
+                            </Dropdown>
+                            :
+                            <div className="w-[160px]">
+                                <CvButton label={homeT("signin-button")} />
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className="flex justify-between items-center md:hidden mx-[10px]">
