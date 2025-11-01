@@ -8,6 +8,7 @@ import { AxiosInstance } from '@/app/hooks/axiosInstance';
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  trustHost: true,
   providers: [
     CredentialsProvider({
         id: 'google-one-tap',
