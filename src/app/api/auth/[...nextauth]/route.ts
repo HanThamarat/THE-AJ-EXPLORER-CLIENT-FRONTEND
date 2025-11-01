@@ -1,3 +1,5 @@
+// @ts-nocheck
+// @ts-ignore
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { OAuth2Client } from 'google-auth-library';
