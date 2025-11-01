@@ -9,6 +9,7 @@ const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   trustHost: true,
+  secret: process.env.AUTH_SECRET || 'fallback-secret-only-for-dev',
   providers: [
     CredentialsProvider({
         id: 'google-one-tap',
