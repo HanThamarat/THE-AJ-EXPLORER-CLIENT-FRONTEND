@@ -19,7 +19,7 @@ export default function GoogleOneTap() {
         }
     }, [status, data]);
 
-    return useGoogleOneTapLogin({
+    useGoogleOneTapLogin({
         use_fedcm_for_prompt: true,
         disabled: initOneTap,
         onSuccess: (credentialResponse) => {
@@ -34,4 +34,6 @@ export default function GoogleOneTap() {
             setError('Google login failed. Please try the form below.');
         },
     });
+
+    return <></>
 }

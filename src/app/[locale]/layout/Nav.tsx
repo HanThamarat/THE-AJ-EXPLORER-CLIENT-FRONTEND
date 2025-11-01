@@ -20,6 +20,7 @@ import { usePathname } from "@/i18n/navigation";
 import { useSession } from 'next-auth/react';
 import { UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface navType {
     label: string
@@ -32,6 +33,7 @@ export default function Nav() {
     const [openDrawer, setOpenDrawer] = useState<boolean>(false);    
     const currentPath = usePathname();    
     const { data: session, status } = useSession();
+    const router = useRouter();
 
     const t = useTranslations("nav");
     const homeT = useTranslations("home");
@@ -159,7 +161,7 @@ export default function Nav() {
                     </Dropdown>
                     :
                     <div className="w-[160px]">
-                        <CvButton label={homeT("signin-button")} />
+                        <CvButton onClick={() => router.push("auth")} label={homeT("signin-button")} />
                     </div>
                 }
                 <div className="mt-[20px]">
@@ -221,7 +223,7 @@ export default function Nav() {
                             </Dropdown>
                             :
                             <div className="w-[160px]">
-                                <CvButton label={homeT("signin-button")} />
+                                <CvButton label={homeT("signin-button")} onClick={() => router.push("auth")} />
                             </div>
                         }
                     </div>

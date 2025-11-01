@@ -1,0 +1,45 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Login to DockerHub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+
+    - name: Set IMAGE_NAME variables
+      run: |
+        echo "IMAGE_NAME_THE_AJ_CLIENT_APP=hanthamarats/the-aj-explorer-client:latest" >> $GITHUB_ENV
+
+    - name: Debug IMAGE_NAME variables
+      run: |
+        echo "IMAGE_NAME_THE_AJ_CLIENT_APP is $IMAGE_NAME_THE_AJ_CLIENT_APP"
+
+    - name: Build and push Docker Image
+      run: |
+        ls -l Dockerfile.prod
+        docker build \
+        --build-arg NEXT_PUBLIC_WEB_SOCKET="${{ secrets.NEXT_PUBLIC_WEB_SOCKET }}" \
+        --build-arg NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" \
+        --build-arg AUTH_SECRET="${{ secrets.AUTH_SECRET }}" \
+        --build-arg AUTH_TRUST_HOST="${{ secrets.AUTH_TRUST_HOST }}" \
+        --build-arg NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET }}" \
+        --build-arg NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL }}" \
+        --build-arg GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" \
+        --build-arg GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" \
+        --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID="${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}" \
+        --build-arg AUTH_BACKEND_SECRET="${{ secrets.AUTH_BACKEND_SECRET }}" \
+        -t $IMAGE_NAME_THE_AJ_CLIENT_APP \
+        -f Dockerfile.prod .
+        docker push $IMAGE_NAME_THE_AJ_CLIENT_APP
