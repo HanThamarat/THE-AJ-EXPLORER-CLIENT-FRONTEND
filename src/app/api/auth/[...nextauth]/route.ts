@@ -91,6 +91,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) return url;
+      return baseUrl; 
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
