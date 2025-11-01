@@ -40,6 +40,7 @@ jobs:
         --build-arg GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" \
         --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID="${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}" \
         --build-arg AUTH_BACKEND_SECRET="${{ secrets.AUTH_BACKEND_SECRET }}" \
+        --build-arg NEXT_PUBLIC_AUTH_URL="${{ secrets.NEXT_PUBLIC_AUTH_URL }}" \
         -t $IMAGE_NAME_THE_AJ_CLIENT_APP \
         -f Dockerfile.prod .
         docker push $IMAGE_NAME_THE_AJ_CLIENT_APP

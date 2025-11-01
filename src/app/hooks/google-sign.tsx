@@ -26,7 +26,7 @@ export default function GoogleOneTap() {
             signIn('google-one-tap', {
             idToken: credentialResponse.credential,
             redirect: true,
-            callbackUrl: callbackUrl,
+            callbackUrl: `${process.env.NEXT_PUBLIC_AUTH_URL}${callbackUrl}`,
             });
         },
         onError: () => {
