@@ -12,6 +12,7 @@ import ReduxProvider from "../hooks/reduxProvider";
 import AuthProvider from "../hooks/auth-provider";
 import { GoogleProvider } from "../hooks/google-provider";
 import GoogleOneTap from "../hooks/google-sign";
+import Footer from "./layout/Footer";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -54,9 +55,10 @@ export default async function LocaleLayout({ children, params }: Props) {
                 <ReduxProvider>
                   <GoogleOneTap />
                   <Nav />
-                  <div className="md:mt-[40px] w-full">
+                  <div className="w-full">
                     {children}
                   </div>
+                  <Footer />
                 </ReduxProvider>
               </NextIntlClientProvider>
             </ConfigProvider>

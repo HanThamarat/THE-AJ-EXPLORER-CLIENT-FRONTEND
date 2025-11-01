@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "Welcome to The AJ Explorer",
+    "subtitle": "Your guide to amazing adventures."
+  },
+  "Navigation": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact"
+  }
+}
