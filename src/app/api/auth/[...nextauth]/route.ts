@@ -95,7 +95,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       console.log(url, baseUrl);
       
       if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
+      return url;
     },
     async jwt({ token, user }) {
       if (user) {
