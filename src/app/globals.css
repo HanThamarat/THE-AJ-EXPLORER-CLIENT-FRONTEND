@@ -6,6 +6,8 @@ body {
   @apply bg-gray-100;
 }
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
 @theme {
   --font-primary: 'regular',
   --font-medium: 'medium',

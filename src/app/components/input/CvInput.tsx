@@ -17,7 +17,7 @@ const CvInput = React.forwardRef<InputRef, CvInputPropType>(
         <div className="w-full grid grid-cols-1 gap-[2px]">
           {label && <span className="font-medium text-[12px]">{label}</span>}
           <input
-            className="border hover:border-primary hover:outline-2 hover:outline-[#EAF4FF] h-[40px] rounded-[6px] px-[10px] text-[14px] border-[#d7dade] focus:border-primary focus:outline-2 focus:outline-[#EAF4FF] outline-0 duration-100 ease-in-out"
+            className="border hover:border-primary bg-white hover:outline-2 hover:outline-[#EAF4FF] h-[40px] rounded-[6px] px-[10px] text-[14px] border-[#d7dade] focus:border-primary focus:outline-2 focus:outline-[#EAF4FF] outline-0 duration-100 ease-in-out"
             type={ type ? type : "text" }
             {...rest} 
             ref={ref}

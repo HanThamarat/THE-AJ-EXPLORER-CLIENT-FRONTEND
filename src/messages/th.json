@@ -9,5 +9,9 @@
     "activities": "กิจกรรม",
     "blog": "บทความ",
     "contactus": "ติดต่อเรา"
+  },
+  "search_pacakge": {
+    "select_province": "เลือกจังหวัด",
+    "enter_activity": "กรอกชื่อสถานที่ท่องเทียว"
   }
 }

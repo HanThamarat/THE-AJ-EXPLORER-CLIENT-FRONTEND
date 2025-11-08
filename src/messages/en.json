@@ -9,5 +9,9 @@
     "activities": "Activities",
     "blog": "Blog",
     "contactus": "Contact us"
+  },
+  "search_pacakge": {
+    "select_province": "Select Province",
+    "enter_activity": "Enter activities"
   }
 }

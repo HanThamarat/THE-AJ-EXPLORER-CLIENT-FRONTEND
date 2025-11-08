@@ -40,10 +40,7 @@ export default async function LocaleLayout({ children, params }: Props) {
     notFound();
   }
 
-  const messages = await getMessages();
-
-  console.log(process.env.NEXT_PUBLIC_AUTH_URL);
-  
+  const messages = await getMessages();  
 
   return (
     <html lang={locale}>
