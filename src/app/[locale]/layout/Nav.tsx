@@ -181,7 +181,9 @@ export default function Nav() {
             <div className="w-full py-[15px] border-b border-b-[#D4D7DE]">
                 <div className="hidden mx-[20px] 2xl:max-w-7xl 2xl:mx-auto md:flex justify-between items-center">
                     <div className="w-full flex items-center gap-[20px] lg:gap-[50px]">
-                        <Image src={logo} width={160} alt="" />
+                        <Link href="/">
+                            <Image src={logo} width={160} alt="" />
+                        </Link>
                         <div className="flex items-center gap-[10px] lg:gap-[20px]">
                             {
                                 navConfig.map((item, key) => (
@@ -229,7 +231,9 @@ export default function Nav() {
                     </div>
                 </div>
                 <div className="flex justify-between items-center md:hidden mx-[10px]">
-                    <Image src={logo} width={130} alt="" />
+                    <Link href="/">
+                        <Image src={logo} width={130} alt="" />
+                    </Link>
                     <div className="flex gap-[20px] items-center">
                         <Dropdown menu={{ items }} placement="bottom" arrow>
                             <button className="text-[14px]">
