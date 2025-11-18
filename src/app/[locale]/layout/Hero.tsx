@@ -34,7 +34,6 @@ export default function Hero() {
         provinceShotPack === null && fecthData();
 
         if (provinceShotPack !== null) {
-            console.log(provinceShotPack);
             const filterData: SelectorOptionTpye[] = provinceShotPack?.map((data) => ({
                 value: data.provinceid,
                 label: data.provincename,
