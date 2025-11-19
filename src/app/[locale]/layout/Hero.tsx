@@ -18,6 +18,7 @@ export default function Hero() {
     const dispatch = useAppDispatch();
     const { provinceShotPack } = useSelector(packageSelector);
     const [provincePackOptions, setProvincePackOptions] = useState<SelectorOptionTpye[]>([]);
+    const [packageOption, setPackageOption] = useState<SelectorOptionTpye[]>([]);
     const isFaching = useRef(false);
 
     const t = useTranslations("home");
@@ -44,6 +45,10 @@ export default function Hero() {
         }
     }, [dispatch, provinceShotPack]);
 
+    const handieChangeProvice = async (provinceId: number) => {
+        
+    }
+
     return(
         <div className="w-full md:max-w-7xl md:mx-auto md:mt-[40px] relative">
             <div className="relative md:rounded-[20px] overflow-hidden">
@@ -59,6 +64,7 @@ export default function Hero() {
                         <CvSelector
                             placeholder={t_search("select_province")}
                             option={provincePackOptions}
+                            onChange={(e) => handieChangeProvice(e as number)}
                         />
                     </div>
                     <CvInput
