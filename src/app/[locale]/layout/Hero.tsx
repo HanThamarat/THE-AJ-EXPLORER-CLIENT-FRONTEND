@@ -73,9 +73,9 @@ export default function Hero() {
                             onChange={(e) => handieChangeProvice(e as number)}
                         />
                     </div>
-                    <CvSelector
+                    <CvInput
                         placeholder={t_search("enter_activity")}
-                        option={packageOption}
+
                     />
                 </div>
                 <div className="z-[40] mt-[-25px] md:mt-[-35px] w-full flex justify-center">
