@@ -1,11 +1,28 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { AxiosInstance } from "@/app/hooks/axiosInstance";
-import { findProvinceByPackageEntity } from "@/app/types/package";
+import { findProvinceByPackageEntity, packageClientResponse } from "@/app/types/package";
 
-export const getprovincePackages = createAsyncThunk('/package/getprovincePackages', async () => {
+export const getprovincePackages = createAsyncThunk('package/getprovincePackages', async () => {
   try {
     const response = await AxiosInstance.get("/client/package/province_package");
+
+    return { status: true, data: response.data.body };
+  } catch (error: any) {
+    return { status: false, error: error?.response.data.error };
+  }
+});
+
+interface PackageBySearchProps {
+  provinceId: number | null;
+  packageName:  string | null;
+  page: number;
+  limit: number;
+}
+
+export const getPackagesBySearch = createAsyncThunk("package/getPackagesBySearch", async (data: PackageBySearchProps) => {
+  try {
+    const response = await AxiosInstance.get(`/client/package/packages?page=${data.page}&limit=${data.limit}&provinceId=${data.provinceId}&packageName=${data.packageName}`);
 
     return { status: true, data: response.data.body };
   } catch (error: any) {
@@ -16,12 +33,14 @@ export const getprovincePackages = createAsyncThunk('/package/getprovincePackage
 
 interface packageType {
   provinceShotPack: findProvinceByPackageEntity[] | [] | null;
+  packagesBySearch: packageClientResponse | null; 
   loading: boolean;
   error: unknown;
 }
 
 const initialState: packageType = {
   provinceShotPack: null,
+  packagesBySearch: null,
   loading: false,
   error: null,
 };
@@ -45,6 +64,19 @@ const packageSlice = createSlice({
           state.loading = false;
           if (action.type.includes("getprovincePackages")) {
             state.provinceShotPack = action.payload.data as findProvinceByPackageEntity[];
+          } else if (action.type.includes('getPackagesBySearch')) {
+            const newItem = action.payload.data as packageClientResponse;
+   
+            if (state.packagesBySearch === null) {
+              state.packagesBySearch = newItem;
+            }
+
+            if (state.packagesBySearch !== null) {
+              state.packagesBySearch.items = [...state.packagesBySearch.items, ...newItem.items];
+              state.packagesBySearch.nextPage = newItem.nextPage;
+              state.packagesBySearch.prevPage = newItem.prevPage;
+              state.packagesBySearch.page = newItem.page;
+            }
           }
         }
       )
