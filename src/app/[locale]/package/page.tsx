@@ -8,6 +8,8 @@ import { useAppDispatch } from "@/app/hooks/appDispatch";
 import { packageSelector } from "@/app/store/slice/packageSlice";
 import Image from "next/image";
 import PackageSekeleton from "@/app/components/loader/package-skeleton";
+import marker from "@/app/assets/images/svg/marker.svg";
+import CvButton from "@/app/components/CvButton/CvButton";
 
 export default function AllPackagePage() {
 
@@ -105,8 +107,38 @@ export default function AllPackagePage() {
                                     <div className="w-2/6">
                                         <Image src={data.packageImage[0].file_base64 as string} alt="" width={0} height={0} className="h-[300px] w-full object-cover rounded-[20px]" />
                                     </div>
-                                    <div className="w-4/6 p-5">
-
+                                    <div className="w-4/6 p-5 flex flex-col justify-between">
+                                        <div className="w-full">
+                                            <span className="text-[18px] font-semibold">{data.packageName}</span>
+                                            <div className="flex gap-[5px] items-center">
+                                                <Image src={marker} width={16} height={16} alt="" />
+                                                <span className="block">{data.province}</span>
+                                            </div>
+                                            <div className="mt-[20px] line-clamp-3">
+                                                {data.packageDes}
+                                            </div>
+                                        </div>
+                                        <div className="w-full flex justify-end">
+                                            <div className="flex flex-col items-end">
+                                                {
+                                                    (data.promoAmount !== 0 && data.promoAmount !== null) &&
+                                                    <div className="flex flex-col items-end">
+                                                        <span className="text-primary font-semibold text-[16px]">THB {data.fromAmount}</span>
+                                                        <span className="text-[#A6A9AE] text-[14px] font-medium">From <span className="text-primary line-through">THB {data.fromAmount}</span></span>
+                                                    </div>
+                                                }
+                                                {
+                                                    (data.fromAmount !== 0 && data.promoAmount === 0) &&
+                                                    <div className="flex flex-col items-end">
+                                                        <span className="text-[#A6A9AE] text-[16px] font-semibold">From <span className="text-primary">THB {data.fromAmount}</span></span>
+                                                    </div>
+                                                }
+                                                <div className="h-[5px]"></div>
+                                                <CvButton
+                                                    label="Book Now"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             ))
