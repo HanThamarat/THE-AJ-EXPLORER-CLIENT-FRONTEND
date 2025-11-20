@@ -46,7 +46,13 @@ export default function Hero() {
     }, [dispatch, provinceShotPack]);
 
     const handieChangeProvice = async (provinceId: number) => {
-        
+        console.log(provinceId);
+        const filterPackageProvice = await provinceShotPack?.filter(data => data.provinceid === provinceId);
+        const setFormat: SelectorOptionTpye[] = filterPackageProvice[0].packages.map((data) => ({
+            value: data.packageName,
+            label: <span>{data.packageName}</span>
+        }))
+        setPackageOption(setFormat);
     }
 
     return(
@@ -67,8 +73,9 @@ export default function Hero() {
                             onChange={(e) => handieChangeProvice(e as number)}
                         />
                     </div>
-                    <CvInput
+                    <CvSelector
                         placeholder={t_search("enter_activity")}
+                        option={packageOption}
                     />
                 </div>
                 <div className="z-[40] mt-[-25px] md:mt-[-35px] w-full flex justify-center">
