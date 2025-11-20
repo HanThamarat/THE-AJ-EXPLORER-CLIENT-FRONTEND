@@ -3,6 +3,12 @@ import CvSelector from "@/app/components/selector/CvSelector";
 import { getTranslations } from 'next-intl/server';
 import React from "react";
 import { IoSearch } from "react-icons/io5";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "The AJ Explorer | packages",
+  description: "The AJ Explorer | packages",
+};
 
 export default async function PackageLayout({
     children
@@ -13,7 +19,7 @@ export default async function PackageLayout({
     const t = await getTranslations("search_pacakge");
 
     return(
-        <div className="mb-[50px]">
+        <div className="w-full bg-gray-100">
             <div className="py-[20px] bg-primary w-full">
                 <div className="mx-[20px] 2xl:mx-auto 2xl:max-w-7xl gap-[10px] md:gap-[20px] md:flex md:items-center">
                     <div className="w-full gap-[10px] md:gap-[20px] flex items-center">
@@ -33,6 +39,7 @@ export default async function PackageLayout({
                 </div>
             </div>
             {children}
+            <div className="h-[50px]"></div>
         </div>
     );
 };
