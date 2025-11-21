@@ -96,53 +96,60 @@ export default function AllPackagePage() {
                         <span className="font-semibold text-[16px] block">{packagesBySearch?.total} results</span>
                     </div>
                 }
-                <div className="flex justify-between w-full ga-[20px] mt-[24px]">
+                <div className="flex justify-between w-full gap`-[20px] mt-[34px]">
                     <div className="w-2/6">
 
                     </div>
-                    <div className="w-4/6 grid grid-cols-1 gap-[10px]">
-                        {
-                            packagesBySearch?.items.map((data, key) => (
-                                <div className="w-full bg-white rounded-[20px] flex gap-2.5" key={key}>
-                                    <div className="w-2/6">
-                                        <Image src={data.packageImage[0].file_base64 as string} alt="" width={0} height={0} className="h-[300px] w-full object-cover rounded-[20px]" />
-                                    </div>
-                                    <div className="w-4/6 p-5 flex flex-col justify-between">
-                                        <div className="w-full">
-                                            <span className="text-[18px] font-semibold">{data.packageName}</span>
-                                            <div className="flex gap-[5px] items-center">
-                                                <Image src={marker} width={16} height={16} alt="" />
-                                                <span className="block">{data.province}</span>
+                    <div className="w-4/6">
+                    {
+                        isLoading ?
+                        <PackageSekeleton />
+                        :
+                        <div className="w-full grid grid-cols-1 gap-[10px]">
+                            {
+                                packagesBySearch?.items.map((data, key) => (
+                                    <div className="w-full bg-white rounded-[20px] flex gap-2.5" key={key}>
+                                        <div className="w-2/6">
+                                            <Image src={data.packageImage[0].file_base64 as string} alt="" width={0} height={0} className="h-[300px] w-full object-cover rounded-[20px]" />
+                                        </div>
+                                        <div className="w-4/6 p-5 flex flex-col justify-between">
+                                            <div className="w-full">
+                                                <span className="text-[18px] font-semibold">{data.packageName}</span>
+                                                <div className="flex gap-[5px] items-center">
+                                                    <Image src={marker} width={16} height={16} alt="" />
+                                                    <span className="block">{data.province}</span>
+                                                </div>
+                                                <div className="mt-[20px] line-clamp-3">
+                                                    {data.packageDes}
+                                                </div>
                                             </div>
-                                            <div className="mt-[20px] line-clamp-3">
-                                                {data.packageDes}
+                                            <div className="w-full flex justify-end">
+                                                <div className="flex flex-col items-end">
+                                                    {
+                                                        (data.promoAmount !== 0 && data.promoAmount !== null) &&
+                                                        <div className="flex flex-col items-end">
+                                                            <span className="text-primary font-semibold text-[16px]">THB {data.promoAmount}</span>
+                                                            <span className="text-[#A6A9AE] text-[14px] font-medium">From <span className="text-primary line-through">THB {data.fromAmount}</span></span>
+                                                        </div>
+                                                    }
+                                                    {
+                                                        (data.fromAmount !== 0 && data.promoAmount === 0) &&
+                                                        <div className="flex flex-col items-end">
+                                                            <span className="text-[#A6A9AE] text-[16px] font-semibold">From <span className="text-primary">THB {data.fromAmount}</span></span>
+                                                        </div>
+                                                    }
+                                                    <div className="h-[5px]"></div>
+                                                    <CvButton
+                                                        label="Book Now"
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="w-full flex justify-end">
-                                            <div className="flex flex-col items-end">
-                                                {
-                                                    (data.promoAmount !== 0 && data.promoAmount !== null) &&
-                                                    <div className="flex flex-col items-end">
-                                                        <span className="text-primary font-semibold text-[16px]">THB {data.fromAmount}</span>
-                                                        <span className="text-[#A6A9AE] text-[14px] font-medium">From <span className="text-primary line-through">THB {data.fromAmount}</span></span>
-                                                    </div>
-                                                }
-                                                {
-                                                    (data.fromAmount !== 0 && data.promoAmount === 0) &&
-                                                    <div className="flex flex-col items-end">
-                                                        <span className="text-[#A6A9AE] text-[16px] font-semibold">From <span className="text-primary">THB {data.fromAmount}</span></span>
-                                                    </div>
-                                                }
-                                                <div className="h-[5px]"></div>
-                                                <CvButton
-                                                    label="Book Now"
-                                                />
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
-                            ))
-                        }
+                                ))
+                            }
+                        </div>
+                    }
                         {/* This div sits at the bottom. When it hits the screen, page increases */}
                         <div ref={observerTarget} className="w-full flex justify-center items-center mt-[10px]">
                             {isLoadingMoreData && (
