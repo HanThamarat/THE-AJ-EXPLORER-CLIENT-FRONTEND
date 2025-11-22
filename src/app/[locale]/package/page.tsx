@@ -10,6 +10,7 @@ import Image from "next/image";
 import PackageSekeleton from "@/app/components/loader/package-skeleton";
 import marker from "@/app/assets/images/svg/marker.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
+import { convert } from "html-to-text";
 
 export default function AllPackagePage() {
 
@@ -83,7 +84,7 @@ export default function AllPackagePage() {
 
     return(
         <>
-            <div className="w-full mx-[20px] 2xl:max-w-7xl 2xl:mx-auto">
+            <div className="w-full px-[20px] 2xl:px-[0px] 2xl:max-w-7xl 2xl:mx-auto">
                 {
                     isLoading ?
                     <div className="mt-[40px]">
@@ -96,11 +97,13 @@ export default function AllPackagePage() {
                         <span className="font-semibold text-[16px] block">{packagesBySearch?.total} results</span>
                     </div>
                 }
-                <div className="flex justify-between w-full gap`-[20px] mt-[34px]">
-                    <div className="w-2/6">
+                <div className="md:flex justify-between w-full gap-[20px] mt-[34px]">
+                    <div className="w-full md:w-2/6">
+                        <div className="p-[20px] bg-white rounded-[20px] ">
 
+                        </div>
                     </div>
-                    <div className="w-4/6">
+                    <div className="w-full mt-[24px] md:mt-[0px] md:w-4/6">
                     {
                         isLoading ?
                         <PackageSekeleton />
@@ -108,19 +111,23 @@ export default function AllPackagePage() {
                         <div className="w-full grid grid-cols-1 gap-[10px]">
                             {
                                 packagesBySearch?.items.map((data, key) => (
-                                    <div className="w-full bg-white rounded-[20px] flex gap-2.5" key={key}>
+                                    <div className="w-full bg-white rounded-[20px] flex gap-[5px] md:gap-2.5" key={key}>
                                         <div className="w-2/6">
-                                            <Image src={data.packageImage[0].file_base64 as string} alt="" width={0} height={0} className="h-[300px] w-full object-cover rounded-[20px]" />
+                                            <Image src={data.packageImage[0].file_base64 as string} alt="" width={0} height={0} className="h-[200px] md:h-[300px] w-full object-cover rounded-[20px]" />
                                         </div>
-                                        <div className="w-4/6 p-5 flex flex-col justify-between">
+                                        <div className="w-4/6 p-[10px] md:p-5 flex flex-col justify-between">
                                             <div className="w-full">
-                                                <span className="text-[18px] font-semibold">{data.packageName}</span>
-                                                <div className="flex gap-[5px] items-center">
+                                                <span className="text-[14px] md:text-[18px] line-clamp-2 font-semibold">{data.packageName}</span>
+                                                <div className="flex gap-[5px] items-center mt-[5px]">
                                                     <Image src={marker} width={16} height={16} alt="" />
                                                     <span className="block">{data.province}</span>
                                                 </div>
-                                                <div className="mt-[20px] line-clamp-3">
-                                                    {data.packageDes}
+                                                <div className="hidden md:block mt-[20px]">
+                                                    <div className="line-clamp-3">
+                                                        {convert(data.packageDes, {
+                                                            wordwrap: 130
+                                                        })}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="w-full flex justify-end">
@@ -139,9 +146,11 @@ export default function AllPackagePage() {
                                                         </div>
                                                     }
                                                     <div className="h-[5px]"></div>
-                                                    <CvButton
-                                                        label="Book Now"
-                                                    />
+                                                    <div className="hidden md:block">
+                                                        <CvButton
+                                                            label="Book Now"
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
