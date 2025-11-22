@@ -39,7 +39,6 @@ export default function Hero() {
                 value: data.provinceid,
                 label: data.provincename,
             }));
-            console.log(filterData);
             
             setProvincePackOptions(filterData);
         }
@@ -48,10 +47,10 @@ export default function Hero() {
     const handieChangeProvice = async (provinceId: number) => {
         console.log(provinceId);
         const filterPackageProvice = await provinceShotPack?.filter(data => data.provinceid === provinceId);
-        const setFormat: SelectorOptionTpye[] = filterPackageProvice[0].packages.map((data) => ({
+        const setFormat: SelectorOptionTpye[] = filterPackageProvice ? filterPackageProvice[0].packages.map((data) => ({
             value: data.packageName,
             label: <span>{data.packageName}</span>
-        }))
+        })) : [];
         setPackageOption(setFormat);
     }
 
