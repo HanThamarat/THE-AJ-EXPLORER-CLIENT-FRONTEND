@@ -13,5 +13,15 @@
   "search_pacakge": {
     "select_province": "เลือกจังหวัด",
     "enter_activity": "กรอกชื่อสถานที่ท่องเทียว"
+  },
+  "package": {
+    "result": "ผลลัพธ์",
+    "filter": "กรองการเดินทางของคุณ"
+  },
+  "menu": {
+    "mytrip": "ทริปของคุณ",
+    "Reviews": "รีวิว",
+    "Setting": "การตั้งค่า",
+    "Signout": "ออกจากระบบ"
   }
 }

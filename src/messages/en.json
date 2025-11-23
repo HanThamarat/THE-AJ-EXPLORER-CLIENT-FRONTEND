@@ -13,5 +13,15 @@
   "search_pacakge": {
     "select_province": "Select Province",
     "enter_activity": "Enter activities"
+  },
+  "package": {
+    "result": "results",
+    "filter": "Filter Your Trip"
+  },
+  "menu": {
+    "mytrip": "My Trip",
+    "Reviews": "Reviews",
+    "Setting": "Setting",
+    "Signout": "Sign Out"
   }
 }
