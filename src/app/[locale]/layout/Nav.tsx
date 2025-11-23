@@ -4,7 +4,7 @@ import Image from "next/image";
 import logo from "@/app/assets/images/svg/logo.svg";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { Dropdown, type MenuProps, ConfigProvider } from 'antd';
+import { Dropdown, type MenuProps } from 'antd';
 import { useLocale } from 'next-intl';
 import usFlag from "@/app/assets/images/svg/US.svg";
 import thaiFlag from "@/app/assets/images/svg/Asia.svg";
@@ -18,9 +18,13 @@ import { IoNewspaperOutline } from "react-icons/io5";
 import { LuContact } from "react-icons/lu";
 import { usePathname } from "@/i18n/navigation";
 import { useSession } from 'next-auth/react';
-import { UserOutlined, SettingOutlined, LogoutOutlined } from '@ant-design/icons';
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+
+import MyTrip from "@/app/assets/images/svg/luggage-02.svg";
+import Review from "@/app/assets/images/svg/compass-03.svg";
+import Setting from "@/app/assets/images/svg/settings-02.svg";
+import Logout from "@/app/assets/images/svg/log-in-01.svg";
 
 interface navType {
     label: string
@@ -37,6 +41,7 @@ export default function Nav() {
 
     const t = useTranslations("nav");
     const homeT = useTranslations("home");
+    const t_menu = useTranslations("menu");
 
     const navConfig: navType[] = [
         {
@@ -84,56 +89,38 @@ export default function Nav() {
 
     const settingItems: MenuProps['items'] = [
         {
-            key: 'profile',
-            icon: <UserOutlined />,
+            key: 'MyTrip',
+            icon: <Image src={MyTrip} alt="" width={16} height={16} />,
             label: (
                 <Link href="/profile">
-                    Profile
+                    { t_menu("mytrip") }
                 </Link>
             ),
         },
         {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: (
-                <Link href="/account-settings">
-                    Account Settings
-                </Link>
-            ),
-        },
-        {
-            type: 'divider', // A visual separator
-        },
-        {
-            key: 'Mytrip',
-            icon: <UserOutlined />,
+            key: 'Reviews',
+            icon: <Image src={Review} width={16} height={16} alt="" />,
             label: (
                 <Link href="/profile">
-                    My Trip
+                    { t_menu("Reviews") }
                 </Link>
             ),
         },
         {
-            key: 'Review',
-            icon: <SettingOutlined />,
+            key: 'Setting',
+            icon: <Image src={Setting} width={16} height={16} alt="" />,
             label: (
                 <Link href="/account-settings">
-                    Review
+                    { t_menu("Setting") }
                 </Link>
             ),
         },
         {
-            type: 'divider', // A visual separator
-        },
-        {
-            key: 'logout',
-            icon: <LogoutOutlined />,
+            key: 'Logout',
+            icon: <Image src={Logout} width={16} height={16} alt="" />,
             label: (
-                <button onClick={() => signOut()}>Sign out</button>
+                <button onClick={() => signOut()}>{ t_menu("Signout") }</button>
             ),
-            danger: true, // This makes the text red
-            // Note: You'd usually add an onClick handler to the <Menu> component
-            // to catch this 'logout' key and call your signOut() function.
         },
     ];
     

@@ -11,6 +11,7 @@ import PackageSekeleton from "@/app/components/loader/package-skeleton";
 import marker from "@/app/assets/images/svg/marker.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { convert } from "html-to-text";
+import { useTranslations } from "next-intl";
 
 export default function AllPackagePage() {
 
@@ -25,6 +26,7 @@ export default function AllPackagePage() {
     const [page, setPage] = useState<number>(1);
     
     const observerTarget = useRef<HTMLDivElement>(null);
+    const t_package = useTranslations("package");
 
     useEffect(() => {
         setPage(1);
@@ -94,13 +96,15 @@ export default function AllPackagePage() {
                     :
                     <div className="mt-[40px]">
                         <span className="font-semibold text-[24px]">{packageName}</span>
-                        <span className="font-semibold text-[16px] block">{packagesBySearch?.total} results</span>
+                        <span className="font-semibold text-[16px] block">{packagesBySearch?.total} {t_package("result")}</span>
                     </div>
                 }
                 <div className="md:flex justify-between w-full gap-[20px] mt-[34px]">
                     <div className="w-full md:w-2/6">
                         <div className="p-[20px] bg-white rounded-[20px] ">
-
+                            <div>
+                                <span className="text-[18px] font-semibold">{t_package("filter")}</span>
+                            </div>
                         </div>
                     </div>
                     <div className="w-full mt-[24px] md:mt-[0px] md:w-4/6">
