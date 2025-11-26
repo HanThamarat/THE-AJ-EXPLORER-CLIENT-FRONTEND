@@ -4,7 +4,6 @@ import Image from "next/image";
 import menu from "@/app/assets/images/img/home.png";
 import { useTranslations } from "next-intl";
 import CvSelector, { SelectorOptionTpye } from "@/app/components/selector/CvSelector";
-import CvInput from "@/app/components/input/CvInput";
 import { IoSearch } from "react-icons/io5";
 import { useAppDispatch } from "@/app/hooks/appDispatch";
 import { useSelector } from "react-redux";
@@ -12,6 +11,11 @@ import { packageSelector } from "@/app/store/slice/packageSlice";
 import { getprovincePackages } from "@/app/store/slice/packageSlice";
 import { useEffect, useState } from "react";
 import { useRef } from "react";
+import compass from "@/app/assets/images/svg/compass-03.svg";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { SearchSchema, SearchType } from "@/app/types/search";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
 
@@ -20,6 +24,7 @@ export default function Hero() {
     const [provincePackOptions, setProvincePackOptions] = useState<SelectorOptionTpye[]>([]);
     const [packageOption, setPackageOption] = useState<SelectorOptionTpye[]>([]);
     const isFaching = useRef(false);
+    const router = useRouter();
 
     const t = useTranslations("home");
     const t_search = useTranslations("search_pacakge");
@@ -45,14 +50,31 @@ export default function Hero() {
     }, [dispatch, provinceShotPack]);
 
     const handieChangeProvice = async (provinceId: number) => {
-        console.log(provinceId);
         const filterPackageProvice = await provinceShotPack?.filter(data => data.provinceid === provinceId);
-        const setFormat: SelectorOptionTpye[] = filterPackageProvice ? filterPackageProvice[0].packages.map((data) => ({
+        const setFormat: SelectorOptionTpye[] = filterPackageProvice ? filterPackageProvice[0].packages
+        .filter((item, index, self) => index === self.findIndex((t) => t.packageName === item.packageName))
+        .map((data) => ({
             value: data.packageName,
-            label: <span>{data.packageName}</span>
+            label: <div className="flex items-center gap-[10px] h-[40px]">
+                        <div className="w-[35px] h-[35px] rounded-[10px] flex justify-center items-center bg-gray-300">
+                            <Image src={compass} alt="" className="w-[24px] h-[24px] text-white" />
+                        </div>
+                        <span>{data.packageName}</span>
+                   </div>
         })) : [];
         setPackageOption(setFormat);
-    }
+    };
+
+    const {
+        handleSubmit,
+        control,
+        reset,
+        formState: { errors }
+    } = useForm<SearchType>({ resolver: zodResolver(SearchSchema) });
+
+    const handlerSubmitSearch: SubmitHandler<SearchType> = async (data) => {
+        router.push(`/package?provinceId=${data.provinceId}&packageName=${data.packageName}`);
+    } 
 
     return(
         <div className="w-full md:max-w-7xl md:mx-auto md:mt-[40px] relative">
@@ -63,27 +85,45 @@ export default function Hero() {
                     <span className="font-bold text-[18px] md:text-[30px]">{t("hero-title-1")}<br />{t("hero-title-2")}</span>
                 </div>
             </div>
-            <div className="absolute mt-[-20px] md:mt-[-55px] lg:mt-[-70px] w-full px-[20px] md:px-[70px] lg:px-[100px] z-[20]">
+            <form onSubmit={handleSubmit(handlerSubmitSearch)} className="absolute mt-[-20px] md:mt-[-55px] lg:mt-[-70px] w-full px-[20px] md:px-[70px] lg:px-[100px] z-[20]">
                 <div className=" bg-white w-full shadow-[0_8px_30px_rgb(0,0,0,0.12)] px-[10px] md:px-[30px] pt-[30px] pb-[40px] md:pb-[60px] rounded-[20px] flex justify-between gap-[10px] md:gap-[20px]">
                     <div className="w-[30%]">
-                        <CvSelector
-                            placeholder={t_search("select_province")}
-                            option={provincePackOptions}
-                            onChange={(e) => handieChangeProvice(e as number)}
+                        <Controller
+                            name="provinceId"
+                            control={control}
+                            render={({ field }) => (
+                                <CvSelector
+                                    placeholder={t_search("select_province")}
+                                    option={provincePackOptions}
+                                    value={field.value}
+                                    onChange={(e) => {
+                                        handieChangeProvice(e as number);
+                                        field.onChange(Number(e));
+                                    }}
+                                />
+                            )}
                         />
                     </div>
-                    <CvInput
-                        placeholder={t_search("enter_activity")}
-
+                    <Controller
+                        control={control}
+                        name="packageName"
+                        render={({ field }) => (
+                            <CvSelector
+                                placeholder={t_search("enter_activity")}
+                                option={packageOption}
+                                value={field.value}
+                                onChange={(e) => field.onChange(e as string)}
+                            />
+                        )}
                     />
                 </div>
                 <div className="z-[40] mt-[-25px] md:mt-[-35px] w-full flex justify-center">
-                    <button type="button" className="bg-primary flex items-center gap-[10px] py-[10px] md:py-[15px] lg:py-[18px] px-[40px] md:px-[50] lg:px-[60px] rounded-[10px] md:rounded-[20px]">
+                    <button type="submit" className="bg-primary flex items-center gap-[10px] py-[10px] md:py-[15px] lg:py-[18px] px-[40px] md:px-[50] lg:px-[60px] rounded-[10px] md:rounded-[20px]">
                         <IoSearch className="text-[16px] md:text-[25px] text-white" />
                         <span className="text-white text-[16px] md:text-[25px]">Search</span>
                     </button>
                 </div>
-            </div>
+            </form>
         </div>
     )
 }
