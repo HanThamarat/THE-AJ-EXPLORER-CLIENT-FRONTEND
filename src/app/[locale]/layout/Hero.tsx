@@ -23,6 +23,7 @@ export default function Hero() {
     const { provinceShotPack } = useSelector(packageSelector);
     const [provincePackOptions, setProvincePackOptions] = useState<SelectorOptionTpye[]>([]);
     const [packageOption, setPackageOption] = useState<SelectorOptionTpye[]>([]);
+    const [provinceName, setProvinceName] = useState<string>("");
     const isFaching = useRef(false);
     const router = useRouter();
 
@@ -51,6 +52,7 @@ export default function Hero() {
 
     const handieChangeProvice = async (provinceId: number) => {
         const filterPackageProvice = await provinceShotPack?.filter(data => data.provinceid === provinceId);
+        setProvinceName(filterPackageProvice ? filterPackageProvice[0].provincename as string : "");
         const setFormat: SelectorOptionTpye[] = filterPackageProvice ? filterPackageProvice[0].packages
         .filter((item, index, self) => index === self.findIndex((t) => t.packageName === item.packageName))
         .map((data) => ({
@@ -73,7 +75,7 @@ export default function Hero() {
     } = useForm<SearchType>({ resolver: zodResolver(SearchSchema) });
 
     const handlerSubmitSearch: SubmitHandler<SearchType> = async (data) => {
-        router.push(`/package?provinceId=${data.provinceId}&packageName=${data.packageName === undefined ? null : data.packageName}`);
+        router.push(`/package?provinceId=${data.provinceId}&provinceName=${ provinceName }&packageName=${data.packageName === undefined ? null : data.packageName}`);
     } 
 
     return(
