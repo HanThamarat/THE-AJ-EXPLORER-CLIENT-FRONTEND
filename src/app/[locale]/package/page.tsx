@@ -12,12 +12,15 @@ import marker from "@/app/assets/images/svg/marker.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { convert } from "html-to-text";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export default function AllPackagePage() {
 
     const searchParams = useSearchParams();
+    const router = useRouter();
     const provinceId = searchParams.get("provinceId");
     const packageName = searchParams.get("packageName");
+    const provinceName = searchParams.get("provinceName");
     const { packagesBySearch } = useSelector(packageSelector);
     const dispatch = useAppDispatch();
     const isFetchingPackage = useRef(false);
@@ -95,7 +98,7 @@ export default function AllPackagePage() {
                     </div>
                     :
                     <div className="mt-[40px]">
-                        <span className="font-semibold text-[24px]">{packageName}</span>
+                        <span className="font-semibold text-[24px]">{packageName === "null" ? provinceName : packageName}</span>
                         <span className="font-semibold text-[16px] block">{packagesBySearch?.total} {t_package("result")}</span>
                     </div>
                 }
@@ -153,6 +156,7 @@ export default function AllPackagePage() {
                                                     <div className="hidden md:block">
                                                         <CvButton
                                                             label="Book Now"
+                                                            onClick={() => router.push(`package/detail/${data.packageId}`)}
                                                         />
                                                     </div>
                                                 </div>

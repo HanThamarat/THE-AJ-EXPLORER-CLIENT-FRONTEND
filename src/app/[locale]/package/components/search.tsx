@@ -69,7 +69,7 @@ export default function SearchComponent() {
         if (provincePackOptions) {
             reset({
                 provinceId: Number(provinceId),
-                packageName: packageName as string
+                packageName: packageName !== "null" ? packageName as string : ""
             });
             fecthData();
         }
