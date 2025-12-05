@@ -156,7 +156,7 @@ export default function AllPackagePage() {
                                                     <div className="hidden md:block">
                                                         <CvButton
                                                             label="Book Now"
-                                                            onClick={() => router.push(`package/detail/${data.packageId}`)}
+                                                            onClick={() => router.push(`package/detail/${data.packageId}?provinceId=${provinceId}&provinceName=${ provinceName }&packageName=${ packageName === undefined ? null : packageName }`)}
                                                         />
                                                     </div>
                                                 </div>
