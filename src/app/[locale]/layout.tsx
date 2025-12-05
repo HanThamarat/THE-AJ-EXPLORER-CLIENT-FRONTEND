@@ -6,13 +6,13 @@ import { routing } from '@/i18n/routing';
 import "../globals.css";
 import ClientSocketHandler from "../hooks/ClientTracker";
 import Nav from "./layout/Nav";
-import '@ant-design/v5-patch-for-react-19';
 import { ConfigProvider } from "antd";
 import ReduxProvider from "../hooks/reduxProvider";
 import AuthProvider from "../hooks/auth-provider";
 import { GoogleProvider } from "../hooks/google-provider";
 import GoogleOneTap from "../hooks/google-sign";
 import Footer from "./layout/Footer";
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -45,25 +45,27 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html lang={locale}>
       <body 
-        className="text-[12px] font-primary antialiased"
+        className="text-[12px] font-primary text-gray-700 antialiased"
         cz-shortcut-listen="true"
       >
-        <AuthProvider>
-          <GoogleProvider>
-            <ConfigProvider>
-              <NextIntlClientProvider messages={messages}>
-                <ReduxProvider>
-                  <GoogleOneTap />
-                  <Nav />
-                  <div className="w-full">
-                    {children}
-                  </div>
-                  <Footer />
-                </ReduxProvider>
-              </NextIntlClientProvider>
-            </ConfigProvider>
-          </GoogleProvider>
-        </AuthProvider>
+        <AntdRegistry>
+          <AuthProvider>
+            <GoogleProvider>
+              <ConfigProvider>
+                <NextIntlClientProvider messages={messages}>
+                  <ReduxProvider>
+                    <GoogleOneTap />
+                    <Nav />
+                    <div className="w-full">
+                      {children}
+                    </div>
+                    <Footer />
+                  </ReduxProvider>
+                </NextIntlClientProvider>
+              </ConfigProvider>
+            </GoogleProvider>
+          </AuthProvider>
+        </AntdRegistry>
         <ClientSocketHandler />
       </body>
     </html>

@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { AxiosInstance } from "@/app/hooks/axiosInstance";
-import { findProvinceByPackageEntity, packageClientResponse } from "@/app/types/package";
+import { findProvinceByPackageEntity, packageClientResponse, packageEntity } from "@/app/types/package";
 
 export const getprovincePackages = createAsyncThunk('package/getprovincePackages', async () => {
   try {
@@ -30,15 +30,27 @@ export const getPackagesBySearch = createAsyncThunk("package/getPackagesBySearch
   }
 });
 
+export const getPackageDetail = createAsyncThunk("package/getPackageDetail", async (id: number) => {
+  try {
+    const response = await AxiosInstance.get(`/client/package/package_detail/${id}`);
+
+    return { status: true, data: response.data.body };
+  } catch (error: any) {
+    return { status: false, error: error?.response.data.error };
+  }
+});
+
 
 interface packageType {
   provinceShotPack: findProvinceByPackageEntity[] | [] | null;
-  packagesBySearch: packageClientResponse | null; 
+  packagesBySearch: packageClientResponse | null;
+  packageDetail: packageEntity | null;
   loading: boolean;
   error: unknown;
 }
 
 const initialState: packageType = {
+  packageDetail: null,
   provinceShotPack: null,
   packagesBySearch: null,
   loading: false,
@@ -77,6 +89,8 @@ const packageSlice = createSlice({
               state.packagesBySearch.prevPage = newItem.prevPage;
               state.packagesBySearch.page = newItem.page;
             }
+          } else if (action.type.includes("getPackageDetail")) {
+            state.packageDetail = action.payload.data as packageEntity;
           }
         }
       )
