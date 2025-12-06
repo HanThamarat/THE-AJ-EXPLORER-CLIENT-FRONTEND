@@ -46,7 +46,7 @@ export default function PackageDetail() {
             SetIsLoading(false);
         }
 
-        if (packageDetail === undefined) return notFound();
+        if (packageDetail === undefined && packageDetail !== null) return notFound();
     }, [dispatch, packageDetail]);
 
     return(
