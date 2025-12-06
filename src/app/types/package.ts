@@ -72,6 +72,7 @@ export const packageOptionEntitySchema = z.object({
     childToAge: z.string().optional(),
     groupFromAge: z.string().optional(),
     groupToAge: z.string().optional(),
+    adultPrice: z.number().optional(),
     adultPromoPrice: z.number().optional(),
     childPrice: z.number().optional(),
     childPromoPrice: z.number().optional(),

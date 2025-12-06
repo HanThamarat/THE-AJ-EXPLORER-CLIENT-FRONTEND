@@ -13,6 +13,7 @@ import CvButton from "@/app/components/CvButton/CvButton";
 import { convert } from "html-to-text";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import useMediaQuery from "@/app/hooks/mediaQuery";
 
 export default function AllPackagePage() {
 
@@ -30,6 +31,7 @@ export default function AllPackagePage() {
     
     const observerTarget = useRef<HTMLDivElement>(null);
     const t_package = useTranslations("package");
+    const isMd = useMediaQuery("(min-width: 768px)");
 
     useEffect(() => {
         setPage(1);
@@ -85,8 +87,6 @@ export default function AllPackagePage() {
         };
     }, [packagesBySearch?.nextPage]);
 
-
-
     return(
         <>
             <div className="w-full px-[20px] 2xl:px-[0px] 2xl:max-w-7xl 2xl:mx-auto">
@@ -118,7 +118,9 @@ export default function AllPackagePage() {
                         <div className="w-full grid grid-cols-1 gap-[10px]">
                             {
                                 packagesBySearch?.items.map((data, key) => (
-                                    <div className="w-full bg-white rounded-[20px] flex gap-[5px] md:gap-2.5" key={key}>
+                                    <div className="w-full bg-white rounded-[20px] flex gap-[5px] md:gap-2.5" key={key} onClick={() => {
+                                        !isMd && router.push(`package/detail/${data.packageId}?provinceId=${provinceId}&provinceName=${ provinceName }&packageName=${ packageName === undefined ? null : packageName }`)}
+                                    }>
                                         <div className="w-2/6">
                                             <Image src={data.packageImage[0].file_base64 as string} alt="" width={0} height={0} className="h-[200px] md:h-[300px] w-full object-cover rounded-[20px]" />
                                         </div>

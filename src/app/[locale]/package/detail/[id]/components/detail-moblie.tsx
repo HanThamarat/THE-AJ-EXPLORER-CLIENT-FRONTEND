@@ -1,9 +1,10 @@
 import DescriptionLoader from "@/app/components/loader/description-loader";
 import { packageEntity } from "@/app/types/package";
 import { convert } from "html-to-text";
+import TicketState from "./ticket-state";
 
 interface PackageDetailMobileProps {
-    packageData?: packageEntity;
+    packageData: packageEntity;
     loading: boolean;
 }
 
@@ -12,8 +13,19 @@ export default function PackageDetailMobile({
     loading
 }: PackageDetailMobileProps) {
     return(
-        <>
+        <> 
             <div className="w-full">
+                {
+                    !loading && packageData !== null ?
+                    <TicketState packageOptions={packageData.packageOption} />
+                    :
+                    <div className="flex flex-col gap-[10px]">
+                        <DescriptionLoader />
+                        <DescriptionLoader />
+                    </div>
+                }
+            </div>
+            <div className="w-full mt-[24px]">
                 {
                     loading ?
                     <DescriptionLoader />

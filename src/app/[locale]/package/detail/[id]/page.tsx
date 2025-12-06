@@ -28,6 +28,10 @@ export default function PackageDetail() {
     const isFaching = useRef<boolean>(false);
 
     useEffect(() => {
+        SetIsLoading(true);
+    }, []);
+
+    useEffect(() => {
         const fecthData = async () => {
             if (isFaching.current) return;
             isFaching.current = true;

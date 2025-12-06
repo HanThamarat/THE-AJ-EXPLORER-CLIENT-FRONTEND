@@ -1,9 +1,10 @@
 import DescriptionLoader from "@/app/components/loader/description-loader";
-import { packageEntity } from "@/app/types/package";
+import { packageEntity, packageOptionEntity } from "@/app/types/package";
 import { convert } from "html-to-text";
+import TicketState from "./ticket-state";
 
 interface PackageDetailFullscreenProps {
-    packageData?: packageEntity;
+    packageData: packageEntity;
     loading: boolean;
 }
 
@@ -29,7 +30,15 @@ export default function PackageDetailFullscreen({
                     </div>
                 </div>
                 <div className="w-[30%]">
-
+                    {
+                        !loading && packageData !== null ?
+                        <TicketState packageOptions={packageData.packageOption} />
+                        :
+                        <div className="flex flex-col gap-[10px]">
+                            <DescriptionLoader />
+                            <DescriptionLoader />
+                        </div>
+                    }
                 </div>
             </div>
         </>
