@@ -13,6 +13,7 @@ import ImageSection from "./components/image-section";
 import PackageDetailFullscreen from "./components/detail-fullscreen";
 import { packageEntity } from "@/app/types/package";
 import PackageDetailMobile from "./components/detail-moblie";
+import { notFound } from "next/navigation";
 
 export default function PackageDetail() {
 
@@ -41,9 +42,11 @@ export default function PackageDetail() {
 
         fecthData();        
 
-        if (packageDetail !== null) {
+        if (packageDetail !== null && packageDetail !== undefined) {
             SetIsLoading(false);
         }
+
+        if (packageDetail === undefined) return notFound();
     }, [dispatch, packageDetail]);
 
     return(
