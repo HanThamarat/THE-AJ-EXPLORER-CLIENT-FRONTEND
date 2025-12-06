@@ -2,6 +2,7 @@ import DescriptionLoader from "@/app/components/loader/description-loader";
 import { packageEntity, packageOptionEntity } from "@/app/types/package";
 import { convert } from "html-to-text";
 import TicketState from "./ticket-state";
+import BenefitComponent from "./benifit";
 
 interface PackageDetailFullscreenProps {
     packageData: packageEntity;
@@ -25,6 +26,19 @@ export default function PackageDetailFullscreen({
                                 {convert(packageData?.description as string, {
                                     wordwrap: 130
                                 })}
+                            </div>
+                        }
+                    </div>
+                    <div className="mt-[30px]">
+                         {
+                            !loading && packageData !== null ?
+                            <BenefitComponent 
+                                benefit={packageData.benefit_include} 
+                                not_benefit={packageData.benefit_not_include} 
+                            />
+                            :
+                            <div className="flex flex-col gap-[10px]">
+                                <DescriptionLoader />
                             </div>
                         }
                     </div>

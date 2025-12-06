@@ -2,6 +2,7 @@ import DescriptionLoader from "@/app/components/loader/description-loader";
 import { packageEntity } from "@/app/types/package";
 import { convert } from "html-to-text";
 import TicketState from "./ticket-state";
+import BenefitComponent from "./benifit";
 
 interface PackageDetailMobileProps {
     packageData: packageEntity;
@@ -35,6 +36,17 @@ export default function PackageDetailMobile({
                             wordwrap: 130
                         })}
                     </div>
+                }
+            </div>
+            <div className="w-full mt-[24px]">
+                {
+                    loading ?
+                    <DescriptionLoader />
+                    :
+                    <BenefitComponent
+                        benefit={packageData.benefit_include}
+                        not_benefit={packageData.benefit_not_include}
+                    />
                 }
             </div>
         </>
