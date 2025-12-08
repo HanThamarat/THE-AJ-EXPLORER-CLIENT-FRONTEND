@@ -3,6 +3,7 @@ import { packageEntity } from "@/app/types/package";
 import { convert } from "html-to-text";
 import TicketState from "./ticket-state";
 import BenefitComponent from "./benifit";
+import AttractionTimeline from "./attraction-timeline";
 
 interface PackageDetailMobileProps {
     packageData: packageEntity;
@@ -18,7 +19,7 @@ export default function PackageDetailMobile({
             <div className="w-full">
                 {
                     !loading && packageData !== null ?
-                    <TicketState packageOptions={packageData.packageOption} />
+                    <TicketState packageOptions={packageData.packageOption} packageId={packageData.id} />
                     :
                     <div className="flex flex-col gap-[10px]">
                         <DescriptionLoader />
@@ -47,6 +48,30 @@ export default function PackageDetailMobile({
                         benefit={packageData.benefit_include}
                         not_benefit={packageData.benefit_not_include}
                     />
+                }
+            </div>
+            <div className="w-full mt-[24px]">
+                {
+                    loading ?
+                    <DescriptionLoader />
+                    :
+                    <AttractionTimeline packageAttraction={packageData.pakcageAttraction} />
+                }
+            </div>
+            <div className="mt-[24px]">
+                {
+                    loading ?
+                    <DescriptionLoader />
+                    :
+                    packageData.additional_description !== "no data" &&
+                    <div className="w-full">
+                        <span className="text-[16px] font-semibold text-gray-800">Additional Description</span>
+                        <div className="text-gray-600 text-[14px] mt-[5px]">
+                            {convert(packageData?.additional_description as string, {
+                                wordwrap: 130
+                            })}
+                        </div>
+                    </div>
                 }
             </div>
         </>

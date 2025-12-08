@@ -80,7 +80,7 @@ export default function BenefitComponent({
                     </div>
                 </div>
             </div>
-            <div className="">
+            <div className="md:hidden">
                 <CvAccordion accordionOptions={benefitOption} />
             </div>
         </div>

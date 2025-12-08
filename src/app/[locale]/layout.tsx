@@ -56,7 +56,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                   <ReduxProvider>
                     <GoogleOneTap />
                     <Nav />
-                    <div className="w-full">
+                    <div className="w-full min-h-[100vh]">
                       {children}
                     </div>
                     <Footer />
