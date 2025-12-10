@@ -5,13 +5,16 @@ import { RiSubtractFill } from "react-icons/ri";
 import { packageOptionEntity } from "@/app/types/package";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
+import { useRouter } from "next/navigation";
 
 interface TicketStateProps {
-    packageOptions: packageOptionEntity[] | null
+    packageOptions: packageOptionEntity[] | null;
+    packageId: number;
 }
 
 export default function TicketState({
-    packageOptions
+    packageOptions,
+    packageId
 }: TicketStateProps) {
 
     const [activePkgOption, setActivePkgOption] = useState<number>(0);
@@ -21,6 +24,7 @@ export default function TicketState({
     const [childQty, setChildQty] = useState<number>(0);
     const [groupQty, setgroupQty] = useState<number>(0);
     const [amoutPrice, setAmoutPrice] = useState<number>(0);
+    const router = useRouter();
 
     useEffect(() => {
        
@@ -48,6 +52,10 @@ export default function TicketState({
         }
         
     }, [adultQty, childQty, groupQty]);
+
+    const handlerClickBooking = async () => {
+        router.push(`/checkout?packageId=${packageId}&tripDate=${selectedDate}&amountPrice=${amoutPrice}&adultQty=${adultQty}&childQty=${childQty}&groupQty=${groupQty}`);
+    }
 
     return(
         <>
@@ -201,7 +209,7 @@ export default function TicketState({
                 <span className="text-[18px] font-medium">THB {currencyConvertToThai(amoutPrice)}</span>
             </div>
             <div className="mt-[10px]">
-                <CvButton label="Book now" />
+                <CvButton label="Book now" onClick={handlerClickBooking} />
             </div>
         </div>
         </>
