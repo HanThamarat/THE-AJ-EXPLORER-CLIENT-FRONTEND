@@ -3,6 +3,7 @@ import { SlLocationPin } from "react-icons/sl";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { FaRegClock } from "react-icons/fa6";
+import { useTranslations } from "next-intl";
 
 interface AttractionTimelineProps {
     packageAttraction: packageAttractionEntity[] | null
@@ -12,11 +13,12 @@ export default function AttractionTimeline({
     packageAttraction
 }: AttractionTimelineProps){
 
-     const [showmore, setShowmore] = useState<boolean>(false);
+    const [showmore, setShowmore] = useState<boolean>(false);
+    const t = useTranslations("package_detail");
 
     return (
         <>
-            <span className="text-[18px] font-semibold text-gray-800">Itinerary information</span>
+            <span className="text-[18px] font-semibold text-gray-800">{t("itinerary_information")}</span>
             {
                 packageAttraction !== null && packageAttraction.length <= 4  ? 
                 <div className={`grid grid-cols-1 gap-[10px] mt-[20px]`}>

@@ -6,6 +6,9 @@ import { packageOptionEntity } from "@/app/types/package";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import "dayjs/locale/th";
 
 interface TicketStateProps {
     packageOptions: packageOptionEntity[] | null;
@@ -16,7 +19,10 @@ export default function TicketState({
     packageOptions,
     packageId
 }: TicketStateProps) {
+    const params = useParams();
+    const locale = params.locale;
 
+    dayjs.locale(locale === "th" ? "th" : "en");
     const [activePkgOption, setActivePkgOption] = useState<number>(0);
     const days = Array.from({ length: 7 }, (_, i) => dayjs().add(i, "day"));
     const [selectedDate, setSelectedDate] = useState(days[0].format("YYYY-MM-DD"));
@@ -26,8 +32,10 @@ export default function TicketState({
     const [amoutPrice, setAmoutPrice] = useState<number>(0);
     const router = useRouter();
 
+    const t = useTranslations("package_detail");
+    
+
     useEffect(() => {
-       
         if (adultQty > 0 || childQty > 0) {
             setgroupQty(0);
             setAmoutPrice(0);
@@ -60,7 +68,7 @@ export default function TicketState({
     return(
         <>
         <div>
-            <span className="text-[18px] font-semibold">Ticket and price</span>
+            <span className="text-[18px] font-semibold">{t("ticket")}</span>
         </div>
         <div className="w-full flex overflow-x-scroll gap-[10px] no-scrollbar mt-[10px]">
             {
@@ -74,7 +82,7 @@ export default function TicketState({
             }
         </div>
         <div className="mt-[24px]">
-            <span className="text-[18px] font-semibold">Search ticket availability by date</span>
+            <span className="text-[18px] font-semibold">{t("search_ticket")}</span>
         </div>
         <div className="w-full flex overflow-x-scroll gap-[10px] no-scrollbar mt-[24px]">
             {days.map((date) => {
@@ -104,7 +112,7 @@ export default function TicketState({
         </div>
         <div className="mt-[24px] border border-[#613DC1] rounded-[10px] p-[10px] gird grid-cols-1 gap-[20px]">
             <div>
-                <span className="text-[18px] font-semibold">How many tickets</span>
+                <span className="text-[18px] font-semibold">{t("ticket_title")}</span>
             </div>
             {
                 packageOptions !== null &&
@@ -112,7 +120,7 @@ export default function TicketState({
                 <div>
                     <div className="flex justify-between items-center mt-[24px]">
                         <div>
-                            <span className="text-[14px]">Adult (age {packageOptions[activePkgOption].adultFromAge} - {packageOptions[activePkgOption].adultToAge})</span>
+                            <span className="text-[14px]">{t("adult_ticket")} ({t("age")} {packageOptions[activePkgOption].adultFromAge} - {packageOptions[activePkgOption].adultToAge})</span>
                             {
                                 packageOptions[activePkgOption].adultPromoPrice !== 0 ?
                                 <div className="flex items-center gap-[5px]">
@@ -142,7 +150,7 @@ export default function TicketState({
                     </div>       
                     <div className="flex justify-between items-center mt-[10px]">
                         <div>
-                            <span className="text-[14px]">Child (age {packageOptions[activePkgOption].childFromAge} - {packageOptions[activePkgOption].childToAge})</span>
+                            <span className="text-[14px]">{t("child_ticket")} ({t("age")} {packageOptions[activePkgOption].childFromAge} - {packageOptions[activePkgOption].childToAge})</span>
                             {
                                 packageOptions[activePkgOption].childPromoPrice !== 0 ?
                                 <div className="flex items-center gap-[5px]">
@@ -175,7 +183,7 @@ export default function TicketState({
                 <div>
                      <div className="flex justify-between items-center mt-[24px]">
                         <div className="w-full">
-                            <span className="text-[14px]">Group ({packageOptions[activePkgOption].groupFromAge} - {packageOptions[activePkgOption].groupToAge} people)</span>
+                            <span className="text-[14px]">{t("group_ticket")} ({packageOptions[activePkgOption].groupFromAge} - {packageOptions[activePkgOption].groupToAge} {t("people")})</span>
                             {
                                 packageOptions[activePkgOption].groupPromoPrice !== 0 ?
                                 <div className="flex items-center gap-[5px]">
@@ -205,11 +213,11 @@ export default function TicketState({
                 </div>
             }
             <div className="mt-[24px]">
-                <span className="text-[14px]">Total </span>
+                <span className="text-[14px]">{t("total_price")} </span>
                 <span className="text-[18px] font-medium">THB {currencyConvertToThai(amoutPrice)}</span>
             </div>
             <div className="mt-[10px]">
-                <CvButton label="Book now" onClick={handlerClickBooking} />
+                <CvButton label={t("book_btn")} onClick={handlerClickBooking} />
             </div>
         </div>
         </>

@@ -2,6 +2,7 @@ import { packageInclude, packageNotInclude } from "@/app/types/package";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import CvAccordion, { CvAccordionOptionProps } from "@/app/components/CvAccordion";
+import { useTranslations } from "next-intl";
 
 interface BenefitComponentProps {
     benefit: packageInclude[] | null;
@@ -13,9 +14,11 @@ export default function BenefitComponent({
     not_benefit
 }: BenefitComponentProps) {
 
+    const t = useTranslations("package_detail");
+
     const benefitOption: CvAccordionOptionProps[] = [
         {
-            title: <span className="text-[16px] font-semibold">What's Not Included</span>,
+            title: <span className="text-[16px] font-semibold">{t("what_included")}</span>,
             children: <div className="mt-[10px] grid grid-cols-1 gap-[15px]">
                 {
                     benefit !== null && benefit.map((item, key) => (
@@ -30,7 +33,7 @@ export default function BenefitComponent({
             </div>
         },
         {
-            title: <span className="text-[16px] font-semibold">What's Not Included</span>,
+            title: <span className="text-[16px] font-semibold">{t("what_not_included")}</span>,
             children: <div className="mt-[10px] grid grid-cols-1 gap-[15px]">
                 {
                     not_benefit !== null && not_benefit.map((item, key) => (
@@ -50,7 +53,7 @@ export default function BenefitComponent({
         <div className="w-full">
             <div className="hidden w-full md:grid gap-[20px] grid-cols-2">
                 <div>
-                    <span className="text-[18px] font-semibold">What's included</span>
+                    <span className="text-[18px] font-semibold">{t("what_included")}</span>
                     <div className="mt-[10px] grid grid-cols-1 gap-[15px]">
                         {
                             benefit !== null && benefit.map((item, key) => (
@@ -65,7 +68,7 @@ export default function BenefitComponent({
                     </div>
                 </div>
                 <div>
-                    <span className="text-[18px] font-semibold">What's Not Included</span>
+                    <span className="text-[18px] font-semibold">{t("what_not_included")}</span>
                     <div className="mt-[10px] grid grid-cols-1 gap-[15px]">
                         {
                             not_benefit !== null && not_benefit.map((item, key) => (
