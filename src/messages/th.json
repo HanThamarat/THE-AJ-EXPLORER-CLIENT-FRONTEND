@@ -23,5 +23,21 @@
     "Reviews": "รีวิว",
     "Setting": "การตั้งค่า",
     "Signout": "ออกจากระบบ"
+  },
+  "package_detail": {
+    "ticket": "บัตรและราคา",
+    "search_ticket": "ค้นหาบัตรตามวันที่ต้องการ",
+    "age": "อายุ",
+    "people": "คน",
+    "adult_ticket": "ผู้ใหญ่",
+    "child_ticket": "เด็ก",
+    "group_ticket": "แบบกลุ่ม",
+    "ticket_title": "จำนวนบัตร",
+    "total_price": "ราคารวม",
+    "additional_description": "รายละเอียดเพิ่มเติม",
+    "itinerary_information": "ข้อมูลกำหนดการเดินทาง",
+    "what_included": "สิ่งที่รวมอยู่ในแพ็กเกจ",
+    "what_not_included": "สิ่งที่ไม่รวมอยู่ในแพ็กเกจ",
+    "book_btn": "จองเลย"
   }
 }

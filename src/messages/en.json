@@ -23,5 +23,21 @@
     "Reviews": "Reviews",
     "Setting": "Setting",
     "Signout": "Sign Out"
+  },
+  "package_detail": {
+    "ticket": "Ticket and price",
+    "search_ticket": "Search ticket availability by date",
+    "age": "age",
+    "people": "people",
+    "adult_ticket": "Adult",
+    "child_ticket": "Child",
+    "group_ticket": "Group",
+    "ticket_title": "How many tickets",
+    "total_price": "Total",
+    "additional_description": "Additional Description",
+    "itinerary_information": "Itinerary information",
+    "what_included": "What's included",
+    "what_not_included": "What's Not included",
+    "book_btn": "Book now"
   }
 }

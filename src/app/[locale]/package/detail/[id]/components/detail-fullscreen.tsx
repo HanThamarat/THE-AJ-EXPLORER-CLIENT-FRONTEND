@@ -4,6 +4,7 @@ import { convert } from "html-to-text";
 import TicketState from "./ticket-state";
 import BenefitComponent from "./benifit";
 import AttractionTimeline from "./attraction-timeline";
+import { useTranslations } from "next-intl";
 
 interface PackageDetailFullscreenProps {
     packageData: packageEntity;
@@ -14,6 +15,9 @@ export default function PackageDetailFullscreen({
     packageData,
     loading
 }: PackageDetailFullscreenProps) {
+
+    const t = useTranslations("package_detail");
+
     return(
         <>
             <div className="w-full flex justify-between gap-[20px]">
@@ -60,7 +64,7 @@ export default function PackageDetailFullscreen({
                             :
                             packageData.additional_description !== "no data" &&
                             <div className="w-full">
-                                <span className="text-[18px] font-semibold text-gray-800">Additional Description</span>
+                                <span className="text-[18px] font-semibold text-gray-800">{t("additional_description")}</span>
                                 <div className="text-gray-600 text-[14px] mt-[5px]">
                                     {convert(packageData?.additional_description as string, {
                                         wordwrap: 130

@@ -1,9 +1,42 @@
-import { Metadata } from "next";
+import { AxiosInstance } from "@/app/hooks/axiosInstance";
 
-export const metadata: Metadata = {
-  title: "The AJ Explorer",
-  description: "The AJ Explorer",
+
+type MetaProps = {
+  params: Promise<{ id: string; locale: string }>;
+  searchParams: Promise<{ packageName?: string; provinceName?: string }>;
 };
+
+export async function generateMetadata({ params }: MetaProps) {
+  const { id, locale } = await params;
+  const data: any = await AxiosInstance.get(`/client/package/package_detail/${id}`);
+
+  if (!data) {
+    return {
+      title: "Package not found",
+    };
+  }
+
+  const isTH = locale === "th";
+
+  const title = isTH
+    ? `${data.data.body.packageName} | แพ็กเกจท่องเที่ยว`
+    : `${data.data.body.packageName} | Travel Package`;
+
+  const description = data.data.body.description
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: data.data.body.packageImage?.length
+        ? [data.data.body.packageImage[0]]
+        : [],
+    },
+  };
+}
+
 
 type Props = {
   children: React.ReactNode;

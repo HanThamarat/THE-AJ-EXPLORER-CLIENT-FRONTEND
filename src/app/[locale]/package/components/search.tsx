@@ -14,6 +14,7 @@ import { SearchSchema, SearchType } from "@/app/types/search";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
+import Headroom from 'react-headroom';
 
 export default function SearchComponent() {
 
@@ -104,44 +105,46 @@ export default function SearchComponent() {
 
 
     return(
-        <form onSubmit={handleSubmit(handlerSubmitSearch)} className="py-[20px] bg-primary w-full">
-            <div className="mx-[20px] 2xl:mx-auto 2xl:max-w-7xl gap-[10px] md:gap-[20px] md:flex md:items-center">
-                <div className="w-full gap-[10px] md:gap-[20px] flex items-center">
-                    <div className="w-[45%] md:w-[30%]">
+        <Headroom>
+            <form onSubmit={handleSubmit(handlerSubmitSearch)} className="py-[20px] bg-primary w-full">
+                <div className="mx-[20px] 2xl:mx-auto 2xl:max-w-7xl gap-[10px] md:gap-[20px] md:flex md:items-center">
+                    <div className="w-full gap-[10px] md:gap-[20px] flex items-center">
+                        <div className="w-[45%] md:w-[30%]">
+                            <Controller
+                                name="provinceId"
+                                control={control}
+                                render={({ field }) => (
+                                    <CvSelector
+                                        placeholder={t("select_province")}
+                                        option={provincePackOptions}
+                                        value={field.value}
+                                        onChange={(e) => {
+                                            handieChangeProvice(e as number);
+                                            field.onChange(Number(e));
+                                        }}
+                                    />
+                                )}
+                            />
+                        </div>
                         <Controller
-                            name="provinceId"
                             control={control}
+                            name="packageName"
                             render={({ field }) => (
                                 <CvSelector
-                                    placeholder={t("select_province")}
-                                    option={provincePackOptions}
+                                    placeholder={t("enter_activity")}
+                                    option={packageOption}
                                     value={field.value}
-                                    onChange={(e) => {
-                                        handieChangeProvice(e as number);
-                                        field.onChange(Number(e));
-                                    }}
+                                    onChange={(e) => field.onChange(e as string)}
                                 />
                             )}
                         />
                     </div>
-                    <Controller
-                        control={control}
-                        name="packageName"
-                        render={({ field }) => (
-                            <CvSelector
-                                placeholder={t("enter_activity")}
-                                option={packageOption}
-                                value={field.value}
-                                onChange={(e) => field.onChange(e as string)}
-                            />
-                        )}
-                    />
+                    <button type="submit" className="w-full mt-[10px] md:mt-[0px] h-[40px] md:w-[45px] flex justify-center items-center gap-[10px] bg-white rounded-[6px]">
+                        <IoSearch className="text-primary text-[20px]" />
+                        <span className="text-primary md:hidden">Search</span>
+                    </button>
                 </div>
-                <button type="submit" className="w-full mt-[10px] md:mt-[0px] h-[40px] md:w-[45px] flex justify-center items-center gap-[10px] bg-white rounded-[6px]">
-                    <IoSearch className="text-primary text-[20px]" />
-                    <span className="text-primary md:hidden">Search</span>
-                </button>
-            </div>
-        </form>
+            </form>
+        </Headroom>
     )
 }
