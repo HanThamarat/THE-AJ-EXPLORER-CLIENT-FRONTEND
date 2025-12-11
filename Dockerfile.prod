@@ -51,7 +51,7 @@ COPY . .
 RUN npm run build
 
 # Remove development dependencies (optional)
-RUN npm prune --production
+RUN npm prune --production --force
 
 # Use a lightweight Node.js image for production
 FROM node:18-alpine AS runner
