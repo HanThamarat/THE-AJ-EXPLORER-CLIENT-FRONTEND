@@ -13,6 +13,7 @@ import { GoogleProvider } from "../hooks/google-provider";
 import GoogleOneTap from "../hooks/google-sign";
 import Footer from "./layout/Footer";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
+import { Toaster } from 'react-hot-toast';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -67,6 +68,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           </AuthProvider>
         </AntdRegistry>
         <ClientSocketHandler />
+        <Toaster />
       </body>
     </html>
   );

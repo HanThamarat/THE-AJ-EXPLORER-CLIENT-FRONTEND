@@ -8,7 +8,10 @@ import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import notify from "@/app/components/CvAlert/toastify";
 import "dayjs/locale/th";
+import { useSession } from "next-auth/react";
+import { AuthModal } from "@/app/[locale]/auth/auth-modal";
 
 interface TicketStateProps {
     packageOptions: packageOptionEntity[] | null;
@@ -30,7 +33,9 @@ export default function TicketState({
     const [childQty, setChildQty] = useState<number>(0);
     const [groupQty, setgroupQty] = useState<number>(0);
     const [amoutPrice, setAmoutPrice] = useState<number>(0);
+    const [isOpenAuthModal, setIsOpenAuthModal] = useState<boolean>(false);
     const router = useRouter();
+    const { data, status } = useSession();
 
     const t = useTranslations("package_detail");
     
@@ -62,11 +67,31 @@ export default function TicketState({
     }, [adultQty, childQty, groupQty]);
 
     const handlerClickBooking = async () => {
+
+        if (data === null) return setIsOpenAuthModal(true);
+        
+        if (adultQty === 0 && childQty === 0 && groupQty === 0) {
+            notify({
+                type: "error",
+                label: t("book_alert"),
+                postion: "top-center"
+            });
+            return;
+        }
+
         router.push(`/checkout?packageId=${packageId}&tripDate=${selectedDate}&amountPrice=${amoutPrice}&adultQty=${adultQty}&childQty=${childQty}&groupQty=${groupQty}`);
+    }
+
+    const hnadlerReset = () => {
+        setChildQty(0);
+        setadultQty(0);
+        setgroupQty(0);
+        setAmoutPrice(0);
     }
 
     return(
         <>
+        <AuthModal isOpen={isOpenAuthModal} onCancel={() => setIsOpenAuthModal(false)} />
         <div>
             <span className="text-[18px] font-semibold">{t("ticket")}</span>
         </div>
@@ -74,7 +99,10 @@ export default function TicketState({
             {
                 packageOptions?.length !== 1 && (
                     packageOptions?.map((data, key) => (
-                        <div key={key} onClick={() => setActivePkgOption(key)} className={`${activePkgOption === key ? 'border-[#613DC1] bg-[#613DC1]/5' : 'border-gray-200 bg-transparent' } transition-all duration-100 ease-in-out min-w-[180px] p-[10px] rounded-[5px] border cursor-pointer`}>
+                        <div key={key} onClick={() => {
+                            setActivePkgOption(key);
+                            hnadlerReset();
+                        }} className={`${activePkgOption === key ? 'border-[#613DC1] bg-[#613DC1]/5' : 'border-gray-200 bg-transparent' } transition-all duration-100 ease-in-out min-w-[180px] p-[10px] rounded-[5px] border cursor-pointer`}>
                             <span className={`${ activePkgOption === key ? 'text-[#613DC1]' : 'text-gray-700' } font-semibold text-[14px]`}>{data.name}</span>
                         </div>
                     ))
