@@ -38,6 +38,18 @@
     "itinerary_information": "Itinerary information",
     "what_included": "What's included",
     "what_not_included": "What's Not included",
-    "book_btn": "Book now"
+    "book_btn": "Book now",
+    "book_alert": "Please select the ticket"
+  },
+  "auth": {
+    "title": "Sign In / Register",
+    "signin_btn": "Sign In",
+    "signup_btn": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Full name",
+    "email_err_null": "Please enter your email",
+    "password_err_null": "Please enter your passsword",
+    "name_err_null": "Please enter your name"
   }
 }

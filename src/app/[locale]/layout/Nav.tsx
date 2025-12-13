@@ -10,7 +10,7 @@ import usFlag from "@/app/assets/images/svg/US.svg";
 import thaiFlag from "@/app/assets/images/svg/Asia.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { PiListBold } from "react-icons/pi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Drawer } from 'antd';
 import { GrHomeRounded } from "react-icons/gr";
 import { IoTicketOutline } from "react-icons/io5";
@@ -20,6 +20,7 @@ import { usePathname } from "@/i18n/navigation";
 import { useSession } from 'next-auth/react';
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { AuthModal } from "../auth/auth-modal";
 
 import MyTrip from "@/app/assets/images/svg/luggage-02.svg";
 import Review from "@/app/assets/images/svg/compass-03.svg";
@@ -34,7 +35,9 @@ interface navType {
 
 export default function Nav() {
     const locale = useLocale();
-    const [openDrawer, setOpenDrawer] = useState<boolean>(false);    
+    const [openDrawer, setOpenDrawer] = useState<boolean>(false);  
+    const [shortName, setShortName] = useState<Array<string>>([]);  
+    const [isLoading, setIsLoading] = useState<boolean>(true);  
     const currentPath = usePathname();    
     const { data: session, status } = useSession();
     const router = useRouter();
@@ -123,7 +126,19 @@ export default function Nav() {
             ),
         },
     ];
-    
+
+    useEffect(() => {
+        if (session?.user?.name) {
+            let shortName: Array<string> = [];
+            const splitName = session.user.name.split(" ");
+            for (const name of splitName) {
+                shortName.push(name.slice(0, 1).toUpperCase())
+            }
+            setShortName(shortName);
+            setIsLoading(false);
+        }
+    }, [session]);
+
     return(
         <>
             <Drawer
@@ -142,13 +157,22 @@ export default function Nav() {
                     status === 'authenticated' ?
                     <Dropdown menu={{ items: settingItems }} placement="bottom" arrow>
                         <button className="flex gap-[10px] items-center">
-                            <Image src={session.user?.image as string} alt="" width={35} height={35} className="object-cover rounded-full outline-[#2C0735]/80 outline-[4px]" />
+                            {
+                                session.user?.image !== undefined && session.user?.image !== null ?
+                                <Image src={session.user?.image as string} alt="" width={35} height={35} className="object-cover rounded-full outline-[#2C0735]/80 outline-[4px]" />
+                                :
+                                <div className="flex justify-center items-center rounded-full w-[35px] h-[35px] bg-[#2C0735]">
+                                    {
+                                    !isLoading && shortName.map((data, key) => (<span key={key} className="text-white font-semibold">{ data }</span>))
+                                    }
+                                </div>
+                            }
                             <span>{session.user?.name}</span>
                         </button>
                     </Dropdown>
                     :
                     <div className="w-[160px]">
-                        <CvButton onClick={() => router.push("auth")} label={homeT("signin-button")} />
+                        <AuthModal />
                     </div>
                 }
                 <div className="mt-[20px]">
@@ -206,13 +230,22 @@ export default function Nav() {
                             status === 'authenticated' ?
                             <Dropdown menu={{ items: settingItems }} placement="bottom" arrow>
                                 <button className="flex gap-[10px] items-center">
-                                    <Image src={session.user?.image as string} alt="" width={35} height={35} className="object-cover rounded-full outline-[#2C0735]/80 outline-[4px]" />
+                                    {
+                                        session.user?.image !== undefined && session.user?.image !== null ?
+                                        <Image src={session.user?.image as string} alt="" width={35} height={35} className="object-cover rounded-full outline-[#2C0735]/80 outline-[4px]" />
+                                        :
+                                        <div className="flex justify-center items-center rounded-full w-[35px] h-[35px] bg-[#2C0735]">
+                                           {
+                                            !isLoading && shortName.map((data, key) => (<span key={key} className="text-white font-semibold">{ data }</span>))
+                                           }
+                                        </div>
+                                    }
                                     <span>{session.user?.name}</span>
                                 </button>
                             </Dropdown>
                             :
                             <div className="w-[160px]">
-                                <CvButton label={homeT("signin-button")} onClick={() => router.push("auth")} />
+                                <AuthModal />
                             </div>
                         }
                     </div>
