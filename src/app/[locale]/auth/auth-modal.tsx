@@ -37,11 +37,14 @@ export const AuthModal = ({
         handleSubmit,
         control,
         reset,
+        resetField,
         formState: { errors },
         register
     } = useForm<authDTOType>({ resolver: zodResolver(schema) });
 
     const handlerSubmitSignin: SubmitHandler<authDTOType> = async (data) => {
+        console.log(data);
+        
         await setIsLoadingSign(true);
 
         const response : any = state === "sigin" ? await signIn("credentials", {
@@ -61,8 +64,8 @@ export const AuthModal = ({
 
         if (state === "signup") {
             if (response.payload.status === true) {
+                resetField("name");
                 reset({
-                    name: "",
                     email: "",
                     password: "",
                 });

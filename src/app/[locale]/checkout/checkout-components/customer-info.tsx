@@ -1,6 +1,15 @@
 import CvInput from "@/app/components/input/CvInput";
+import CountrySelector from "@/app/components/selector/country-selector";
+import { COUNTRIES } from "@/app/libs/countries";
+import { SelectMenuOption } from "@/app/libs/type";
+import { useState } from "react";
 
 export default function CustomerInfo() {
+
+    const [isOpen, setIsOpen] = useState(false);
+    // Default this to a country's code to preselect it
+    const [country, setCountry] = useState<SelectMenuOption["value"]>("BE");
+
     return(
         <form className="w-full flex flex-col gap-[24px]">
             <div className="flex flex-col">
@@ -20,9 +29,12 @@ export default function CustomerInfo() {
                     label="Email *"
                     placeholder="Please enter your email"
                 />
-                <CvInput
-                    label="Country/region of residence *"
-                    placeholder="Please select the country"
+                <CountrySelector
+                    id={"country-selector"}
+                    open={isOpen}
+                    onToggle={() => setIsOpen(!isOpen)}
+                    onChange={setCountry}
+                    selectedValue={COUNTRIES.find((option) => option.value === country)}
                 />
             </div>
         </form>
