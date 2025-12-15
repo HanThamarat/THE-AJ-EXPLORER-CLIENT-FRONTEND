@@ -20,7 +20,7 @@ export default function CheckOutPage() {
 
     return(
         <> 
-        <div className="w-full px-[20px] 2xl:px-0 2xl:max-w-7xl 2xl:mx-auto">
+        <div className="w-full px-[20px] 2xl:px-0 2xl:max-w-7xl 2xl:mx-auto mb-[45px]">
             <div className="mt-[60px]">
                 <CheckoutHeader  steps={steper} />
             </div>

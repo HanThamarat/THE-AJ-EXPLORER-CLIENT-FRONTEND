@@ -46,12 +46,13 @@ export default function CountrySelector({
 
   return (
     <div ref={ref}>
-      <div className="mt-1 relative">
+      <label>Country/region of residence *</label>
+      <div className="mt-[2px] relative">
         <button
           type="button"
           className={`${
             disabled ? "bg-neutral-100" : "bg-white"
-          } relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+          } relative w-full border hover:border-primary bg-white hover:outline-2 hover:outline-[#EAF4FF] h-[40px] rounded-[6px] px-[10px] text-[14px] border-[#d7dade] focus:border-primary focus:outline-2 focus:outline-[#EAF4FF] outline-0 duration-100 ease-in-out sm:text-sm`}
           aria-haspopup="listbox"
           aria-expanded="true"
           aria-labelledby="listbox-label"
