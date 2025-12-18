@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CheckoutHeader from "./checkout-components/header";
 import TicketInfo from "./checkout-components/ticket-info";
 import CustomerInfo from "./checkout-components/customer-info";
+import { contractBookingDTO } from "@/app/types/booking";
 
 export default function CheckOutPage() {
 
@@ -18,6 +19,10 @@ export default function CheckOutPage() {
 
     const [steper, setSteper] = useState<number>(1);
 
+    const handlerContract = async (data: contractBookingDTO) => {
+        console.log(data);
+    }
+
     return(
         <> 
         <div className="w-full px-[20px] 2xl:px-0 2xl:max-w-7xl 2xl:mx-auto mb-[45px]">
@@ -27,7 +32,7 @@ export default function CheckOutPage() {
             <div className="flex flex-col-reverse w-full mt-[20px] md:flex-row justify-between items-start gap-[20px]">
                 <div className="w-full md:w-4/6 bg-white p-[10px] rounded-[20px]">
                     {
-                        steper === 1 && <CustomerInfo />
+                        steper === 1 && <CustomerInfo callBackData={handlerContract} />
                     }
                 </div>
                 <div className="w-full md:w-2/6">
