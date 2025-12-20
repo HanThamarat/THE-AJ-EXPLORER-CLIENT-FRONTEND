@@ -6,6 +6,7 @@ import CheckoutHeader from "./checkout-components/header";
 import TicketInfo from "./checkout-components/ticket-info";
 import CustomerInfo from "./checkout-components/customer-info";
 import { contractBookingDTO } from "@/app/types/booking";
+import CheckPay from "./checkout-components/Check-pay";
 
 export default function CheckOutPage() {
 
@@ -16,10 +17,13 @@ export default function CheckOutPage() {
     const adultQty = searchParams.get("adultQty");
     const childQty = searchParams.get("childQty");
     const groupQty = searchParams.get("groupQty");
+    const [contractData, setContractData] = useState<contractBookingDTO>();
 
-    const [steper, setSteper] = useState<number>(1);
+    const [steper, setSteper] = useState<number>(2);
 
     const handlerContract = async (data: contractBookingDTO) => {
+        setContractData(data);
+        setSteper(2);
         console.log(data);
     }
 
@@ -33,6 +37,9 @@ export default function CheckOutPage() {
                 <div className="w-full md:w-4/6 bg-white p-[10px] rounded-[20px]">
                     {
                         steper === 1 && <CustomerInfo callBackData={handlerContract} />
+                    }
+                    {
+                        steper === 2 && <CheckPay />
                     }
                 </div>
                 <div className="w-full md:w-2/6">
