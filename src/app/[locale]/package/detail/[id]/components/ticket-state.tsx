@@ -79,7 +79,7 @@ export default function TicketState({
             return;
         }
 
-        router.push(`/checkout?packageId=${packageId}&tripDate=${selectedDate}&amountPrice=${amoutPrice}&adultQty=${adultQty}&childQty=${childQty}&groupQty=${groupQty}`);
+        router.push(`/checkout?packageId=${packageId}&tripDate=${selectedDate}&pkgOption=${activePkgOption}&adultQty=${adultQty}&childQty=${childQty}&groupQty=${groupQty}`);
     }
 
     const hnadlerReset = () => {

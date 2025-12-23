@@ -10,8 +10,13 @@ import { useState } from "react";
 import CardPaymentForm from "../payment-componets/card-contnet";
 import CvButton from "@/app/components/CvButton/CvButton";
 
+interface CheckPayProps {
+    CompletePayWithQr: () => void;
+}
 
-export default function CheckPay({}) {
+export default function CheckPay({
+    CompletePayWithQr
+}: CheckPayProps) {
 
     const [paymentActive, setPaymentActive] = useState<number>();
 
@@ -29,7 +34,7 @@ export default function CheckPay({}) {
         } else if (paymentActive === 1) {
             // Process mobile banking
         } else if (paymentActive === 2) {
-            // Process QR payment
+            CompletePayWithQr();
         }
     };
 
@@ -55,9 +60,6 @@ export default function CheckPay({}) {
         {
             icon: <Image src={QrIcon} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />,
             label: "QR Payment",
-            component: <div>
-                card
-            </div>
         },
     ];
     
