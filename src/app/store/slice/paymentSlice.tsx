@@ -12,7 +12,7 @@ export const generateQrCodePayment = createAsyncThunk("payment/generateQrCodePay
     try {
         const axios = await createAxiosWithToken(data.accessToken);
         
-        const response = await axios.post("/financial/pay/promptpay", {
+        const response = await axios.post("/client/payment_service/promptpay", {
             bookingId: data.bookid
         });
 

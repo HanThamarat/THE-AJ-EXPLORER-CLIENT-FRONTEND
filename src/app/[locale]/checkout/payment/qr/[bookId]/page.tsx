@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { generateQrCodePayment } from "@/app/store/slice/paymentSlice";
 import { paymentSelector } from "@/app/store/slice/paymentSlice";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
