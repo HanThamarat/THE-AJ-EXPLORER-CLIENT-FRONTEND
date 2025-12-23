@@ -1,49 +1,30 @@
-import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/app/hooks/appDispatch";
-import { packageSelector } from "@/app/store/slice/packageSlice";
-import { getPackageDetail } from "@/app/store/slice/packageSlice";
 import Image from "next/image";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
+import { packageEntity } from "@/app/types/package";
+import { useEffect, useState } from "react";
 dayjs.extend(LocalizedFormat);
 
 interface TicketInfoProps {
-    packageId: number;
     tripDate: string;
-    amountPrice: number;
+    isLoading: boolean;
+    packageDetail: packageEntity;
+    amoutPrice: number;
     adultQty: number;
     childQty: number;
     groupQty: number;
 }
 
 export default function TicketInfo({
-    packageId,
+    isLoading,
+    packageDetail,
     tripDate,
-    amountPrice,
+    amoutPrice,
     adultQty,
     childQty,
     groupQty
 }: TicketInfoProps) {
-
-    const dispatch = useAppDispatch();
-    const { packageDetail } = useSelector(packageSelector);
-    const [isLoading, setIsLoading] = useState<boolean>(true);
-    const isFaching = useRef<boolean>(false);
-
-    useEffect(() => { 
-        const fecthData = async () => {
-            if (isFaching.current) return;
-            isFaching.current = true;
-            await dispatch(getPackageDetail(packageId));
-            isFaching.current = false;
-        };
-
-        packageDetail === null && fecthData();
-
-        packageDetail !== null && setIsLoading(false);
-    }, [dispatch, packageDetail])
 
     return(
         <div className="w-full bg-white p-[10px] rounded-[20px]">
@@ -86,8 +67,13 @@ export default function TicketInfo({
                 }
             </div>
             <div className="mt-[24px] flex justify-between w-full">
-                <span className="text-[16px] font-medium">Total</span>
-                <span className="text-[16px] font-medium">{currencyConvertToThai(amountPrice)} THB</span>
+            <span className="text-[16px] font-medium">Total</span>
+                {
+                    isLoading ?
+                    <div className="mt-[5px] w-[100px] h-[20px] rounded-[10px] bg-gray-200"></div>
+                    :
+                    <span className="text-[16px] font-medium">{currencyConvertToThai(amoutPrice)} THB</span>
+                }
             </div>
             <span className="text-gray-500">Includes taxes and charges</span>
         </div>

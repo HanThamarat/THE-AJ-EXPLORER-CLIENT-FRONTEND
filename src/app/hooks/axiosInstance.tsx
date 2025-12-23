@@ -8,7 +8,6 @@ export const AxiosInstance = axios.create({
     timeout: 30000,
     headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${authToken}`
     },
 });
 
@@ -17,6 +16,13 @@ export const AxiosInstanceMultipart = axios.create({
     timeout: 500000,
     headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization": `Bearer ${authToken}`
     },
 });
+
+export const createAxiosWithToken = (token: string) =>
+   axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });

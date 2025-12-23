@@ -1,31 +1,125 @@
 "use client"
 
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CheckoutHeader from "./checkout-components/header";
 import TicketInfo from "./checkout-components/ticket-info";
 import CustomerInfo from "./checkout-components/customer-info";
-import { contractBookingDTO } from "@/app/types/booking";
+import { ClientBookingCreateBody, contractBookingDTO } from "@/app/types/booking";
 import CheckPay from "./checkout-components/Check-pay";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/app/hooks/appDispatch";
+import { getPackageDetail, packageSelector } from "@/app/store/slice/packageSlice";
+import { packageEntity } from "@/app/types/package";
+import { useSession } from "next-auth/react";
+import { createNewBooking } from "@/app/store/slice/bookingSlice";
+import { useRouter } from "next/navigation";
 
 export default function CheckOutPage() {
 
     const searchParams = useSearchParams();
-    const packageId = searchParams.get("packageId");
+    const packageId = Number(searchParams.get("packageId"));
     const tripDate = searchParams.get("tripDate");
-    const amountPrice = searchParams.get("amountPrice");
-    const adultQty = searchParams.get("adultQty");
-    const childQty = searchParams.get("childQty");
-    const groupQty = searchParams.get("groupQty");
+    const pkgOption = Number(searchParams.get("pkgOption"));
+    const adultQty = Number(searchParams.get("adultQty"));
+    const childQty = Number(searchParams.get("childQty"));
+    const groupQty = Number(searchParams.get("groupQty"));
+    const [amoutPrice, setAmoutPrice] = useState<number>(0);
+    const [childPrice, setChildPrice] = useState<number>(0);
+    const [adultPrice, setAdultPrice] = useState<number>(0);
+    const [groupPrice, setGroupPrice] = useState<number>(0);
     const [contractData, setContractData] = useState<contractBookingDTO>();
+    const dispatch = useAppDispatch();
+    const { packageDetail } = useSelector(packageSelector);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const isFaching = useRef<boolean>(false);
+    const { data: session, status } = useSession();
+    const router = useRouter();
 
-    const [steper, setSteper] = useState<number>(2);
+    const [steper, setSteper] = useState<number>(1);
 
     const handlerContract = async (data: contractBookingDTO) => {
         setContractData(data);
         setSteper(2);
         console.log(data);
     }
+
+    const handleClickCompletePayWithQr = async () => {
+        const data: ClientBookingCreateBody = {
+            packageId: packageId,
+            childPrice: childPrice,
+            childQty: childQty,
+            adultPrice: adultPrice,
+            adultQty: adultQty,
+            groupPrice: groupPrice,
+            groupQty: groupQty,
+            amount: amoutPrice,
+            additionalDetail: contractData?.additionalDetail,
+            pickup_lat: 100.1000,
+            pickup_lgn: 135.240,
+            trip_at: tripDate as string,
+            pickupLocation: contractData?.arrival_details,
+            contractBooking: {
+                userId: session?.user?.id as string,
+                email: contractData?.email as string,
+                firstName: contractData?.firstName as string,
+                lastName: contractData?.lastName as string,
+                country: contractData?.country as string,
+                phoneNumber: contractData?.phoneNumber as string,
+            },
+            policyAccept: true
+        };
+
+        const dataformat = {
+            data,
+            accessToken: session?.authToken
+        }
+
+        const createNewBook: any = await dispatch(createNewBooking(dataformat));
+
+        if (createNewBook.payload.status === true) {
+            router.push(`checkout/payment/qr/${createNewBook.payload.data.bookingId}`);
+        }
+    };  
+
+    useEffect(() => { 
+        const fecthData = async () => {
+            if (isFaching.current) return;
+            isFaching.current = true;
+            await dispatch(getPackageDetail(packageId));
+            isFaching.current = false;
+        };
+
+        packageDetail === null && fecthData();
+
+        packageDetail !== null && setIsLoading(false);
+    }, [dispatch, packageDetail])
+
+    useEffect(() => {
+        if (adultQty > 0 || childQty > 0) {
+            setAmoutPrice(0);
+
+            if (packageDetail?.packageOption !== null) {
+                const amoutAdult = (Number(packageDetail?.packageOption[pkgOption].adultPromoPrice !== 0 ? packageDetail?.packageOption[pkgOption].adultPromoPrice : packageDetail?.packageOption[pkgOption].adultPrice) * adultQty);
+                const amoutchild = (Number(packageDetail?.packageOption[pkgOption].childPromoPrice !== 0 ? packageDetail?.packageOption[pkgOption].childPromoPrice : packageDetail?.packageOption[pkgOption].childPrice) * childQty);
+                const amoutPrice = (amoutAdult + amoutchild);
+
+                setChildPrice(amoutchild);
+                setAdultPrice(amoutAdult);
+                setAmoutPrice(amoutPrice);
+            }
+        }
+
+        if (groupQty > 0) {
+            setAmoutPrice(0);
+
+            if (packageDetail?.packageOption !== null) {
+                setGroupPrice(Number(packageDetail?.packageOption[pkgOption].groupPromoPrice !== 0 ? packageDetail?.packageOption[pkgOption].groupPromoPrice : packageDetail?.packageOption[pkgOption].groupPrice));
+                setAmoutPrice(Number(packageDetail?.packageOption[pkgOption].groupPromoPrice !== 0 ? packageDetail?.packageOption[pkgOption].groupPromoPrice : packageDetail?.packageOption[pkgOption].groupPrice));
+            }
+        }
+        
+    }, [adultQty, childQty, groupQty, packageDetail]);
 
     return(
         <> 
@@ -39,14 +133,15 @@ export default function CheckOutPage() {
                         steper === 1 && <CustomerInfo callBackData={handlerContract} />
                     }
                     {
-                        steper === 2 && <CheckPay />
+                        steper === 2 && <CheckPay CompletePayWithQr={handleClickCompletePayWithQr} />
                     }
                 </div>
                 <div className="w-full md:w-2/6">
                     <TicketInfo
-                        packageId={Number(packageId)}
+                        isLoading={isLoading}
+                        packageDetail={packageDetail as packageEntity}
+                        amoutPrice={amoutPrice}
                         tripDate={tripDate as string}
-                        amountPrice={Number(amountPrice)}
                         adultQty={Number(adultQty)}
                         childQty={Number(childQty)}
                         groupQty={Number(groupQty)}

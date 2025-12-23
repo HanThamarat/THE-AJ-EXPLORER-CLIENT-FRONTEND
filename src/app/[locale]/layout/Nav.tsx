@@ -21,6 +21,7 @@ import { useSession } from 'next-auth/react';
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { AuthModal } from "../auth/auth-modal";
+import Cookies from "js-cookie";
 
 import MyTrip from "@/app/assets/images/svg/luggage-02.svg";
 import Review from "@/app/assets/images/svg/compass-03.svg";
