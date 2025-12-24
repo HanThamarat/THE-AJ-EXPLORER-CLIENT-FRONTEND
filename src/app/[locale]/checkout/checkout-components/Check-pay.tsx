@@ -12,10 +12,14 @@ import CvButton from "@/app/components/CvButton/CvButton";
 
 interface CheckPayProps {
     CompletePayWithQr: () => void;
+    CompletePayWithCard: (data: any) => void;
+    isLoadingPayment: boolean;
 }
 
 export default function CheckPay({
-    CompletePayWithQr
+    CompletePayWithQr,
+    CompletePayWithCard,
+    isLoadingPayment
 }: CheckPayProps) {
 
     const [paymentActive, setPaymentActive] = useState<number>();
@@ -30,7 +34,7 @@ export default function CheckPay({
 
     const handleClickCompletePay = async () => {
         if (paymentActive === 0 && isCardValid) {
-            console.log('Processing card payment:', cardData);
+            CompletePayWithCard(cardData);
         } else if (paymentActive === 1) {
             // Process mobile banking
         } else if (paymentActive === 2) {
@@ -89,6 +93,7 @@ export default function CheckPay({
                     <CvButton 
                         label="Complete booking"
                         onClick={handleClickCompletePay}
+                        isLoading={isLoadingPayment}
                     />
                 </div>
                 </div>
