@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, useEffect, useMemo } from 'react';
 import { AlertCircle } from 'lucide-react';
 import cardValidator from 'card-validator';
 import Image from 'next/image';
@@ -27,195 +27,143 @@ interface CardPaymentFormProps {
 }
 
 const CardPaymentForm = ({ onValidate }: CardPaymentFormProps) => {
-  const [cardData, setCardData] = useState<CardData>({
-    name: '',
-    number: '',
-    expiry: '',
-    cvc: ''
+const [cardData, setCardData] = useState<CardData>({
+    name: "",
+    number: "",
+    expiry: "",
+    cvc: "",
   });
 
-  const [errors, setErrors] = useState<Errors>({});
-  const [cardType, setCardType] = useState<string>('');
+  const [cardType, setCardType] = useState<string>("");
 
-  // Format card number with spaces using card-validator
   const formatCardNumber = (value: string): string => {
-    const cleaned = value.replace(/\s/g, '');
+    const cleaned = value.replace(/\s/g, "");
     const numberValidation = cardValidator.number(cleaned);
-    
+
     if (numberValidation.card) {
       const gaps = numberValidation.card.gaps || [4, 8, 12];
-      let formatted = '';
-      
+      let formatted = "";
+
       for (let i = 0; i < cleaned.length; i++) {
-        if (gaps.includes(i) && i > 0) {
-          formatted += ' ';
-        }
+        if (gaps.includes(i) && i > 0) formatted += " ";
         formatted += cleaned[i];
       }
       return formatted;
     }
-    
-    return cleaned.replace(/(\d{4})/g, '$1 ').trim();
+
+    return cleaned.replace(/(\d{4})/g, "$1 ").trim();
   };
 
-  // Format expiry date
   const formatExpiry = (value: string): string => {
-    const cleaned = value.replace(/\D/g, '');
+    const cleaned = value.replace(/\D/g, "");
     if (cleaned.length >= 2) {
-      return cleaned.slice(0, 2) + '/' + cleaned.slice(2, 4);
+      return cleaned.slice(0, 2) + "/" + cleaned.slice(2, 4);
     }
     return cleaned;
   };
 
-  // Validate card number using card-validator
-  const validateCardNumber = (number: string): string => {
-    const cleaned = number.replace(/\s/g, '');
-    
-    if (!cleaned) return 'Card number is required';
-    
-    const numberValidation = cardValidator.number(cleaned);
-    
-    if (!numberValidation.isValid) {
-      if (numberValidation.isPotentiallyValid) {
-        return 'Card number is incomplete';
-      }
-      return 'Invalid card number';
-    }
-    
-    return '';
-  };
+  /* -------------------- VALIDATORS (PURE) -------------------- */
 
-  // Validate cardholder name
   const validateName = (name: string): string => {
-    const nameValidation = cardValidator.cardholderName(name);
-    
-    if (!name.trim()) return 'Cardholder name is required';
-    if (!nameValidation.isValid) return 'Invalid cardholder name';
-    
-    return '';
+    if (!name.trim()) return "Cardholder name is required";
+    return cardValidator.cardholderName(name).isValid
+      ? ""
+      : "Invalid cardholder name";
   };
 
-  // Validate expiry date using card-validator
+  const validateCardNumber = (number: string): string => {
+    const cleaned = number.replace(/\s/g, "");
+    if (!cleaned) return "Card number is required";
+
+    const v = cardValidator.number(cleaned);
+    if (!v.isValid) {
+      return v.isPotentiallyValid
+        ? "Card number is incomplete"
+        : "Invalid card number";
+    }
+    return "";
+  };
+
   const validateExpiry = (expiry: string): string => {
-    if (!expiry) return 'Expiry date is required';
-    
-    const [month, year] = expiry.split('/');
-    const expiryValidation = cardValidator.expirationDate({
-      month,
-      year
-    });
-    
-    if (!expiryValidation.isValid) {
-      if (expiryValidation.isPotentiallyValid) {
-        return 'Expiry date is incomplete';
-      }
-      return 'Invalid or expired card';
+    if (!expiry) return "Expiry date is required";
+
+    const [month, year] = expiry.split("/");
+    const v = cardValidator.expirationDate({ month, year });
+
+    if (!v.isValid) {
+      return v.isPotentiallyValid
+        ? "Expiry date is incomplete"
+        : "Invalid or expired card";
     }
-    
-    return '';
+    return "";
   };
 
-  // Validate CVC using card-validator
   const validateCVC = (cvc: string, cardNumber: string): string => {
-    if (!cvc) return 'CVC is required';
-    
-    const cleaned = cardNumber.replace(/\s/g, '');
-    const numberValidation = cardValidator.number(cleaned);
-    const maxLength = numberValidation.card?.code.size || 3;
-    
-    const cvcValidation = cardValidator.cvv(cvc, maxLength);
-    
-    if (!cvcValidation.isValid) {
-      if (cvcValidation.isPotentiallyValid) {
-        return 'CVC is incomplete';
-      }
-      return 'Invalid CVC';
+    if (!cvc) return "CVC is required";
+
+    const cleaned = cardNumber.replace(/\s/g, "");
+    const card = cardValidator.number(cleaned).card;
+    const maxLength = card?.code.size || 3;
+
+    const v = cardValidator.cvv(cvc, maxLength);
+    if (!v.isValid) {
+      return v.isPotentiallyValid ? "CVC is incomplete" : "Invalid CVC";
     }
-    
-    return '';
+    return "";
   };
 
-  // Handle input changes
-  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
-    let formattedValue = value;
-
-    if (name === 'number') {
-      const cleaned = value.replace(/\s/g, '');
-      const numberValidation = cardValidator.number(cleaned);
-      
-      if (cleaned.length <= 19 && /^\d*$/.test(cleaned)) {
-        formattedValue = formatCardNumber(cleaned);
-        setCardType(numberValidation.card?.type || '');
-      } else {
-        return;
-      }
-    } else if (name === 'expiry') {
-      const cleaned = value.replace(/\D/g, '');
-      if (cleaned.length <= 4) {
-        formattedValue = formatExpiry(cleaned);
-      } else {
-        return;
-      }
-    } else if (name === 'cvc') {
-      if (value.length <= 4 && /^\d*$/.test(value)) {
-        formattedValue = value;
-      } else {
-        return;
-      }
-    } else if (name === 'name') {
-      formattedValue = value.toUpperCase();
-    }
-
-    setCardData({ ...cardData, [name]: formattedValue });
-    
-    // Clear error for this field when user starts typing
-    if (errors[name as keyof Errors]) {
-      setErrors({ ...errors, [name]: '' });
-    }
-  };
-
-  // Validate all fields
-  const validateAll = (): boolean => {
-    const newErrors: Errors = {
+  const errors: Errors = useMemo(() => {
+    return {
       name: validateName(cardData.name),
       number: validateCardNumber(cardData.number),
       expiry: validateExpiry(cardData.expiry),
-      cvc: validateCVC(cardData.cvc, cardData.number)
+      cvc: validateCVC(cardData.cvc, cardData.number),
     };
+  }, [cardData]);
 
-    setErrors(newErrors);
-    return !Object.values(newErrors).some(error => error);
+  useEffect(() => {
+    if (!onValidate) return;
+
+    const hasAllFields = Object.values(cardData).every(Boolean);
+    const hasNoErrors = !Object.values(errors).some(Boolean);
+    const isValid = hasAllFields && hasNoErrors;
+
+    onValidate(isValid, isValid ? cardData : undefined);
+  }, [cardData, errors, onValidate]);
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    let formattedValue = value;
+
+    if (name === "number") {
+      const cleaned = value.replace(/\s/g, "");
+      if (!/^\d*$/.test(cleaned) || cleaned.length > 19) return;
+
+      const v = cardValidator.number(cleaned);
+      formattedValue = formatCardNumber(cleaned);
+      setCardType(v.card?.type || "");
+    } else if (name === "expiry") {
+      const cleaned = value.replace(/\D/g, "");
+      if (cleaned.length > 4) return;
+      formattedValue = formatExpiry(cleaned);
+    } else if (name === "cvc") {
+      if (!/^\d*$/.test(value) || value.length > 4) return;
+    } else if (name === "name") {
+      formattedValue = value.toUpperCase();
+    }
+
+    setCardData((prev) => ({ ...prev, [name]: formattedValue }));
   };
 
-  // Notify parent of validation status
-  useEffect(() => {
-    if (onValidate) {
-      const hasAllFields = Object.values(cardData).every(value => value !== '');
-      const hasNoErrors = !Object.values(errors).some(error => error);
-      const isValid = hasAllFields && hasNoErrors && validateAll();
-      
-      onValidate(isValid, isValid ? cardData : undefined);
-    }
-  }, [cardData, errors]);
-
-  // Get card logo
-  const getCardLogo = (): string => {
+  const getCardLogo = () => {
     const logos: Record<string, any> = {
-      visa: <Image src={Visa} alt='visa' />,
-      mastercard: <Image src={MS} alt='Ms' />,
-      'american-express': <Image src={Amex} alt='Amex' />,
-      'diners-club': '💳 Diners',
-      discover: '💳 Discover',
-      jcb: <Image src={JCB} alt='JCB' />,
-      unionpay: <Image src={UC} alt='UC' />,
-      maestro: '💳 Maestro',
-      elo: '💳 Elo',
-      mir: '💳 Mir',
-      hiper: '💳 Hiper',
-      hipercard: '💳 Hipercard'
+      visa: <Image src={Visa} alt="visa" />,
+      mastercard: <Image src={MS} alt="Ms" />,
+      "american-express": <Image src={Amex} alt="Amex" />,
+      jcb: <Image src={JCB} alt="JCB" />,
+      unionpay: <Image src={UC} alt="UC" />,
     };
-    return logos[cardType] || '💳';
+    return logos[cardType] || "💳";
   };
 
   return (

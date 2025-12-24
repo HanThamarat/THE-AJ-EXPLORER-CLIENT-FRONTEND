@@ -35,7 +35,7 @@ export default function TicketState({
     const [amoutPrice, setAmoutPrice] = useState<number>(0);
     const [isOpenAuthModal, setIsOpenAuthModal] = useState<boolean>(false);
     const router = useRouter();
-    const { data, status } = useSession();
+    const { data } = useSession();
 
     const t = useTranslations("package_detail");
     
@@ -79,7 +79,7 @@ export default function TicketState({
             return;
         }
 
-        router.push(`/checkout?packageId=${packageId}&tripDate=${selectedDate}&pkgOption=${activePkgOption}&adultQty=${adultQty}&childQty=${childQty}&groupQty=${groupQty}`);
+        router.push(`/checkout?packageId=${packageId}&tripDate=${selectedDate}&pkgOption=${activePkgOption}&adultQty=${adultQty}&childQty=${childQty}&groupQty=${groupQty}&steper=1`);
     }
 
     const hnadlerReset = () => {

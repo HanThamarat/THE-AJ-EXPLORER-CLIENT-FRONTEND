@@ -1,7 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { createAxiosWithToken } from "@/app/hooks/axiosInstance";
-import { omiseChargeEntity } from "@/app/types/payment";
+import { BookingByCardDTOType, omiseChargeEntity } from "@/app/types/payment";
+import { bookingEntity } from "@/app/types/booking";
 
 interface generateQrCodePaymentProps {
     bookid: string;
@@ -22,14 +23,33 @@ export const generateQrCodePayment = createAsyncThunk("payment/generateQrCodePay
     }
 });
 
+interface createBookByCardProps {
+    data: BookingByCardDTOType;
+    accessToken: string;
+}
+
+export const createBookByCard = createAsyncThunk("payment/createBookByCard", async (data: createBookByCardProps) => {
+  try {
+    const axios = await createAxiosWithToken(data.accessToken);
+
+    const response = await axios.post("/client/payment_service/createbook_card", data.data);
+
+    return { status: true, data: response.data.body };
+  } catch (error: any) {
+    return { status: false, error: error?.response.data.error };
+  }
+});
+
 interface packageType {
     qrcode: omiseChargeEntity | null;
+    bookByCard: bookingEntity | null;
     loading: boolean;
     error: unknown;
 }
 
 const initialState: packageType = {
     qrcode: null,
+    bookByCard: null,
     loading: false,
     error: null,
 };
@@ -52,7 +72,9 @@ const paymentSlice = createSlice({
         (state, action: PayloadAction<{ data?: any }>) => {
           state.loading = false;
           if (action.type.includes("generateQrCodePayment")) {
-                state.qrcode = action.payload.data as omiseChargeEntity;
+            state.qrcode = action.payload.data as omiseChargeEntity;
+          } else if (action.type.includes("createBookByCard")) {
+            state.bookByCard = action.payload.data as bookingEntity;
           }
         }
       )

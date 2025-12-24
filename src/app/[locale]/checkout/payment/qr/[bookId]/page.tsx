@@ -11,6 +11,7 @@ import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { useRouter } from "next/navigation";
+import { useCreateQueryString } from "@/app/hooks/createQueryParams";
 
 dayjs.extend(LocalizedFormat);
 
@@ -22,6 +23,10 @@ export default function QrCodePaymentPage() {
     const isFaching = useRef(false);
     const { data: session } = useSession();
     const router = useRouter();
+    const createQueryString = useCreateQueryString();
+    const query = createQueryString({
+        steper: "3",
+    });
 
     useEffect(() => {
         
@@ -36,8 +41,6 @@ export default function QrCodePaymentPage() {
                 await dispatch(generateQrCodePayment(data));
                 isFaching.current = false;
             };
-
-            
             
             setInterval(() => {
                 fecthData();
@@ -52,12 +55,14 @@ export default function QrCodePaymentPage() {
             }
 
             if (qrcode.paid === true) {
-                setInterval(() => {
-                    router.push("/trip");
+                const timer = setTimeout(() => {
+                    router.push(`/checkout?${query}`);
                 }, 4000);
+
+                return () => clearTimeout(timer);
             }
         }
-    }, [qrcode]); 
+    }, [qrcode, query, router]); 
 
     return(
         <>
