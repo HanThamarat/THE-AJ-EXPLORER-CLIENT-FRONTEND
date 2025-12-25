@@ -22,7 +22,7 @@ export default function PackageDetail() {
     const packageId = params.id;
     const packageName = searchParams.get("packageName");
     const provinceName = searchParams.get("provinceName");
-    const { packageDetail, loading } = useSelector(packageSelector);
+    const { packageDetail } = useSelector(packageSelector);
     const dispatch = useAppDispatch();
 
     const [isLoading, SetIsLoading] = useState<boolean>(true);
@@ -31,10 +31,6 @@ export default function PackageDetail() {
     useEffect(() => {
         SetIsLoading(true);
     }, []);
-
-    useEffect(() => {
-        loading ? SetIsLoading(true) : SetIsLoading(false);
-    }, [loading]);
 
     useEffect(() => {
         const fecthData = async () => {
