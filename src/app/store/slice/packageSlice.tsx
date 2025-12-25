@@ -83,6 +83,10 @@ const packageSlice = createSlice({
               state.packagesBySearch = newItem;
             }
 
+            if (state.packagesBySearch !== null && newItem.total !== state.packagesBySearch.total) {
+              state.packagesBySearch = newItem;
+            }
+
             if (state.packagesBySearch !== null) {
               state.packagesBySearch.items = [...state.packagesBySearch.items, ...newItem.items];
               state.packagesBySearch.nextPage = newItem.nextPage;

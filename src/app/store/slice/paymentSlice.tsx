@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { createAxiosWithToken } from "@/app/hooks/axiosInstance";
-import { BookingByCardDTOType, omiseChargeEntity } from "@/app/types/payment";
+import { BookingByCardDTOType, createMobileBankChargeType, omiseChargeEntity } from "@/app/types/payment";
 import { bookingEntity } from "@/app/types/booking";
 
 interface generateQrCodePaymentProps {
@@ -40,9 +40,27 @@ export const createBookByCard = createAsyncThunk("payment/createBookByCard", asy
   }
 });
 
+interface createChargeWithMobileBankingProps {
+    data: createMobileBankChargeType;
+    accessToken: string;
+}
+
+export const createChargeWithMobileBanking = createAsyncThunk("payment/createChargeWithMobileBanking", async (data: createChargeWithMobileBankingProps) => {
+  try {
+    const axios = await createAxiosWithToken(data.accessToken);
+
+    const response = await axios.post("/client/payment_service/moblie_banking", data.data);
+
+    return { status: true, data: response.data.body };
+  } catch (error: any) {
+    return { status: false, error: error?.response.data.error };
+  }
+});
+
 interface packageType {
     qrcode: omiseChargeEntity | null;
     bookByCard: bookingEntity | null;
+    mobile_banking: omiseChargeEntity | null;
     loading: boolean;
     error: unknown;
 }
@@ -50,6 +68,7 @@ interface packageType {
 const initialState: packageType = {
     qrcode: null,
     bookByCard: null,
+    mobile_banking: null,
     loading: false,
     error: null,
 };
@@ -75,6 +94,8 @@ const paymentSlice = createSlice({
             state.qrcode = action.payload.data as omiseChargeEntity;
           } else if (action.type.includes("createBookByCard")) {
             state.bookByCard = action.payload.data as bookingEntity;
+          } else if (action.type.includes("createChargeWithMobileBanking")) {
+            state.mobile_banking = action.payload.data as omiseChargeEntity;
           }
         }
       )
