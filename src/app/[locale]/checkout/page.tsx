@@ -14,8 +14,8 @@ import { packageEntity } from "@/app/types/package";
 import { useSession } from "next-auth/react";
 import { createNewBooking } from "@/app/store/slice/bookingSlice";
 import { useRouter } from "next/navigation";
-import { BookingByCardDTOType } from "@/app/types/payment";
-import { createBookByCard } from "@/app/store/slice/paymentSlice";
+import { BookingByCardDTOType, createMobileBankChargeType, omiseChargeEntity } from "@/app/types/payment";
+import { createBookByCard, createChargeWithMobileBanking } from "@/app/store/slice/paymentSlice";
 import Image from "next/image";
 import undrawBooking from "@/app/assets/images/svg/undraw_booking.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
@@ -165,6 +165,69 @@ export default function CheckOutPage() {
         }
     };  
 
+    const handleClickCompletePayMobileBank = async (value: string) => {
+        try {
+            setIsLoadingPayment(true);
+            const data: ClientBookingCreateBody = {
+                packageId: packageId,
+                childPrice: childPrice,
+                childQty: childQty,
+                adultPrice: adultPrice,
+                adultQty: adultQty,
+                groupPrice: groupPrice,
+                groupQty: groupQty,
+                amount: amoutPrice,
+                additionalDetail: contractData?.additionalDetail,
+                pickup_lat: 100.1000,
+                pickup_lgn: 135.240,
+                trip_at: tripDate as string,
+                pickupLocation: contractData?.arrival_details,
+                contractBooking: {
+                    userId: session?.user?.id as string,
+                    email: contractData?.email as string,
+                    firstName: contractData?.firstName as string,
+                    lastName: contractData?.lastName as string,
+                    country: contractData?.country as string,
+                    phoneNumber: contractData?.phoneNumber as string,
+                },
+                policyAccept: true
+            };
+
+            const dataformat = {
+                data,
+                accessToken: session?.authToken
+            }
+
+            const createNewBook: any = await dispatch(createNewBooking(dataformat));
+
+            if (createNewBook.payload.status !== true) throw "Have something worng, Please try again later.";
+
+            const bookingId = createNewBook.payload.data.bookingId;
+
+            const mbDataFormat: createMobileBankChargeType = {
+                bank: value,
+                bookingId: bookingId
+            };
+
+            const dataForMbbank = {
+                data: mbDataFormat,
+                accessToken: session?.authToken
+            };
+
+            const createNewMbChaege: any = await dispatch(createChargeWithMobileBanking(dataForMbbank));
+
+            if (createNewMbChaege.payload.status !== true) throw "Have something worng, Please try again later.";
+
+            const chargeData = createNewMbChaege.payload.data as omiseChargeEntity;
+
+            if (chargeData.authorize_uri) {
+                window.location.href = chargeData.authorize_uri;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };  
+
     useEffect(() => { 
         const fecthData = async () => {
             if (isFaching.current) return;
@@ -234,6 +297,7 @@ export default function CheckOutPage() {
                             steper === 2 && <CheckPay 
                                 CompletePayWithQr={handleClickCompletePayWithQr}
                                 CompletePayWithCard={handleClickCompletePayWithCard}
+                                CompletePayWithMobileBanking={handleClickCompletePayMobileBank}
                                 isLoadingPayment={isLoadingPayment}
                             />
                         }

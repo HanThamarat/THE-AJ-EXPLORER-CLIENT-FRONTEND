@@ -9,16 +9,19 @@ import KrungSri from "@/app/assets/images/svg/KrungSri.svg";
 import { useState } from "react";
 import CardPaymentForm from "../payment-componets/card-contnet";
 import CvButton from "@/app/components/CvButton/CvButton";
+import MoblieBankingContent from "../payment-componets/moblie-content";
 
 interface CheckPayProps {
     CompletePayWithQr: () => void;
     CompletePayWithCard: (data: any) => void;
+    CompletePayWithMobileBanking: (data: string) => void;
     isLoadingPayment: boolean;
 }
 
 export default function CheckPay({
     CompletePayWithQr,
     CompletePayWithCard,
+    CompletePayWithMobileBanking,
     isLoadingPayment
 }: CheckPayProps) {
 
@@ -26,17 +29,22 @@ export default function CheckPay({
 
     const [isCardValid, setIsCardValid] = useState(false);
     const [cardData, setCardData] = useState<any>(null);
+    const [mobileBank, setMoblieBanking] = useState<string>("");
 
     const handleCardValidation = (isValid: boolean, data?: any) => {
         setIsCardValid(isValid);
         setCardData(data);
     };
+    
+    const handleMobileBank = (data: string) => {
+        setMoblieBanking(data);
+    };
 
     const handleClickCompletePay = async () => {
         if (paymentActive === 0 && isCardValid) {
             CompletePayWithCard(cardData);
-        } else if (paymentActive === 1) {
-            // Process mobile banking
+        } else if (paymentActive === 1 && mobileBank !== "") {
+            CompletePayWithMobileBanking(mobileBank);
         } else if (paymentActive === 2) {
             CompletePayWithQr();
         }
@@ -57,9 +65,7 @@ export default function CheckPay({
                     <Image src={KrungSri} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />
                 </div>,
             label: "Mobile Banking",
-            component: <div>
-                card
-            </div>
+            component: <MoblieBankingContent onChange={handleMobileBank} />
         },
         {
             icon: <Image src={QrIcon} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />,

@@ -22,7 +22,7 @@ export default function AllPackagePage() {
     const provinceId = searchParams.get("provinceId");
     const packageName = searchParams.get("packageName");
     const provinceName = searchParams.get("provinceName");
-    const { packagesBySearch } = useSelector(packageSelector);
+    const { packagesBySearch, loading } = useSelector(packageSelector);
     const dispatch = useAppDispatch();
     const isFetchingPackage = useRef(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -36,6 +36,18 @@ export default function AllPackagePage() {
     useEffect(() => {
         setPage(1);
     }, []);
+
+    useEffect(() => {
+        if (loading) {
+            setIsLoadingMoreData(true);
+            setIsLoading(true);
+        }
+
+        if (!loading) {
+            setIsLoadingMoreData(false);
+            setIsLoading(false);
+        }
+    }, [loading]);
 
     useEffect(() => {
         const fetchPackage = async () => {
@@ -53,15 +65,12 @@ export default function AllPackagePage() {
             isFetchingPackage.current = false;
 
             setIsLoadingMoreData(false);
+            setIsLoading(false);
         }
 
         fetchPackage();
-
-        if (packagesBySearch !== null) {
-            setIsLoading(false);
-        };
         
-    }, [dispatch, packagesBySearch, provinceId, packageName, page]);
+    }, [dispatch, provinceId, packageName, page]);
 
 
     useEffect(() => {
@@ -169,7 +178,8 @@ export default function AllPackagePage() {
                             }
                         </div>
                     }
-                        {/* This div sits at the bottom. When it hits the screen, page increases */}
+                    {/* This div sits at the bottom. When it hits the screen, page increases */}
+                    {(packagesBySearch?.page ?? 0) > 1 &&
                         <div ref={observerTarget} className="w-full flex justify-center items-center mt-[10px]">
                             {isLoadingMoreData && (
                                 <PackageSekeleton />
@@ -178,6 +188,7 @@ export default function AllPackagePage() {
                                 <span className="text-gray-400 text-sm">No more packages</span>
                             )}
                         </div>
+                    }  
                     </div>
                 </div>
             </div>
