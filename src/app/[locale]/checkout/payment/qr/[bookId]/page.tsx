@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { useRouter } from "next/navigation";
 import { useCreateQueryString } from "@/app/hooks/createQueryParams";
+import notify from "@/app/components/CvAlert/toastify";
 
 dayjs.extend(LocalizedFormat);
 
@@ -50,9 +51,15 @@ export default function QrCodePaymentPage() {
 
     useEffect(() => {
         if (qrcode) {
-            if (qrcode.expired_at && qrcode.paid !== true) {
+            if ((qrcode.expired_at && qrcode.paid !== true) || qrcode.failure_code) {
+                notify({
+                    type: "error",
+                    label: "Booking failed, Please try again later",
+                    postion: "top-center"
+                });
                 router.push('/');
             }
+
 
             if (qrcode.paid === true) {
                 const timer = setTimeout(() => {

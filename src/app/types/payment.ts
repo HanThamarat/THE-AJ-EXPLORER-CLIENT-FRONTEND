@@ -312,7 +312,7 @@ export const BookingByCardDTO = z.object({
 export type BookingByCardDTOType = z.infer<typeof BookingByCardDTO>;
 
 export const createMobileBankChargeSchema = z.object({
-    bank: z.string(),
+    bank: z.string().optional(),
     bookingId: z.string(),
 });
 
