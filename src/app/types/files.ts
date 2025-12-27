@@ -13,6 +13,7 @@ export const fileEntitySchema = z.object({
     file_path:              z.string().min(3),
     mainFile:               z.boolean(),
     file_base64:            z.string().min(3).optional(),
+    base64:                 z.string().min(3).optional(),
 });
 
 

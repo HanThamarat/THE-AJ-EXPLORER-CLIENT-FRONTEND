@@ -1,4 +1,5 @@
 import z, { email } from "zod";
+import { fileEntitySchema } from "./files";
 
 export const contractBookingDTOSchema = z.object({
     firstName:  z.string().min(3).max(100),
@@ -75,3 +76,28 @@ export const clientBookingCreateSchema = z.object({
 });
 
 export type ClientBookingCreateBody = z.infer<typeof clientBookingCreateSchema>;
+
+
+export const packageDetailSchema = z.object({
+    packageId: z.number(),
+    packageName: z.string(),
+    packageMainImage: fileEntitySchema
+});
+
+export type packageDetailType = z.infer<typeof packageDetailSchema>;
+
+export const bookingDetailSchema = z.object({
+    bookingId: z.string(),
+    bookingStatus: z.string(),
+    package: packageDetailSchema
+});
+
+export type bookingDetailType = z.infer<typeof bookingDetailSchema>;
+
+export const mytripEntitySchema = z.object({
+    province_name: z.string().min(3),
+    trip_date:  z.string(),
+    booking_detail: z.array(bookingDetailSchema).min(0)
+});
+
+export type mytripEntityType = z.infer<typeof mytripEntitySchema>;

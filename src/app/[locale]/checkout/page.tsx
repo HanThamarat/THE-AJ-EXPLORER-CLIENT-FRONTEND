@@ -325,6 +325,7 @@ export default function CheckOutPage() {
                         />
                         <DefaultOutlineButton
                             label="Go to your trip"
+                            onClick={() => router.push("/account/booking?page=upcoming")}
                         />
                     </div>
                 </div>
