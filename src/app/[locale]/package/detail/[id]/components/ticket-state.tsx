@@ -27,7 +27,7 @@ export default function TicketState({
 
     dayjs.locale(locale === "th" ? "th" : "en");
     const [activePkgOption, setActivePkgOption] = useState<number>(0);
-    const days = Array.from({ length: 7 }, (_, i) => dayjs().add(i, "day"));
+    const days = Array.from({ length: 7 }, (_, i) => dayjs().add(i + 1, "day"));
     const [selectedDate, setSelectedDate] = useState(days[0].format("YYYY-MM-DD"));
     const [adultQty, setadultQty] = useState<number>(0);
     const [childQty, setChildQty] = useState<number>(0);

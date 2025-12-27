@@ -13,6 +13,7 @@ import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import Image from "next/image";
 import CvButton from "@/app/components/CvButton/CvButton";
 import useMediaQuery from "@/app/hooks/mediaQuery";
+import Notfound from "@/app/assets/images/svg/404-notfund.svg";
 
 dayjs.extend(LocalizedFormat);
 
@@ -159,8 +160,10 @@ export default function BookingPage() {
                         }
                     </div>
                     :
-                    <div>
-                        Not Founs
+                    <div className="w-full bg-white rounded-[20px] p-[20px] flex flex-col items-center justify-center">
+                        <Image src={Notfound} alt="" className="w-[150px] md:w-[300px]" />
+                        <span className="text-[18px] font-semibold">No data Found</span>
+                        <span>No data are currently available.</span>
                     </div>
                 }
             </div>
