@@ -1,4 +1,6 @@
 import { AxiosInstance } from "@/app/hooks/axiosInstance";
+import { Suspense } from "react";
+import PageLoader from "@/app/components/loader/pageLoader";
 
 
 type MetaProps = {
@@ -47,7 +49,9 @@ export default function PackageDetailLayout({
 }: Props) {
     return (
         <>
+          <Suspense fallback={<PageLoader />}>
             {children}
+          </Suspense>
         </>
     );
 }
