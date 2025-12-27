@@ -25,34 +25,45 @@ export default function QrCodePaymentPage() {
     const { data: session } = useSession();
     const router = useRouter();
     const createQueryString = useCreateQueryString();
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const query = createQueryString({
         steper: "3",
     });
 
     useEffect(() => {
-        
-        if (session) {
-            const fecthData = async () => {
-                if (isFaching.current) return;
-                const data = {
-                    bookid: bookId as string,
-                    accessToken: session?.authToken
-                }
-                isFaching.current = true;
-                await dispatch(generateQrCodePayment(data));
-                isFaching.current = false;
-            };
-            
-            const callApi = setInterval(() => {
-                fecthData();
-            }, 6000);
+        if (!session) return;
 
-            if (qrcode !== null) {
-                (qrcode.paid === true || qrcode.failure_code) && clearInterval(callApi);
+        const fecthData = async () => {
+            if (isFaching.current) return;
+            const data = {
+                bookid: bookId as string,
+                accessToken: session?.authToken
             }
+            isFaching.current = true;
+            await dispatch(generateQrCodePayment(data));
+            isFaching.current = false;
+        };
 
+        intervalRef.current = setInterval(fecthData, 6000);
+        
+        return () => {
+            if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+            }
+        };
+    }, [dispatch, session, bookId]);
+
+    useEffect(() => {
+        if (!qrcode) return;
+
+        if (qrcode.paid || qrcode.failure_code) {
+            if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+            }
         }
-    }, [dispatch, session, qrcode]);
+    }, [qrcode]);
 
     useEffect(() => {
         if (qrcode) {
@@ -69,7 +80,7 @@ export default function QrCodePaymentPage() {
             if (qrcode.paid === true) {
                 const timer = setTimeout(() => {
                     router.push(`/checkout?${query}`);
-                }, 2000);
+                }, 4000);
 
                 return () => clearTimeout(timer);
             }
