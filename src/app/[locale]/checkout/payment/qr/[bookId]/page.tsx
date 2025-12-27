@@ -43,11 +43,16 @@ export default function QrCodePaymentPage() {
                 isFaching.current = false;
             };
             
-            setInterval(() => {
+            const callApi = setInterval(() => {
                 fecthData();
-            }, 8000);
+            }, 6000);
+
+            if (qrcode !== null) {
+                (qrcode.paid === true || qrcode.failure_code) && clearInterval(callApi);
+            }
+
         }
-    }, [dispatch, session]);
+    }, [dispatch, session, qrcode]);
 
     useEffect(() => {
         if (qrcode) {
@@ -64,7 +69,7 @@ export default function QrCodePaymentPage() {
             if (qrcode.paid === true) {
                 const timer = setTimeout(() => {
                     router.push(`/checkout?${query}`);
-                }, 4000);
+                }, 2000);
 
                 return () => clearTimeout(timer);
             }
