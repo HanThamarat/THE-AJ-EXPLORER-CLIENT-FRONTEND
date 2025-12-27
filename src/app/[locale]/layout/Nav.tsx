@@ -96,7 +96,7 @@ export default function Nav() {
             key: 'MyTrip',
             icon: <Image src={MyTrip} alt="" width={16} height={16} />,
             label: (
-                <Link href="/profile">
+                <Link href="/account/booking?page=upcoming">
                     { t_menu("mytrip") }
                 </Link>
             ),
