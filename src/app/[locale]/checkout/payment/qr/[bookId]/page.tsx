@@ -44,6 +44,10 @@ export default function QrCodePaymentPage() {
             isFaching.current = false;
         };
 
+        if (!qrcode) {
+            fecthData();
+        }
+
         intervalRef.current = setInterval(fecthData, 6000);
         
         return () => {
