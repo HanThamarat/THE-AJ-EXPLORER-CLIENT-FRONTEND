@@ -63,7 +63,7 @@ export default function BookingPage() {
             "value": "Upcoming"
         },
         {
-            "key": "canceled",
+            "key": "cancaled",
             "value": "Canceled"
         },
         {
