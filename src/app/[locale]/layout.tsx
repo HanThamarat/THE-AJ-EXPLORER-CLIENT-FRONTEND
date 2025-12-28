@@ -14,6 +14,8 @@ import GoogleOneTap from "../hooks/google-sign";
 import Footer from "./layout/Footer";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Toaster } from 'react-hot-toast';
+import { Suspense } from "react";
+import PageLoader from "../components/loader/pageLoader";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -49,26 +51,28 @@ export default async function LocaleLayout({ children, params }: Props) {
         className="text-[12px] font-primary text-gray-700 antialiased"
         cz-shortcut-listen="true"
       >
-        <AntdRegistry>
-          <AuthProvider>
-            <GoogleProvider>
-              <ConfigProvider>
-                <NextIntlClientProvider messages={messages}>
-                  <ReduxProvider>
-                    <GoogleOneTap />
-                    <Nav />
-                    <div className="w-full min-h-[100vh]">
-                      {children}
-                    </div>
-                    <Footer />
-                  </ReduxProvider>
-                </NextIntlClientProvider>
-              </ConfigProvider>
-            </GoogleProvider>
-          </AuthProvider>
-        </AntdRegistry>
-        <ClientSocketHandler />
-        <Toaster />
+        <Suspense fallback={<PageLoader />}>
+          <AntdRegistry>
+            <AuthProvider>
+              <GoogleProvider>
+                <ConfigProvider>
+                  <NextIntlClientProvider messages={messages}>
+                    <ReduxProvider>
+                      <GoogleOneTap />
+                      <Nav />
+                      <div className="w-full min-h-[100vh]">
+                        {children}
+                      </div>
+                      <Footer />
+                    </ReduxProvider>
+                  </NextIntlClientProvider>
+                </ConfigProvider>
+              </GoogleProvider>
+            </AuthProvider>
+          </AntdRegistry>
+          <ClientSocketHandler />
+          <Toaster />
+        </Suspense>
       </body>
     </html>
   );
