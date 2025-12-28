@@ -108,8 +108,8 @@ export default function SearchComponent() {
         <Headroom>
             <form onSubmit={handleSubmit(handlerSubmitSearch)} className="py-[20px] bg-primary w-full">
                 <div className="mx-[20px] 2xl:mx-auto 2xl:max-w-7xl gap-[10px] md:gap-[20px] md:flex md:items-center">
-                    <div className="w-full gap-[10px] md:gap-[20px] flex items-center">
-                        <div className="w-[45%] md:w-[30%]">
+                    <div className="w-full gap-[10px] md:gap-[20px] flex flex-col md:flex-row items-center">
+                        <div className="w-full md:w-[30%]">
                             <Controller
                                 name="provinceId"
                                 control={control}
