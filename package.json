@@ -19,6 +19,7 @@
     "axios": "^1.12.2",
     "card-validator": "^10.0.3",
     "chart.js": "^4.5.1",
+    "framer-motion": "^12.23.26",
     "google-auth-library": "^10.4.2",
     "html-to-text": "^9.0.5",
     "install": "^0.13.0",
