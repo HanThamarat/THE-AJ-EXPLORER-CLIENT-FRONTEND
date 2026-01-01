@@ -119,7 +119,7 @@ export default function BookingPage() {
                                                     key={key} 
                                                     className="bg-white flex flex-col md:flex-row rounded-[20px]"
                                                     onClick={() => {
-                                                        !isMd && router.push("/");
+                                                        !isMd && router.push(`/account/booking/detail/${item.bookingId}`);
                                                     }}
                                                 >
                                                     <div className="h-[250px] w-full md:w-[300px] rounded-[20px] overflow-hidden">
@@ -147,6 +147,7 @@ export default function BookingPage() {
                                                             <div className="w-200px]">
                                                                 <CvButton
                                                                     label="Manage Booking"
+                                                                    onClick={() => router.push(`/account/booking/detail/${item.bookingId}`)}
                                                                 />
                                                             </div>
                                                         </div>

@@ -25,9 +25,9 @@ export const metadata: Metadata = {
   title: "The AJ Explorer",
   description: "The AJ Explorer",
   icons: {
-    icon: "/icon.png",         
-    shortcut: "/icon.png",
-    apple: "/icon.png",
+    icon: "/favicon.ico",         
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 };
 
