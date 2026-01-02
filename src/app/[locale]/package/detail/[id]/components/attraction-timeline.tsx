@@ -1,4 +1,4 @@
-import { packageAttractionEntity } from "@/app/types/package";
+import { packageAttractionEntity } from "@/types/package";
 import { SlLocationPin } from "react-icons/sl";
 import dayjs from "dayjs";
 import { useState } from "react";

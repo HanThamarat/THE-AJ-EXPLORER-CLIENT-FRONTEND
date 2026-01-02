@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import CvInput from '@/app/components/input/CvInput';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { authDTOType, authEntitySchema } from '@/app/types/auth';
+import { authDTOType, authEntitySchema } from '@/types/auth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { FcGoogle } from "react-icons/fc";

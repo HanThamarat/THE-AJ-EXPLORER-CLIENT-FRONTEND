@@ -2,7 +2,7 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
-import { packageEntity } from "@/app/types/package";
+import { packageEntity } from "@/types/package";
 import { useEffect, useState } from "react";
 dayjs.extend(LocalizedFormat);
 

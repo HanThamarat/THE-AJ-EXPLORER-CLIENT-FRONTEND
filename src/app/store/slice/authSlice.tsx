@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { AxiosInstance } from "@/app/hooks/axiosInstance";
-import { authDTOType, customerEntity } from "@/app/types/auth";
+import { authDTOType, customerEntity } from "@/types/auth";
 
 export const createAccount = createAsyncThunk("auth/createAccount", async(data: authDTOType) => {
     try {

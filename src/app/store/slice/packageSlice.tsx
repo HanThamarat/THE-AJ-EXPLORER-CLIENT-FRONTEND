@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { AxiosInstance } from "@/app/hooks/axiosInstance";
-import { findProvinceByPackageEntity, packageClientResponse, packageEntity } from "@/app/types/package";
+import { findProvinceByPackageEntity, packageClientResponse, packageEntity } from "@/types/package";
 
 export const getprovincePackages = createAsyncThunk('package/getprovincePackages', async () => {
   try {

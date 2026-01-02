@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import {  bookingEntity, bookingInfoType, ClientBookingCreateBody, mytripEntityType } from "@/app/types/booking";
+import {  bookingEntity, bookingInfoType, ClientBookingCreateBody, mytripEntityType } from "@/types/booking";
 import { createAxiosWithToken } from "@/app/hooks/axiosInstance";
 
 interface createNewBookingProps {

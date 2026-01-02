@@ -1,4 +1,4 @@
-import { packageInclude, packageNotInclude } from "@/app/types/package";
+import { packageInclude, packageNotInclude } from "@/types/package";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import CvAccordion, { CvAccordionOptionProps } from "@/app/components/CvAccordion";

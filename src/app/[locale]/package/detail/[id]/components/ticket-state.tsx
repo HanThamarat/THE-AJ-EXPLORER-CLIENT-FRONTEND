@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { FiPlus } from "react-icons/fi";
 import { RiSubtractFill } from "react-icons/ri";
-import { packageOptionEntity } from "@/app/types/package";
+import { packageOptionEntity } from "@/types/package";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import { useRouter } from "next/navigation";
