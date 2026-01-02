@@ -16,6 +16,7 @@ import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Toaster } from 'react-hot-toast';
 import { Suspense } from "react";
 import PageLoader from "../components/loader/pageLoader";
+import CookieConsent from "../components/CookieConsent";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -64,6 +65,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                         {children}
                       </div>
                       <Footer />
+                      <CookieConsent />
                     </ReduxProvider>
                   </NextIntlClientProvider>
                 </ConfigProvider>
