@@ -1,5 +1,5 @@
 import DescriptionLoader from "@/app/components/loader/description-loader";
-import { packageEntity, packageOptionEntity } from "@/app/types/package";
+import { packageEntity, packageOptionEntity } from "@/types/package";
 import { convert } from "html-to-text";
 import TicketState from "./ticket-state";
 import BenefitComponent from "./benifit";

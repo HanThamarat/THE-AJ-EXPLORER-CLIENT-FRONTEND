@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { createAxiosWithToken } from "@/app/hooks/axiosInstance";
-import { BookingByCardDTOType, createMobileBankChargeType, omiseChargeEntity } from "@/app/types/payment";
-import { bookingEntity } from "@/app/types/booking";
+import { BookingByCardDTOType, createMobileBankChargeType, omiseChargeEntity } from "@/types/payment";
+import { bookingEntity } from "@/types/booking";
 
 interface generateQrCodePaymentProps {
     bookid: string;

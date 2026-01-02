@@ -6,7 +6,7 @@ import { useState } from "react";
 import DefaultTextArea from "@/app/components/textarea/default-textarea";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { contractBookingDTO, contractBookingDTOSchema } from "@/app/types/booking";
+import { contractBookingDTO, contractBookingDTOSchema } from "@/types/booking";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller } from "react-hook-form";
 

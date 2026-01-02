@@ -1,5 +1,5 @@
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
-import { bookedCapacityInfoType } from "@/app/types/booking";
+import { bookedCapacityInfoType } from "@/types/booking";
 
 interface PaymentInfoContentProps {
     isLoading: boolean;

@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import compass from "@/app/assets/images/svg/compass-03.svg";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SearchSchema, SearchType } from "@/app/types/search";
+import { SearchSchema, SearchType } from "@/types/search";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";

@@ -1,4 +1,4 @@
-import { bookerInfoType } from "@/app/types/booking";
+import { bookerInfoType } from "@/types/booking";
 
 interface BookingInfoContentProps {
     isLoading: boolean;

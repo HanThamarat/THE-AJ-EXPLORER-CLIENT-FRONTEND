@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import { useRef } from "react";
 import compass from "@/app/assets/images/svg/compass-03.svg";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { SearchSchema, SearchType } from "@/app/types/search";
+import { SearchSchema, SearchType } from "@/types/search";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 

@@ -11,7 +11,7 @@ import { packageSelector } from "@/app/store/slice/packageSlice";
 import ImageLoader from "@/app/components/loader/image-loader";
 import ImageSection from "./components/image-section";
 import PackageDetailFullscreen from "./components/detail-fullscreen";
-import { packageEntity } from "@/app/types/package";
+import { packageEntity } from "@/types/package";
 import PackageDetailMobile from "./components/detail-moblie";
 import { notFound } from "next/navigation";
 

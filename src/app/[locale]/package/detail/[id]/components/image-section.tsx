@@ -1,4 +1,4 @@
-import { packageImageSave } from "@/app/types/package";
+import { packageImageSave } from "@/types/package";
 import Image from "next/image";
 import { ImageIcon } from "lucide-react";
 import { useEffect, useState } from "react";
