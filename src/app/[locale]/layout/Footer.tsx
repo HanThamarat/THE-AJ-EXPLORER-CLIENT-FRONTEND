@@ -97,17 +97,14 @@ export default function Footer() {
                             {locale === 'th' ? 'บริการ' : 'Services'}
                         </h3>
                         <div className="flex flex-col gap-[10px] text-[14px] text-gray-700">
-                            <Link href={`/${locale}/package`} className="hover:text-[#613DC1] transition-colors">
+                            <Link href={`/${locale}`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'แพ็กเกจท่องเที่ยว' : 'Travel Packages'}
                             </Link>
-                            <Link href={`/${locale}/package`} className="hover:text-[#613DC1] transition-colors">
+                            <Link href={`/${locale}`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'กิจกรรม' : 'Activities'}
                             </Link>
                             <Link href={`/${locale}/blog`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'บล็อก' : 'Blog'}
-                            </Link>
-                            <Link href={`/${locale}/account/booking`} className="hover:text-[#613DC1] transition-colors">
-                                {locale === 'th' ? 'การจอง' : 'Bookings'}
                             </Link>
                         </div>
                     </div>
@@ -118,16 +115,16 @@ export default function Footer() {
                             {locale === 'th' ? 'บริษัท' : 'Company'}
                         </h3>
                         <div className="flex flex-col gap-[10px] text-[14px] text-gray-700">
-                            <Link href={`/${locale}/about`} className="hover:text-[#613DC1] transition-colors">
+                            <Link href={`/${locale}/terms/about-us`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'เกี่ยวกับเรา' : 'About'}
                             </Link>
-                            <Link href={`/${locale}/contactus`} className="hover:text-[#613DC1] transition-colors">
+                            <Link href={`/${locale}/terms/contract`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'ติดต่อเรา' : 'Contact'}
                             </Link>
-                            <Link href={`/${locale}/terms-of-use`} className="hover:text-[#613DC1] transition-colors">
+                            <Link href={`/${locale}/terms/term`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'ข้อกำหนดการใช้งาน' : 'Terms of Service'}
                             </Link>
-                            <Link href={`/${locale}/privacy-policy`} className="hover:text-[#613DC1] transition-colors">
+                            <Link href={`/${locale}/terms/privacy-policy`} className="hover:text-[#613DC1] transition-colors">
                                 {locale === 'th' ? 'นโยบายความเป็นส่วนตัว' : 'Privacy Policy'}
                             </Link>
                         </div>

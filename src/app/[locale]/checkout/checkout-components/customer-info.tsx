@@ -2,13 +2,17 @@ import CvInput from "@/app/components/input/CvInput";
 import CountrySelector from "@/app/components/selector/country-selector";
 import { COUNTRIES } from "@/app/libs/countries";
 import { SelectMenuOption } from "@/app/libs/type";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DefaultTextArea from "@/app/components/textarea/default-textarea";
 import CvButton from "@/app/components/CvButton/CvButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { contractBookingDTO, contractBookingDTOSchema } from "@/types/booking";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller } from "react-hook-form";
+import Link from "next/link";
+import React from 'react';
+import { Checkbox } from 'antd';
+import type { CheckboxProps } from 'antd';
 
 interface CustomerInfoProps {
     callBackData: (data: contractBookingDTO) => void; 
@@ -21,18 +25,29 @@ export default function CustomerInfo({
     const [isOpen, setIsOpen] = useState(false);
     // Default this to a country's code to preselect it
     const [country, setCountry] = useState<SelectMenuOption["value"]>("TH");
+    const [accepterm, setAccepterm] = useState<boolean>(true);
+
+    const onChange: CheckboxProps['onChange'] = (e) => {
+        setAccepterm(!e.target.checked);
+    };
+      
 
     const {
         handleSubmit,
         control,
         reset,
         register,
+        setValue,
         formState: { errors }        
     } = useForm<contractBookingDTO>({ resolver: zodResolver(contractBookingDTOSchema) });
 
     const handlerclickNextState: SubmitHandler<contractBookingDTO> = (date) => {
         callBackData(date);
     } 
+
+    useEffect(() => {
+        setValue("country", "TH");
+    }, []);
 
     return(
         <form onSubmit={handleSubmit(callBackData)} className="w-full flex flex-col gap-[24px]">
@@ -97,15 +112,19 @@ export default function CustomerInfo({
                 />
             </div>
             <div className="w-full border border-gray-200 rounded-full"></div>
-            <div>
-                By clicking "Next: Payment details" and completing a booking, you agree with the terms and conditions of theajexlorer.com and the privacy policy of Viator.
-                Please see our Privacy Statement to understand how we use and protect your personal information.
+            <div className=" flex w-full items-start gap-[5px]">
+                <Checkbox onChange={onChange} value={accepterm} ></Checkbox>
+                <div className="mt-[3px]">
+                    By clicking "Next: Payment details" and completing a booking, you agree with the <Link href="/terms/term" className=" text-blue-700 underline">terms and conditions</Link> of theajexlorer.com and the privacy policy of Viator.
+                    Please see our Privacy Statement to understand how we use and protect your personal information.
+                </div>
             </div>
             <div className="w-full flex justify-end">
                 <div className="w-[200px]">
                     <CvButton
                         label="Next: Payment info"
                         type="submit"
+                        disable={accepterm}
                     />
                 </div>
             </div>
