@@ -6,6 +6,18 @@ import { OAuth2Client } from 'google-auth-library';
 import { AxiosInstance } from '@/app/hooks/axiosInstance';
 import GoogleProvider from "next-auth/providers/google";
 
+// Validate Google OAuth environment variables
+if (!process.env.GOOGLE_CLIENT_ID) {
+  console.error('[NextAuth] Missing GOOGLE_CLIENT_ID environment variable');
+}
+if (!process.env.GOOGLE_CLIENT_SECRET) {
+  console.error('[NextAuth] Missing GOOGLE_CLIENT_SECRET environment variable');
+}
+
+if (process.env.NODE_ENV === 'production' && (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET)) {
+  console.warn('[NextAuth] Google OAuth credentials are missing. Google sign-in will not work in production.');
+}
+
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -13,8 +25,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET || 'fallback-secret-only-for-dev',
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientId: process.env.GOOGLE_CLIENT_ID || '',
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
     }),
     CredentialsProvider({
         id: 'google-one-tap',
