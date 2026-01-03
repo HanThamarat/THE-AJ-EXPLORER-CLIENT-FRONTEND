@@ -1,5 +1,6 @@
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import { bookedCapacityInfoType } from "@/types/booking";
+import { useTranslations } from "next-intl";
 
 interface PaymentInfoContentProps {
     isLoading: boolean;
@@ -10,6 +11,7 @@ export default function PaymentInfoContent({
     isLoading,
     payment
 }: PaymentInfoContentProps) {
+    const t = useTranslations("booking");
     return(
         isLoading ?
         <div className="w-full flex flex-col gap-[10px] rounded-[20px] bg-white p-[20px]">
@@ -41,34 +43,34 @@ export default function PaymentInfoContent({
         :
         <div className="w-full bg-white rounded-[20px] flex flex-col gap-[15px]">
             <div className="px-[20px] mt-[24px]">
-                <span className="text-[18px] font-semibold">Payment Information</span>
+                <span className="text-[18px] font-semibold">{t("payment_information")}</span>
             </div>
             {
                 payment?.adult !== 0 &&
                 <div className="flex justify-between px-[20px] md:text-[14px] font-medium">
-                    <span>{payment?.adult} x adult</span>
+                    <span>{payment?.adult} {t("x_adult")}</span>
                     <span>{currencyConvertToThai(payment?.adultPrice as number)} THB</span>
                 </div>
             }
             {
                 payment?.child !== 0 &&
                 <div className="flex justify-between px-[20px] md:text-[14px] font-medium">
-                    <span>{payment?.child} x child</span>
+                    <span>{payment?.child} {t("x_child")}</span>
                     <span>{currencyConvertToThai(payment?.childPrice as number)} THB</span>
                 </div>
             }
             {
                 payment?.group !== 0 &&
                 <div className="flex justify-between px-[20px] md:text-[14px] font-medium">
-                    <span>{payment?.group} x group</span>
+                    <span>{payment?.group} {t("x_group")}</span>
                     <span>{currencyConvertToThai(payment?.groupPrice as number)} THB</span>
                 </div>
             }
             <div className="w-full border border-gray-200"></div>
             <div className="w-full flex justify-between items-start px-[20px] mb-[20px]">
                 <div className="flex flex-col">
-                    <span className="text-[16px] font-medium">Total</span>
-                    <span className="text-gray-600">Includes taxes and charges</span>
+                    <span className="text-[16px] font-medium">{t("total")}</span>
+                    <span className="text-gray-600">{t("includes_taxes_charges")}</span>
                 </div>
                 <span className="text-[16px] font-semibold">{currencyConvertToThai(payment?.totalPrice as number)} THB</span>
             </div>

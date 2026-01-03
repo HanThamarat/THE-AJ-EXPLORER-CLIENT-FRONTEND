@@ -7,6 +7,7 @@ import MS from "@/app/assets/images/svg/Mastercard.svg";
 import JCB from "@/app/assets/images/svg/JCB.svg";
 import UC from "@/app/assets/images/svg/UnionPay.svg";
 import Amex from "@/app/assets/images/svg/Amex.svg";
+import { useTranslations } from "next-intl";
 
 interface CardData {
   name: string;
@@ -27,7 +28,8 @@ interface CardPaymentFormProps {
 }
 
 const CardPaymentForm = ({ onValidate }: CardPaymentFormProps) => {
-const [cardData, setCardData] = useState<CardData>({
+  const t = useTranslations("checkout");
+  const [cardData, setCardData] = useState<CardData>({
     name: "",
     number: "",
     expiry: "",
@@ -65,41 +67,41 @@ const [cardData, setCardData] = useState<CardData>({
   /* -------------------- VALIDATORS (PURE) -------------------- */
 
   const validateName = (name: string): string => {
-    if (!name.trim()) return "Cardholder name is required";
+    if (!name.trim()) return t("cardholder_name_required");
     return cardValidator.cardholderName(name).isValid
       ? ""
-      : "Invalid cardholder name";
+      : t("invalid_cardholder_name");
   };
 
   const validateCardNumber = (number: string): string => {
     const cleaned = number.replace(/\s/g, "");
-    if (!cleaned) return "Card number is required";
+    if (!cleaned) return t("card_number_required");
 
     const v = cardValidator.number(cleaned);
     if (!v.isValid) {
       return v.isPotentiallyValid
-        ? "Card number is incomplete"
-        : "Invalid card number";
+        ? t("card_number_incomplete")
+        : t("invalid_card_number");
     }
     return "";
   };
 
   const validateExpiry = (expiry: string): string => {
-    if (!expiry) return "Expiry date is required";
+    if (!expiry) return t("expiry_date_required");
 
     const [month, year] = expiry.split("/");
     const v = cardValidator.expirationDate({ month, year });
 
     if (!v.isValid) {
       return v.isPotentiallyValid
-        ? "Expiry date is incomplete"
-        : "Invalid or expired card";
+        ? t("expiry_date_incomplete")
+        : t("invalid_or_expired_card");
     }
     return "";
   };
 
   const validateCVC = (cvc: string, cardNumber: string): string => {
-    if (!cvc) return "CVC is required";
+    if (!cvc) return t("cvc_required");
 
     const cleaned = cardNumber.replace(/\s/g, "");
     const card = cardValidator.number(cleaned).card;
@@ -107,7 +109,7 @@ const [cardData, setCardData] = useState<CardData>({
 
     const v = cardValidator.cvv(cvc, maxLength);
     if (!v.isValid) {
-      return v.isPotentiallyValid ? "CVC is incomplete" : "Invalid CVC";
+      return v.isPotentiallyValid ? t("cvc_incomplete") : t("invalid_cvc");
     }
     return "";
   };
@@ -180,14 +182,14 @@ const [cardData, setCardData] = useState<CardData>({
         {/* Cardholder Name */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Cardholder's Name *
+            {t("cardholder_name")} *
           </label>
           <input
             type="text"
             name="name"
             value={cardData.name}
             onChange={handleChange}
-            placeholder="Please enter cardholder's Name"
+            placeholder={t("enter_cardholder_name")}
             className={`w-full px-4 py-3 rounded-lg border-2 transition-colors ${
               errors.name ? 'border-red-500' : 'border-gray-200 focus:border-indigo-500'
             } outline-none`}
@@ -203,7 +205,7 @@ const [cardData, setCardData] = useState<CardData>({
         {/* Card Number */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Card Number *
+            {t("card_number")} *
           </label>
           <div className="relative">
             <input
@@ -211,7 +213,7 @@ const [cardData, setCardData] = useState<CardData>({
               name="number"
               value={cardData.number}
               onChange={handleChange}
-              placeholder="Please enter card Number"
+              placeholder={t("enter_card_number")}
               className={`w-full px-4 py-3 rounded-lg border-2 transition-colors ${
                 errors.number ? 'border-red-500' : 'border-gray-200 focus:border-indigo-500'
               } outline-none pr-16`}
@@ -234,7 +236,7 @@ const [cardData, setCardData] = useState<CardData>({
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Expiry Date *
+              {t("expiry_date")} *
             </label>
             <input
               type="text"
@@ -256,14 +258,14 @@ const [cardData, setCardData] = useState<CardData>({
 
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              CVC *
+              {t("cvc")} *
             </label>
             <input
               type="text"
               name="cvc"
               value={cardData.cvc}
               onChange={handleChange}
-              placeholder="Please enter CVC"
+              placeholder={t("enter_cvc")}
               className={`w-full px-4 py-3 rounded-lg border-2 transition-colors ${
                 errors.cvc ? 'border-red-500' : 'border-gray-200 focus:border-indigo-500'
               } outline-none`}

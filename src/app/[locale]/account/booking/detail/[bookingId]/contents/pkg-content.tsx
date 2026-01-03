@@ -3,6 +3,7 @@ import Image from "next/image";
 import { MdOutlineEmail } from "react-icons/md";
 import dayjs from "dayjs";
 import Localized from "dayjs/plugin/localizedFormat";
+import { useTranslations } from "next-intl";
 dayjs.extend(Localized);
 
 interface PackageInfoProps {
@@ -20,6 +21,7 @@ export default function PackageInfo({
     pkgName,
     pkgImage
 }: PackageInfoProps) {
+    const t = useTranslations("booking");
     return(
         isLoading ?
         <div className="w-full flex flex-col gap-[24px] bg-white p-[20px] rounded-[20px]">
@@ -41,7 +43,7 @@ export default function PackageInfo({
             <div className="w-full h-full flex flex-col md:flex-row">
                 <div className="w-full flex flex-col gap-[10px] p-[20px]">
                     <span className="md:text-[16px] font-semibold line-clamp-2 text-ellipsis">{pkgName}</span>
-                    <span className="md:text-[16px] font-semibold">Trip at {dayjs(trip_at).format("ll")}</span>
+                    <span className="md:text-[16px] font-semibold">{t("trip_at")} {dayjs(trip_at).format("ll")}</span>
                 </div>
                 <div className="border border-gray-200">
                 </div>
@@ -50,7 +52,7 @@ export default function PackageInfo({
                         className="cursor-pointer flex items-center gap-[5px] text-[#613DC1]"
                     >
                         <MdOutlineEmail className="text-[20px]" />
-                        <p>Get your booking confirmation</p>
+                        <p>{t("get_booking_confirmation")}</p>
                     </button>
                 </div>
             </div>

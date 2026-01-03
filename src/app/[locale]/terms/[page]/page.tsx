@@ -9,6 +9,7 @@ import { FiXCircle } from "react-icons/fi";
 import { CiCreditCard2 } from "react-icons/ci";
 import { useRouter } from "next/navigation";
 import { usePathname } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 
 import CancelBooking from "./components/CancelBooking";
 import PaymentRefund from "./components/PaymentRefund";
@@ -21,43 +22,44 @@ export default function TermPage() {
     const { page } = useParams();
     const router = useRouter();
     const pathname = usePathname();
+    const t = useTranslations("terms.menu");
 
     const menu = [
         {
-            title: "About Us",
+            title: t("about_us.title"),
             menu: [
                 {
-                    label: "Contract Us",
+                    label: t("about_us.contact_us"),
                     icon: <TfiHeadphoneAlt />,
                     route: '/terms/contract',
                 },
                 {
-                    label: "About Us",
+                    label: t("about_us.about_us"),
                     icon: <FaBuildingUser />,
                     route: '/terms/about-us',
                 },
                 {
-                    label: "Terms and Condition",
+                    label: t("about_us.terms_condition"),
                     icon: <IoDocumentTextOutline />,
                     route: '/terms/term',
                 },
                 {
-                    label: "Privacy Policy",
+                    label: t("about_us.privacy_policy"),
                     icon: <GoShieldCheck />,
                     route: '/terms/privacy-policy',
                 },
             ]
         },
         {
-            title: "Customer Service",
+            title: t("customer_service.title"),
             menu: [
                 {
-                    label: "Cancel Booking",
+                    label: t("customer_service.cancel_booking"),
                     icon: <FiXCircle />,
                     route: '/terms/cancel',
                 },
                 {
-                    label: "Payment & Refund",
+                    label: t("customer_service.payment_refund"),
                     icon: <CiCreditCard2 />,
                     route: '/terms/payment-refund',
                 },

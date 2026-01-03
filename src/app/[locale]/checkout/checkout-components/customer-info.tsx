@@ -13,6 +13,7 @@ import Link from "next/link";
 import React from 'react';
 import { Checkbox } from 'antd';
 import type { CheckboxProps } from 'antd';
+import { useTranslations } from "next-intl";
 
 interface CustomerInfoProps {
     callBackData: (data: contractBookingDTO) => void; 
@@ -21,7 +22,7 @@ interface CustomerInfoProps {
 export default function CustomerInfo({  
     callBackData
 }: CustomerInfoProps) {
-
+    const t = useTranslations("checkout");
     const [isOpen, setIsOpen] = useState(false);
     // Default this to a country's code to preselect it
     const [country, setCountry] = useState<SelectMenuOption["value"]>("TH");
@@ -52,25 +53,25 @@ export default function CustomerInfo({
     return(
         <form onSubmit={handleSubmit(callBackData)} className="w-full flex flex-col gap-[24px]">
             <div className="flex flex-col">
-                <span className="text-[18px] font-semibold">Contact details</span>
-                <span>This is where your confirmation will be sent</span>
+                <span className="text-[18px] font-semibold">{t("contact_details")}</span>
+                <span>{t("confirmation_sent_to")}</span>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-[10px]">
                 <CvInput
-                    label="First name *"
-                    placeholder="Please enter your first name"
+                    label={`${t("first_name")} *`}
+                    placeholder={t("enter_first_name")}
                     error={errors.firstName?.message}
                     {...register("firstName")}
                 />
                 <CvInput
-                    label="Last name *"
-                    placeholder="Please enter your last name"
+                    label={`${t("last_name")} *`}
+                    placeholder={t("enter_last_name")}
                     error={errors.lastName?.message}
                     {...register("lastName")}
                 />
                 <CvInput
-                    label="Email *"
-                    placeholder="Please enter your email"
+                    label={`${t("email")} *`}
+                    placeholder={t("enter_email")}
                     error={errors.email?.message}
                     {...register("email")}
                 />
@@ -88,41 +89,40 @@ export default function CustomerInfo({
                     )}
                 />
                 <CvInput
-                    label="Phone number *"
-                    placeholder="Please enter your phone number"
+                    label={`${t("phone_number")} *`}
+                    placeholder={t("enter_phone_number")}
                     type="number"
                     error={errors.phoneNumber?.message}
                     {...register("phoneNumber")}
                 />
             </div>
             <div className="flex flex-col gap-[10px]">
-                <span className="text-[18px] font-semibold">Arrival details</span>
+                <span className="text-[18px] font-semibold">{t("arrival_details")}</span>
                 <CvInput
-                    label="Pick up location - Where will you arrive? *"
-                    placeholder="Please enter your hotel"
+                    label={`${t("pickup_location")} *`}
+                    placeholder={t("enter_hotel")}
                     error={errors.arrival_details?.message}
                     {...register("arrival_details")}
                 />
             </div>
             <div className="flex flex-col gap-[10px]">
-                <span className="text-[18px] font-semibold">Additional details</span>
+                <span className="text-[18px] font-semibold">{t("additional_details")}</span>
                 <DefaultTextArea
-                    label="Special requirements"
-                    placeholder="Enter special requirements"
+                    label={t("special_requirements")}
+                    placeholder={t("enter_special_requirements")}
                 />
             </div>
             <div className="w-full border border-gray-200 rounded-full"></div>
             <div className=" flex w-full items-start gap-[5px]">
                 <Checkbox onChange={onChange} value={accepterm} ></Checkbox>
                 <div className="mt-[3px]">
-                    By clicking "Next: Payment details" and completing a booking, you agree with the <Link href="/terms/term" className=" text-blue-700 underline">terms and conditions</Link> of theajexlorer.com and the privacy policy of Viator.
-                    Please see our Privacy Statement to understand how we use and protect your personal information.
+                    {t("terms_agreement_full")} <Link href="/terms/term" className=" text-blue-700 underline">{t("terms_and_conditions")}</Link> {t("of_theajexplorer")} {t("privacy_statement")}
                 </div>
             </div>
             <div className="w-full flex justify-end">
                 <div className="w-[200px]">
                     <CvButton
-                        label="Next: Payment info"
+                        label={t("next_payment_info")}
                         type="submit"
                         disable={accepterm}
                     />
