@@ -10,6 +10,9 @@ import { useState } from "react";
 import CardPaymentForm from "../payment-componets/card-contnet";
 import CvButton from "@/app/components/CvButton/CvButton";
 import MoblieBankingContent from "../payment-componets/moblie-content";
+import Link from "next/link";
+import { IoIosArrowBack } from "react-icons/io";
+import { useRouter } from "next/navigation";
 
 interface CheckPayProps {
     CompletePayWithQr: () => void;
@@ -30,6 +33,7 @@ export default function CheckPay({
     const [isCardValid, setIsCardValid] = useState(false);
     const [cardData, setCardData] = useState<any>(null);
     const [mobileBank, setMoblieBanking] = useState<string>("");
+    const router = useRouter();
 
     const handleCardValidation = (isValid: boolean, data?: any) => {
         setIsCardValid(isValid);
@@ -92,16 +96,21 @@ export default function CheckPay({
                 }
             </div>
             <div className="w-full border border-gray-200 rounded-full"></div>
-            <span>By proceeding with this booking, I agree to The AJ Explorer's Terms of Use and Privacy Policy.</span>
-            <div className="w-full flex justify-end items-center">
+            <span>By proceeding with this booking, I agree to The AJ Explorer's <Link href="/terms/term" className=" text-blue-700 underline">Terms of Use</Link> and <Link href="/terms/privacy-policy" className=" text-blue-700 underline">Privacy Policy</Link>.</span>
+            <div className="w-full flex justify-end items-center gap-[10px]">
+                <button
+                    className="flex items-center gap-[5px] rounded-[7px] h-[40px] py-[10px] pl-[5px] pr-[10px] hover:bg-gray-200 duration-100 ease-in-out"
+                    onClick={() => router.back()}
+                >
+                    <IoIosArrowBack className="text-[18px]" />
+                    <span>Back to Customer info</span>
+                </button>
                 <div>
-                    <div>
                     <CvButton 
                         label="Complete booking"
                         onClick={handleClickCompletePay}
                         isLoading={isLoadingPayment}
                     />
-                </div>
                 </div>
             </div>
         </div>

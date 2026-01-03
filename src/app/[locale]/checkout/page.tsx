@@ -20,6 +20,7 @@ import Image from "next/image";
 import undrawBooking from "@/app/assets/images/svg/undraw_booking.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
 import DefaultOutlineButton from "@/app/components/CvButton/outline-button";
+import { IoIosArrowBack } from "react-icons/io";
 
 export default function CheckOutPage() {
 
@@ -283,7 +284,14 @@ export default function CheckOutPage() {
     return(
         <> 
         <div className="w-full px-[20px] 2xl:px-0 2xl:max-w-7xl 2xl:mx-auto mb-[45px]">
-            <div className="mt-[60px]">
+            <button
+                className="mt-[45px] flex items-center gap-[5px] rounded-[10px] py-[10px] pl-[5px] pr-[10px] hover:bg-gray-200 duration-100 ease-in-out"
+                onClick={() => router.back()}
+            >
+                <IoIosArrowBack className="text-[18px]" />
+                <span>Back to package detail</span>
+            </button>
+            <div className="mt-[24px]">
                 <CheckoutHeader  steps={steper} />
             </div>
             {

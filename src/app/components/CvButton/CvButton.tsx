@@ -11,6 +11,7 @@ interface ButtonPropType {
     type?: ButtonHTMLType;
     isLoading?: boolean;
     icon?: any;
+    disable?: boolean;
 }
 
 export default function CvButton({
@@ -20,7 +21,8 @@ export default function CvButton({
     color,
     type,
     isLoading,
-    icon
+    icon,
+    disable
 }: ButtonPropType) {
     return(
         <ConfigProvider
@@ -42,7 +44,7 @@ export default function CvButton({
                 className="w-full"
                 onClick={onClick}
                 htmlType={ type === undefined ? 'button' : type }
-                disabled={isLoading}
+                disabled={isLoading || disable}
             >
                 {
                     isLoading === false || isLoading === undefined ?
