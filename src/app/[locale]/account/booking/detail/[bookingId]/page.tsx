@@ -8,6 +8,7 @@ import { bookingtSelector } from "@/app/store/slice/bookingSlice";
 import { useSession } from "next-auth/react";
 import { getBookingDetail } from "@/app/store/slice/bookingSlice";
 import { IoIosArrowBack } from "react-icons/io";
+import { useTranslations } from "next-intl";
 import HeaderBookingContent from "./contents/header-content";
 import PackageInfo from "./contents/pkg-content";
 import BookingInfoContent from "./contents/booking-content";
@@ -22,6 +23,7 @@ export default function BookingDetailPage() {
     const isFetching = useRef(false);
     const { data: session } = useSession();
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const t = useTranslations("booking");
 
     useEffect(() => {
 
@@ -57,7 +59,7 @@ export default function BookingDetailPage() {
                         onClick={() => router.back()}
                     >
                         <IoIosArrowBack className="text-[18px]" />
-                        <span>Back to bookings</span>
+                        <span>{t("back_to_bookings")}</span>
                     </button>
                 </div>
                 <HeaderBookingContent

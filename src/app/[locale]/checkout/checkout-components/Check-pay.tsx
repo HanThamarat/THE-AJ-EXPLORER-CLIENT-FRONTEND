@@ -13,6 +13,7 @@ import MoblieBankingContent from "../payment-componets/moblie-content";
 import Link from "next/link";
 import { IoIosArrowBack } from "react-icons/io";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface CheckPayProps {
     CompletePayWithQr: () => void;
@@ -34,6 +35,7 @@ export default function CheckPay({
     const [cardData, setCardData] = useState<any>(null);
     const [mobileBank, setMoblieBanking] = useState<string>("");
     const router = useRouter();
+    const t = useTranslations("checkout");
 
     const handleCardValidation = (isValid: boolean, data?: any) => {
         setIsCardValid(isValid);
@@ -57,7 +59,7 @@ export default function CheckPay({
     const payList = [
         {
             icon: <Image src={CardIcon} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />,
-            label: "Credit/Debit Card",
+            label: t("credit_debit_card"),
             component: <CardPaymentForm onValidate={handleCardValidation} />
         },
         {
@@ -68,18 +70,18 @@ export default function CheckPay({
                     <Image src={BkkApp} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />
                     <Image src={KrungSri} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />
                 </div>,
-            label: "Mobile Banking",
+            label: t("mobile_banking"),
             component: <MoblieBankingContent onChange={handleMobileBank} />
         },
         {
             icon: <Image src={QrIcon} width={0} height={0} alt="" className="w-[18px] h-[18px] md:w-[24px] md:h-[24px]" />,
-            label: "QR Payment",
+            label: t("qr_payment"),
         },
     ];
     
     return(
         <div className="w-full flex flex-col gap-[24px]">
-            <span className="text-[18px] font-semibold">Check and pay</span>
+            <span className="text-[18px] font-semibold">{t("check_and_pay")}</span>
             <div className="flex flex-col gap-[10px]">
                 {
                     payList.map((data, key) => (
@@ -96,18 +98,18 @@ export default function CheckPay({
                 }
             </div>
             <div className="w-full border border-gray-200 rounded-full"></div>
-            <span>By proceeding with this booking, I agree to The AJ Explorer's <Link href="/terms/term" className=" text-blue-700 underline">Terms of Use</Link> and <Link href="/terms/privacy-policy" className=" text-blue-700 underline">Privacy Policy</Link>.</span>
+            <span>{t("terms_agreement")} <Link href="/terms/term" className=" text-blue-700 underline">{t("terms_of_use")}</Link> <Link href="/terms/privacy-policy" className=" text-blue-700 underline">{t("privacy_policy")}</Link>.</span>
             <div className="w-full flex justify-end items-center gap-[10px]">
                 <button
                     className="flex items-center gap-[5px] rounded-[7px] h-[40px] py-[10px] pl-[5px] pr-[10px] hover:bg-gray-200 duration-100 ease-in-out"
                     onClick={() => router.back()}
                 >
                     <IoIosArrowBack className="text-[18px]" />
-                    <span>Back to Customer info</span>
+                    <span>{t("back_to_customer_info")}</span>
                 </button>
                 <div>
                     <CvButton 
-                        label="Complete booking"
+                        label={t("complete_booking")}
                         onClick={handleClickCompletePay}
                         isLoading={isLoadingPayment}
                     />

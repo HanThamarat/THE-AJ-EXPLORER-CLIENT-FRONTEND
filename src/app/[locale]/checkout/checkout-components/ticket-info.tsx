@@ -4,6 +4,7 @@ import LocalizedFormat from "dayjs/plugin/localizedFormat";
 import { currencyConvertToThai } from "@/app/hooks/currencyConvert";
 import { packageEntity } from "@/types/package";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 dayjs.extend(LocalizedFormat);
 
 interface TicketInfoProps {
@@ -25,6 +26,7 @@ export default function TicketInfo({
     childQty,
     groupQty
 }: TicketInfoProps) {
+    const t = useTranslations("checkout");
 
     return(
         <div className="w-full bg-white p-[10px] rounded-[20px]">
@@ -55,19 +57,19 @@ export default function TicketInfo({
             <div className="mt-[24px] flex flex-col gap-[5px]">
                 {
                     (adultQty !== 0) &&
-                    <span className="text-[16px] font-semibold">{adultQty} x Adults</span>
+                    <span className="text-[16px] font-semibold">{adultQty} {t("x_adults")}</span>
                 }
                 {
                     (childQty !== 0) &&
-                    <span className="text-[16px] font-semibold">{childQty} x Childs</span>
+                    <span className="text-[16px] font-semibold">{childQty} {t("x_childs")}</span>
                 }
                 {
                     (groupQty !== 0) &&
-                    <span className="text-[16px] font-semibold">{groupQty} x Group</span>
+                    <span className="text-[16px] font-semibold">{groupQty} {t("x_group")}</span>
                 }
             </div>
             <div className="mt-[24px] flex justify-between w-full">
-            <span className="text-[16px] font-medium">Total</span>
+            <span className="text-[16px] font-medium">{t("total")}</span>
                 {
                     isLoading ?
                     <div className="mt-[5px] w-[100px] h-[20px] rounded-[10px] bg-gray-200"></div>
@@ -75,7 +77,7 @@ export default function TicketInfo({
                     <span className="text-[16px] font-medium">{currencyConvertToThai(amoutPrice)} THB</span>
                 }
             </div>
-            <span className="text-gray-500">Includes taxes and charges</span>
+            <span className="text-gray-500">{t("includes_taxes_charges")}</span>
         </div>
     );
 }

@@ -14,11 +14,18 @@ import Image from "next/image";
 import CvButton from "@/app/components/CvButton/CvButton";
 import useMediaQuery from "@/app/hooks/mediaQuery";
 import Notfound from "@/app/assets/images/svg/404-notfund.svg";
+import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
+import "dayjs/locale/th";
 
 dayjs.extend(LocalizedFormat);
 
 export default function BookingPage() {
 
+    const params = useParams();
+    const locale = params.locale;
+
+    dayjs.locale(locale === "th" ? "th" : "en");
     const searchPatams = useSearchParams();
     const page = searchPatams.get("page");
     const { data: session } = useSession();
@@ -29,6 +36,7 @@ export default function BookingPage() {
     const router = useRouter();
     const pathname = usePathname();
     const isMd = useMediaQuery("(min-width: 768px)");
+    const t = useTranslations("booking");
     
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -60,15 +68,15 @@ export default function BookingPage() {
     const BookingMenu = [
         {
             "key": "upcoming",
-            "value": "Upcoming"
+            "value": t("upcoming")
         },
         {
             "key": "cancaled",
-            "value": "Canceled"
+            "value": t("canceled")
         },
         {
             "key": "completed",
-            "value": "Completed"
+            "value": t("completed")
         },
     ];
 
@@ -82,7 +90,7 @@ export default function BookingPage() {
     return(
         <div className="w-full px-[20px] 2xl:px-0 2xl:max-w-7xl 2xl:mx-auto mb-[45px] flex flex-col gap-[35px]">
             <div className="flex flex-col gap-[5px] mt-[45px]">
-                <span className="text-[18px] font-semibold">My Trip</span>
+                <span className="text-[18px] font-semibold">{t("my_trip")}</span>
                 <div className="w-full flex flex-col md:flex-row items-center justify-between gap-[5px] bg-white rounded-[10px] p-[5px]">
                     {
                         BookingMenu.map((data, key) => (
@@ -140,13 +148,13 @@ export default function BookingPage() {
                                                                     <span className={`${ item.bookingStatus === 'panding' && 'text-[#FFA500]/70' } ${ item.bookingStatus === 'failed' && 'bg-[#F44336]/70' } ${ item.bookingStatus === 'confirmed' && 'bg-[#027A48]' }`}>{item.bookingStatus}</span>
                                                                 </div>
                                                             </div>
-                                                            <span>Booking ID: {item.bookingId}</span>
-                                                            <span>Trip at {dayjs(data.trip_date).format("ll")}</span>
+                                                            <span>{t("booking_id")}: {item.bookingId}</span>
+                                                            <span>{t("trip_at")} {dayjs(data.trip_date).format("ll")}</span>
                                                         </div>
                                                         <div className="w-full md:flex justify-end hidden">
                                                             <div className="w-200px]">
                                                                 <CvButton
-                                                                    label="Manage Booking"
+                                                                    label={t("manage_booking")}
                                                                     onClick={() => router.push(`/account/booking/detail/${item.bookingId}`)}
                                                                 />
                                                             </div>
@@ -163,8 +171,8 @@ export default function BookingPage() {
                     :
                     <div className="w-full bg-white rounded-[20px] p-[20px] flex flex-col items-center justify-center">
                         <Image src={Notfound} alt="" className="w-[150px] md:w-[300px]" />
-                        <span className="text-[18px] font-semibold">No data Found</span>
-                        <span>No data are currently available.</span>
+                        <span className="text-[18px] font-semibold">{t("no_data_found")}</span>
+                        <span>{t("no_data_available")}</span>
                     </div>
                 }
             </div>

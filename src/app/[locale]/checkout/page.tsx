@@ -21,6 +21,7 @@ import undrawBooking from "@/app/assets/images/svg/undraw_booking.svg";
 import CvButton from "@/app/components/CvButton/CvButton";
 import DefaultOutlineButton from "@/app/components/CvButton/outline-button";
 import { IoIosArrowBack } from "react-icons/io";
+import { useTranslations } from "next-intl";
 
 export default function CheckOutPage() {
 
@@ -45,6 +46,7 @@ export default function CheckOutPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const pathname = usePathname();
+    const t = useTranslations("checkout");
 
 
     const createQueryString = useCallback(
@@ -289,7 +291,7 @@ export default function CheckOutPage() {
                 onClick={() => router.back()}
             >
                 <IoIosArrowBack className="text-[18px]" />
-                <span>Back to package detail</span>
+                <span>{t("back_to_package_detail")}</span>
             </button>
             <div className="mt-[24px]">
                 <CheckoutHeader  steps={steper} />
@@ -325,14 +327,14 @@ export default function CheckOutPage() {
                 :
                 <div className="mt-[20px] w-full bg-white p-[10px] items-center p-[20px] rounded-[20px] flex flex-col gap-[30px]">
                     <Image src={undrawBooking} alt="" width={0} height={0} className="w-[200px] md:w-[350px]" />
-                    <span>Thank you for booking, Your booking is completed now wait for confirmation your trip.</span>
+                    <span>{t("thank_you_booking")}</span>
                     <div className="max-w-[600px] flex flex-col gap-[10px]">
                         <CvButton
-                            label="Find another trip"
+                            label={t("find_another_trip")}
                             onClick={() => router.push("/")}
                         />
                         <DefaultOutlineButton
-                            label="Go to your trip"
+                            label={t("go_to_your_trip")}
                             onClick={() => router.push("/account/booking?page=upcoming")}
                         />
                     </div>
