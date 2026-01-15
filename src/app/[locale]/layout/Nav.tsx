@@ -54,18 +54,13 @@ export default function Nav() {
             icon: <GrHomeRounded className="text-[16px]" />
         },
         {
-            label: t("activities"),
-            path: "/activities",
-            icon: <IoTicketOutline className="text-[16px]" />
-        },
-        {
             label: t("blog"),
             path: "/blog",
             icon: <IoNewspaperOutline className="text-[16px]" />
         },
         {
             label: t("contactus"),
-            path: "/contactus",
+            path: "/terms/contract",
             icon: <LuContact className="text-[16px]" />
         },
     ];
