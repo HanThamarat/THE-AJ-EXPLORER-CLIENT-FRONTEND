@@ -5,6 +5,7 @@ import authReducer from './slice/authSlice';
 import paymentReducer from './slice/paymentSlice';
 import bookingReducer from './slice/bookingSlice';
 import blogReducer from "./slice/blogSlice";
+import couponReducer from "./slice/couponSlice";
 
 export const store = configureStore({
     reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
         package: pkgReducer,
         payment: paymentReducer,
         booking: bookingReducer,
-        blog: blogReducer
+        blog: blogReducer,
+        coupon: couponReducer,
     },
     devTools: process.env.NODE_ENV !== 'production',
 });
