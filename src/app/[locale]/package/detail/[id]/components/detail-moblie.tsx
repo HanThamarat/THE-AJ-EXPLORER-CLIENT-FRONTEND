@@ -5,6 +5,7 @@ import TicketState from "./ticket-state";
 import BenefitComponent from "./benifit";
 import AttractionTimeline from "./attraction-timeline";
 import { useTranslations } from "next-intl";
+import LocationComponent from "./location";
 
 interface PackageDetailMobileProps {
     packageData: packageEntity;
@@ -75,6 +76,19 @@ export default function PackageDetailMobile({
                                 wordwrap: 130
                             })}
                         </div>
+                    </div>
+                }
+            </div>
+            <div className="mt-[24px]">
+                {
+                    loading ?
+                    <DescriptionLoader />
+                    :
+                    packageData.end_point_lat !== "no data" &&
+                    <div className="w-full">
+                        <LocationComponent
+                            packageDetail={packageData}
+                        />
                     </div>
                 }
             </div>

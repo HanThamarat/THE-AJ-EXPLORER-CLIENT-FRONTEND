@@ -15,6 +15,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@react-oauth/google": "^0.12.2",
     "@reduxjs/toolkit": "^2.9.2",
+    "@vis.gl/react-google-maps": "^1.7.1",
     "antd": "^5.27.6",
     "axios": "^1.12.2",
     "card-validator": "^10.0.3",
