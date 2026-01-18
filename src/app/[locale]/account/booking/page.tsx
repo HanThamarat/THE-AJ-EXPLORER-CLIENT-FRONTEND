@@ -145,7 +145,7 @@ export default function BookingPage() {
                                                                 <span className="font-semibold text-[18px] line-clamp-2 text-ellipsis">{item.package.packageName}</span>
                                                                 <div className={`flex items-center gap-[10px] py-[5px] px-[10px] rounded-[10px] ${ item.bookingStatus === 'panding' && 'bg-[#FFA500]/10' } ${ item.bookingStatus === 'confirmed' && 'bg-[#ECFDF3]' } ${ item.bookingStatus === 'failed' && 'bg-[#F44336]/10' }`}>
                                                                     <div className={`w-[8px] h-[8px] rounded-full ${ item.bookingStatus === 'panding' && 'bg-[#FFA500]/50' } ${ item.bookingStatus === 'failed' && 'bg-[#F44336]/50' } ${ item.bookingStatus === 'confirmed' && 'bg-[#12B76A]' }`}></div>
-                                                                    <span className={`${ item.bookingStatus === 'panding' && 'text-[#FFA500]/70' } ${ item.bookingStatus === 'failed' && 'bg-[#F44336]/70' } ${ item.bookingStatus === 'confirmed' && 'bg-[#027A48]' }`}>{item.bookingStatus}</span>
+                                                                    <span className={`${ item.bookingStatus === 'panding' && 'text-[#FFA500]/70' } ${ item.bookingStatus === 'failed' && 'text-[#F44336]/70' } ${ item.bookingStatus === 'confirmed' && 'text-[#027A48]' }`}>{item.bookingStatus}</span>
                                                                 </div>
                                                             </div>
                                                             <span>{t("booking_id")}: {item.bookingId}</span>
