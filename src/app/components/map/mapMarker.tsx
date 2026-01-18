@@ -8,7 +8,8 @@ import {
   useMap // This hook must be used *inside* a child of APIProvider
 } from "@vis.gl/react-google-maps";
 import { useEffect, useState } from "react";
-import { PointDTO } from "@/app/types/package";
+import { PointDTO } from "@/types/package";
+import markerIcon from "@/app/assets/images/svg/marker-com.svg";
 
 // Define props for both components
 interface MapMarkerProps {
@@ -72,7 +73,7 @@ function MapContent({ value, onChange }: MapMarkerProps) {
           draggable={true}
           onDrag={handleChangeLocation}
           icon={{
-            url: "/marker.svg"
+            url: markerIcon.src ?? '/marker-com.svg'
           }}
         />
       )}

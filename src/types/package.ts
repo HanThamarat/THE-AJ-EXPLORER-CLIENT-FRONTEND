@@ -123,3 +123,10 @@ export const packageEntitySchema = z.object({
 });
 
 export type packageEntity = z.infer<typeof packageEntitySchema>;
+
+export const pointSchema = z.object({
+    lat:               z.number().min(1),
+    lng:               z.number().min(1),
+});
+
+export type PointDTO = z.infer<typeof pointSchema>;

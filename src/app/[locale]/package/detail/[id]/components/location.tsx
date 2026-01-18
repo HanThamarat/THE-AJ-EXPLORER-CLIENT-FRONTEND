@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { packageEntity } from "@/types/package";
 import { APIProvider, Map, Marker, useMapsLibrary } from "@vis.gl/react-google-maps";
+import markerIcon from "@/app/assets/images/svg/marker-com.svg";
 
 interface LocationComponentProps {
   packageDetail: packageEntity;
@@ -53,8 +54,8 @@ export default function LocationComponent({ packageDetail }: LocationComponentPr
             defaultZoom={8}
             disableDefaultUI
           >
-            <Marker position={start} icon={{ url: "/marker.svg" }} />
-            <Marker position={end} icon={{ url: "/marker.svg" }} />
+            <Marker position={start} icon={{ url: markerIcon.src }} />
+            <Marker position={end} icon={{ url:  markerIcon.src }} />
           </Map>
 
           <div className="mt-3 space-y-2">
