@@ -14,6 +14,9 @@ import PackageDetailFullscreen from "./components/detail-fullscreen";
 import { packageEntity } from "@/types/package";
 import PackageDetailMobile from "./components/detail-moblie";
 import { notFound } from "next/navigation";
+import { IoIosArrowBack } from "react-icons/io";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 export default function PackageDetail() {
 
@@ -24,6 +27,8 @@ export default function PackageDetail() {
     const provinceName = searchParams.get("provinceName");
     const { packageDetail } = useSelector(packageSelector);
     const dispatch = useAppDispatch();
+    const t = useTranslations("package_detail");
+    const router = useRouter();
 
     const [isLoading, SetIsLoading] = useState<boolean>(true);
     const isFaching = useRef<boolean>(false);
@@ -53,6 +58,13 @@ export default function PackageDetail() {
         <>
             <div className="w-full px-[20px] 2xl:px-[0px] 2xl:max-w-7xl 2xl:mx-auto">
                 <div className="mt-[24px] flex-col gap-[20px]">
+                    <button
+                        onClick={() => router.back()}
+                        className="flex gap-[5px] mb-[10px] items-center py-[8px] pr-[10px] rounded-[10px] duration-100 ease-in-out hover:bg-gray-200"
+                    >
+                        <IoIosArrowBack className="text-[24px]" />
+                        <span>{ t("back-to-package") }</span>
+                    </button>
                     { 
                         isLoading ?
                         <div>

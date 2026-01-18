@@ -4,6 +4,36 @@
     "hero-title-1": "Find Trip",
     "hero-title-2": "In Your Dream"
   },
+  "home_flow": {
+    "eyebrow": "Booking flow",
+    "title": "A smooth journey from inspiration to instant tickets",
+    "subtitle": "The AJ Explorer helps travelers discover activities, book in minutes, and manage their plans in one place.",
+    "step_label": "Step",
+    "duration_label": "~2 min",
+    "card": {
+      "alt": "Traveler experience",
+      "title": "Real-time availability",
+      "description": "See open slots and prices updated throughout the day."
+    },
+    "steps": {
+      "explore": {
+        "title": "Explore destinations",
+        "description": "Search by province or activity to see what is available today."
+      },
+      "choose": {
+        "title": "Choose your experience",
+        "description": "Compare highlights, ratings, and inclusions before you book."
+      },
+      "pay": {
+        "title": "Confirm & pay securely",
+        "description": "Lock in your spot with instant confirmation and secure checkout."
+      },
+      "enjoy": {
+        "title": "Show up and enjoy",
+        "description": "Scan your ticket on arrival and start the adventure."
+      }
+    }
+  },
   "nav": {
     "home": "Home",
     "activities": "Activities",
@@ -25,6 +55,7 @@
     "Signout": "Sign Out"
   },
   "package_detail": {
+    "back-to-package": "Back to packages",
     "ticket": "Ticket and price",
     "search_ticket": "Search ticket availability by date",
     "age": "age",
