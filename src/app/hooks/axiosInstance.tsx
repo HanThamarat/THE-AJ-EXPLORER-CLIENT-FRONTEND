@@ -8,6 +8,9 @@ export const AxiosInstance = axios.create({
     timeout: 30000,
     headers: {
         "Content-Type": "application/json",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
     },
 });
 
@@ -16,6 +19,9 @@ export const AxiosInstanceMultipart = axios.create({
     timeout: 500000,
     headers: {
         "Content-Type": "multipart/form-data",
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
     },
 });
 
@@ -24,5 +30,8 @@ export const createAxiosWithToken = (token: string) =>
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     headers: {
       Authorization: `Bearer ${token}`,
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+        Expires: "0",
     },
   });
