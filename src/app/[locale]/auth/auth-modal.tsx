@@ -108,7 +108,7 @@ export const AuthModal = ({
                 closable={{ 'aria-label': 'Custom Close Button' }}
                 footer={false}
                 open={isOpen === undefined ? isOpenAuthModal : isOpen}
-                onCancel={() => isOpen === undefined ? setIsOpenAuthModal(false) : onCancel}
+                onCancel={isOpen === undefined ? () => setIsOpenAuthModal(false) : onCancel}
                 width={600}
             >
                 <div className='w-full flex flex-col gap-[24px]'>
