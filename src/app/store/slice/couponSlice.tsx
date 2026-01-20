@@ -20,6 +20,24 @@ export const getCouponList = createAsyncThunk("coupon/getCouponList", async (acc
         return { status: false, error: error?.response.data.error };
     }
 });
+export interface addNewCouponProps {
+    couponId: number;
+    accessToken: string;
+}
+
+export const addNewCoupon = createAsyncThunk('coupon/addNewCoupon', async (data: addNewCouponProps) => {
+  try {
+    const axios = await createAxiosWithToken(data.accessToken);
+
+    const response = await axios.post(`/client/voucher_service/coupon_inventory`, {
+      couponId: data.couponId
+    });
+
+    return { status: true, data: response.data.body };
+  } catch (error: any) {
+    return { status: false, error: error?.response.data.error };
+  }
+});
 
 interface couponType {
     coupon_list: couponsResponseType | null;
@@ -52,6 +70,10 @@ const couponSlice = createSlice({
           state.loading = false;
           if (action.type.includes("getCouponList")) {
             state.coupon_list = action.payload.data as couponsResponseType;
+          } else if (action.type.includes("addNewCoupon")) {
+            if (state.coupon_list?.items) {  
+             state.coupon_list.items = (state.coupon_list?.items ?? []).filter((item) => item.id !== action.payload.data.id);
+            }
           }
         }
       )

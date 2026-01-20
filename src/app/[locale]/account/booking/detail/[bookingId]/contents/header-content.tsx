@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 
 interface HeaderBookingContentProps {
     isLoading: boolean,
@@ -13,7 +14,14 @@ export default function HeaderBookingContent({
     bookingStatus,
     trip_at
 }: HeaderBookingContentProps) {
+
     const t = useTranslations("booking");
+    const router = useRouter();
+    
+    const handlerCancel = async () => {
+        router.push(`/account/booking/cancel/${bookingId}`);
+    }
+    
     return(
         isLoading ?
         <div className="w-full rounded-[20px] bg-white p-[20px]">
@@ -39,6 +47,7 @@ export default function HeaderBookingContent({
                     {t("manage_booking")}   
                 </button>
                 <button
+                    onClick={handlerCancel}
                     className="cursor-pointer rounded-full w-full md:text-[14px] font-medium py-[10px] text-[#613DC1] border border-[#613DC1]"
                 >
                     {t("cancel_booking")} 
