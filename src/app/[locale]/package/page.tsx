@@ -178,17 +178,15 @@ export default function AllPackagePage() {
                             }
                         </div>
                     }
-                    {/* This div sits at the bottom. When it hits the screen, page increases */}
-                    {(packagesBySearch?.page ?? 0) > 1 &&
-                        <div ref={observerTarget} className="w-full flex justify-center items-center mt-[10px]">
-                            {isLoadingMoreData && (
-                                <PackageSekeleton />
-                            )}
-                            {(packagesBySearch?.items?.length ?? 0) > 0 && !packagesBySearch?.nextPage && (
-                                <span className="text-gray-400 text-sm">No more packages</span>
-                            )}
-                        </div>
-                    }  
+                
+                    <div ref={observerTarget} className="w-full flex justify-center items-center mt-[10px]">
+                        {isLoadingMoreData && (
+                            <PackageSekeleton />
+                        )}
+                        {(packagesBySearch?.items?.length ?? 0) > 0 && !packagesBySearch?.nextPage && (
+                            <span className="text-gray-400 text-sm">No more packages</span>
+                        )}
+                    </div>
                     </div>
                 </div>
             </div>
