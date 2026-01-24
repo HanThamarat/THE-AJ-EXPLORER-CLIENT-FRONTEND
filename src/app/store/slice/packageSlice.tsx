@@ -78,21 +78,25 @@ const packageSlice = createSlice({
             state.provinceShotPack = action.payload.data as findProvinceByPackageEntity[];
           } else if (action.type.includes('getPackagesBySearch')) {
             const newItem = action.payload.data as packageClientResponse;
-   
-            if (state.packagesBySearch === null) {
+
+            if (!state.packagesBySearch || newItem.page === 1) {
               state.packagesBySearch = newItem;
+              return;
             }
 
-            if (state.packagesBySearch !== null && newItem.total !== state.packagesBySearch.total) {
-              state.packagesBySearch = newItem;
+            const map = new Map(
+              state.packagesBySearch.items.map((i) => [i.packageId, i])
+            );
+
+            for (const item of newItem.items) {
+              map.set(item.packageId, item);
             }
 
-            if (state.packagesBySearch !== null) {
-              state.packagesBySearch.items = [...state.packagesBySearch.items, ...newItem.items];
-              state.packagesBySearch.nextPage = newItem.nextPage;
-              state.packagesBySearch.prevPage = newItem.prevPage;
-              state.packagesBySearch.page = newItem.page;
-            }
+            state.packagesBySearch.items = Array.from(map.values());
+            state.packagesBySearch.nextPage = newItem.nextPage;
+            state.packagesBySearch.prevPage = newItem.prevPage;
+            state.packagesBySearch.page = newItem.page;
+            state.packagesBySearch.total = newItem.total;
           } else if (action.type.includes("getPackageDetail")) {
             state.packageDetail = action.payload.data as packageEntity;
           }
