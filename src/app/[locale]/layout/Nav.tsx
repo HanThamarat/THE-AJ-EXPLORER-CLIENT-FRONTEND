@@ -185,7 +185,7 @@ export default function Nav() {
                     </div>
                 </div>
             </Drawer>
-            <div className="w-full py-[15px] border-b border-b-[#D4D7DE]">
+            <div className="w-full py-[15px] border-b bg-white border-b-[#D4D7DE]">
                 <div className="hidden mx-[20px] 2xl:max-w-7xl 2xl:mx-auto md:flex justify-between items-center">
                     <div className="w-full flex items-center gap-[20px] lg:gap-[50px]">
                         <Link href="/">
