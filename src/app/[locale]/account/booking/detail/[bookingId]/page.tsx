@@ -66,6 +66,7 @@ export default function BookingDetailPage() {
                     isLoading={isLoading}
                     bookingId={booking_detail?.bookingzId}
                     bookingStatus={booking_detail?.bookingStatus}
+                    cancelStatus={booking_detail?.cancelStatus}
                     trip_at={booking_detail?.trip_at}
                 />
                 <PackageInfo
