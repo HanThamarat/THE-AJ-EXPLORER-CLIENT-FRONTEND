@@ -96,24 +96,24 @@ export default function Nav() {
                 </Link>
             ),
         },
-        {
-            key: 'Reviews',
-            icon: <Image src={Review} width={16} height={16} alt="" />,
-            label: (
-                <Link href="/profile">
-                    { t_menu("Reviews") }
-                </Link>
-            ),
-        },
-        {
-            key: 'Setting',
-            icon: <Image src={Setting} width={16} height={16} alt="" />,
-            label: (
-                <Link href="/account-settings">
-                    { t_menu("Setting") }
-                </Link>
-            ),
-        },
+        // {
+        //     key: 'Reviews',
+        //     icon: <Image src={Review} width={16} height={16} alt="" />,
+        //     label: (
+        //         <Link href="/profile">
+        //             { t_menu("Reviews") }
+        //         </Link>
+        //     ),
+        // },
+        // {
+        //     key: 'Setting',
+        //     icon: <Image src={Setting} width={16} height={16} alt="" />,
+        //     label: (
+        //         <Link href="/account-settings">
+        //             { t_menu("Setting") }
+        //         </Link>
+        //     ),
+        // },
         {
             key: 'Logout',
             icon: <Image src={Logout} width={16} height={16} alt="" />,

@@ -1,10 +1,16 @@
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import dayjs from "dayjs";
+import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
+
+dayjs.extend(isSameOrAfter);
+
 
 interface HeaderBookingContentProps {
     isLoading: boolean,
     bookingId?: string,
     bookingStatus?: string,
+    cancelStatus?: string | null | undefined,
     trip_at?: string | Date,
 }
 
@@ -12,6 +18,7 @@ export default function HeaderBookingContent({
     isLoading,
     bookingId,
     bookingStatus,
+    cancelStatus,
     trip_at
 }: HeaderBookingContentProps) {
 
@@ -37,7 +44,11 @@ export default function HeaderBookingContent({
         :
         <div className="w-full rounded-[20px] bg-white flex flex-col gap-[24px]">
             <div className="w-full rounded-t-[20px] flex justify-center py-[10px] bg-[#2C0735]">
-                <span className="text-[16px] md:text-[18px] text-white font-semibold">{t("upcoming")}</span>
+                <span className="text-[16px] md:text-[18px] text-white font-semibold">
+                    {(bookingStatus === "panding" || bookingStatus === "confirmed" && !dayjs().isAfter(dayjs(trip_at), 'd')) && t("upcoming")}
+                    {bookingStatus === "failed" && "Canceled" }
+                    {(bookingStatus === "confirmed" && dayjs().isAfter(dayjs(trip_at), 'd')) && "Completed" }
+                </span>
             </div>
             <p className="w-full text-[16px] md:text-[18px] font-semibold text-center">{t("booking_id")}: {bookingId} </p>
             <div className="w-full flex flex-col gap-[10px] mb-[20px] px-[20px]">
@@ -46,12 +57,15 @@ export default function HeaderBookingContent({
                 >
                     {t("manage_booking")}   
                 </button>
-                <button
-                    onClick={handlerCancel}
-                    className="cursor-pointer rounded-full w-full md:text-[14px] font-medium py-[10px] text-[#613DC1] border border-[#613DC1]"
-                >
-                    {t("cancel_booking")} 
-                </button>
+                {
+                    (!cancelStatus && !dayjs().isSameOrAfter(dayjs(trip_at), 'd')) && <button
+                        onClick={handlerCancel}
+                        className="cursor-pointer rounded-full w-full md:text-[14px] font-medium py-[10px] text-[#613DC1] border border-[#613DC1]"
+                    >
+                        {t("cancel_booking")} 
+                    </button>
+                }
+                
             </div>
         </div>
     );

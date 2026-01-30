@@ -112,14 +112,15 @@ export default function AllPackagePage() {
                     </div>
                 }
                 <div className="md:flex justify-between w-full gap-[20px] mt-[34px]">
-                    <div className="w-full md:w-2/6">
+                    {/* <div className="w-full md:w-2/6">
                         <div className="p-[20px] bg-white rounded-[20px] ">
                             <div>
                                 <span className="text-[18px] font-semibold">{t_package("filter")}</span>
                             </div>
                         </div>
-                    </div>
-                    <div className="w-full mt-[24px] md:mt-[0px] md:w-4/6">
+                    </div> */}
+                    {/* <div className="w-full mt-[24px] md:mt-[0px] md:w-4/6"> */}
+                    <div className="w-full mt-[24px] md:mt-[0px]">
                     {
                         isLoading ?
                         <PackageSekeleton />
